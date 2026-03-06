@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DLB Investigations Ltd — Management Information</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1e2128;
+    --surface: #252931;
+    --surface2: #2d323c;
+    --border: #3a404d;
+    --accent: #4a7fc1;
+    --accent2: #6b9fd4;
+    --accent3: #8eadc7;
+    --accent4: #c0392b;
+    --purple: #7d8fa8;
+    --text: #e8ecf0;
+    --muted: #8a95a3;
+    --grid: rgba(255,255,255,0.03);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* LOADING */
+  #loadingScreen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999;
+    flex-direction: column; gap: 16px;
+  }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loadingScreen p { color: var(--muted); font-size: 12px; letter-spacing: 1px; }
+
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 1440px; margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  /* HEADER */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 0 22px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo-mark {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, #2c3e6b, #4a7fc1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 17px; color: #fff; flex-shrink: 0;
+  }
+  .header-title h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 21px;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .header-title p { color: var(--muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-top: 1px; }
+  .header-right { display: flex; align-items: center; gap: 20px; }
+  .client-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--accent2);
+  }
+  .live-badge {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: var(--accent2); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.8); } }
+  .logout-btn {
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--muted); font-family: 'Inter', sans-serif;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 6px 12px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .logout-btn:hover { border-color: var(--accent4); color: var(--accent4); }
+  .report-year {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 26px; font-weight: 700; color: var(--border);
+    letter-spacing: 3px;
+  }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* KPI ROW */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px; margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px;
+    position: relative; overflow: hidden;
+  }
+  .kpi-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+  }
+  .kpi-card.c-blue::before { background: var(--accent); }
+  .kpi-card.c-green::before { background: var(--accent2); }
+  .kpi-card.c-amber::before { background: var(--accent3); }
+  .kpi-card.c-red::before { background: var(--accent4); }
+  .kpi-card.c-purple::before { background: var(--purple); }
+  .kpi-label {
+    font-size: 10px; font-weight: 500;
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 1.2px; margin-bottom: 9px;
+  }
+  .kpi-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 32px; font-weight: 700;
+    line-height: 1; color: var(--text); margin-bottom: 5px;
+  }
+  .kpi-sub { font-size: 11px; color: var(--muted); }
+
+  /* GRID LAYOUTS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  .grid-full { margin-bottom: 18px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .card-badge {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px;
+    background: var(--surface2); color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* TABLES */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th {
+    text-align: left; font-size: 10px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted); padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(30,42,69,0.5);
+    color: var(--text);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--surface2); }
+  .badge {
+    display: inline-block; padding: 2px 8px;
+    border-radius: 4px; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .b-yes { background: rgba(90,158,124,0.15); color: #5a9e7c; }
+  .b-no  { background: rgba(192,57,43,0.15);  color: #c0392b; }
+  .b-na  { background: rgba(138,149,163,0.1); color: #8a95a3; }
+  .b-mf  { background: rgba(74,127,193,0.15); color: #6b9fd4; }
+  .b-mt  { background: rgba(125,143,168,0.15); color: #9bafc4; }
+  .b-sv  { background: rgba(245,166,35,0.12); color: #f5a623; }
+  .b-ll  { background: rgba(232,78,106,0.12); color: #e84e6a; }
+
+  /* LAST UPDATED BANNER */
+  .update-banner {
+    background: linear-gradient(135deg, rgba(45,108,223,0.08), rgba(31,212,160,0.08));
+    border: 1px solid rgba(45,108,223,0.2);
+    border-radius: 8px; padding: 10px 16px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 24px; font-size: 11px; color: var(--muted);
+  }
+  .update-dot { width: 6px; height: 6px; background: var(--accent2); border-radius: 50%; flex-shrink: 0; }
+
+  footer {
+    margin-top: 36px; padding-top: 18px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    color: var(--muted); font-size: 11px; letter-spacing: 0.5px;
+  }
+  .footer-brand { font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+  @media (max-width: 1100px) {
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .report-year { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <p>Loading your data...</p>
+</div>
+
+<div class="wrapper" id="mainContent" style="display:none">
+
+  <header>
+    <div class="header-left">
+      <div class="logo-mark">DLB</div>
+      <div class="header-title">
+        <h1>DLB Investigations Ltd — Management Information</h1>
+        <p id="headerSubtitle">SLA Performance &amp; Financial Dashboard</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="client-chip" id="clientChip">Client</div>
+      <div class="live-badge"><span class="live-dot"></span> <span id="reportPeriod">2025</span></div>
+      <div class="report-year" id="reportYear">2025</div>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="update-banner">
+    <span class="update-dot"></span>
+    <span id="updateBanner">Data last updated: loading...</span>
+  </div>
+
+  <!-- KPIs -->
+  <div class="section-label">Performance Overview</div>
+  <div class="kpi-row">
+    <div class="kpi-card c-blue">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-value" id="kpiRevenue">—</div>
+      <div class="kpi-sub" id="kpiRevenueSub">Full year</div>
+    </div>
+    <div class="kpi-card c-green">
+      <div class="kpi-label">Total Cases</div>
+      <div class="kpi-value" id="kpiCases">—</div>
+      <div class="kpi-sub" id="kpiCasesSub">Across all months</div>
+    </div>
+    <div class="kpi-card c-amber">
+      <div class="kpi-label">Avg Fee / Case</div>
+      <div class="kpi-value" id="kpiAvgFee">—</div>
+      <div class="kpi-sub">Annual average</div>
+    </div>
+    <div class="kpi-card c-purple">
+      <div class="kpi-label">Avg Turnaround</div>
+      <div class="kpi-value" id="kpiAvgDays">—</div>
+      <div class="kpi-sub">Days to report</div>
+    </div>
+    <div class="kpi-card c-green">
+      <div class="kpi-label">SLA — Report ≤10d</div>
+      <div class="kpi-value" id="kpiSLA">—</div>
+      <div class="kpi-sub" id="kpiSLASub">Of completed cases</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY PERFORMANCE -->
+  <div class="section-label">Monthly Performance</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Revenue by Month</span>
+        <span class="card-badge">Total Fees + Running Avg</span>
+      </div>
+      <div style="height:210px"><canvas id="chartRevenue"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Avg Turnaround Days</span>
+        <span class="card-badge">vs 10-Day SLA Target</span>
+      </div>
+      <div style="height:210px"><canvas id="chartTurnaround"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Case Volume</span>
+        <span class="card-badge">Cases per Month</span>
+      </div>
+      <div style="height:190px"><canvas id="chartCaseCount"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">SLA Compliance — Report ≤10 Days</span>
+        <span class="card-badge">% vs 80% Target</span>
+      </div>
+      <div style="height:190px"><canvas id="chartSLA"></canvas></div>
+    </div>
+  </div>
+
+  <!-- COMPOSITION -->
+  <div class="section-label">Case Composition &amp; Financials</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Case Type — Volume</span>
+        <span class="card-badge">By Count</span>
+      </div>
+      <div style="height:200px"><canvas id="chartTypePie"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Case Type — Revenue</span>
+        <span class="card-badge">By Value £</span>
+      </div>
+      <div style="height:200px"><canvas id="chartRevPie"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Avg Fee per Case / Month</span>
+        <span class="card-badge">£ + Running Avg</span>
+      </div>
+      <div style="height:200px"><canvas id="chartAvgFee"></canvas></div>
+    </div>
+  </div>
+
+  <!-- MONTHLY TABLE -->
+  <div class="section-label">Monthly Summary</div>
+  <div class="grid-full">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Month-by-Month Breakdown</span>
+        <span class="card-badge" id="tablePeriodBadge">Full Year</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Cases</th>
+            <th>Total Fees</th>
+            <th>Avg Fee</th>
+            <th>Avg Days</th>
+            <th>Report ≤10d</th>
+            <th>Running Avg Fees</th>
+            <th>Running Avg Days</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CASE DETAIL -->
+  <div class="section-label">Case Detail Log</div>
+  <div class="grid-full">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Individual Case Records</span>
+        <span class="card-badge" id="caseCountBadge">All Cases</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Case Ref</th>
+            <th>Client Ref</th>
+            <th>Case Type</th>
+            <th>Invoice</th>
+            <th>SLA1 ≤5d Update</th>
+            <th>SLA2 ≤10d Report</th>
+            <th>Appt ≤3d</th>
+          </tr>
+        </thead>
+        <tbody id="caseTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- COMPLAINTS -->
+  <div class="section-label">Complaints</div>
+  <div class="grid-full">
+    <div class="card" id="complaintsCard">
+      <div class="card-header">
+        <span class="card-title">Complaint Log</span>
+        <span class="card-badge" id="complaintCountBadge">0 Complaints</span>
+      </div>
+      <div id="complaintsNone" style="padding:24px;text-align:center;color:var(--muted);font-size:13px">
+        ✓ No complaints recorded for this period
+      </div>
+      <table class="data-table" id="complaintsTable" style="display:none">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Case Ref</th>
+            <th>Client Ref</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="complaintsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">DLB Investigations Ltd · Client MI Portal</div>
+    <div id="footerNote">Confidential · DLB Investigations Ltd · Authorised Recipients Only</div>
+    <div id="footerDate"></div>
+  </footer>
+
+</div>
+
+<script>
+// ============================================================
+// AUTH GUARD
+// ============================================================
+const authCode = sessionStorage.getItem('dlb_auth');
+const clientFile = sessionStorage.getItem('dlb_client');
+
+if (!authCode || !clientFile) {
+  window.location.href = 'index.html';
+}
+
+// ============================================================
+// CHART DEFAULTS
+// ============================================================
+Chart.defaults.color = '#6b7a99';
+Chart.defaults.borderColor = 'rgba(30,42,69,0.6)';
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size = 11;
+
+const C = {
+  blue:   '#4a7fc1',  blueA:   'rgba(74,127,193,0.2)',
+  green:  '#5a9e7c',  greenA:  'rgba(90,158,124,0.2)',
+  amber:  '#b8860b',  amberA:  'rgba(184,134,11,0.2)',
+  red:    '#c0392b',  redA:    'rgba(192,57,43,0.2)',
+  purple: '#7d8fa8',  purpleA: 'rgba(125,143,168,0.2)',
+};
+
+// ============================================================
+// RUNNING AVERAGE HELPER
+// ============================================================
+function runningAvg(arr) {
+  let sum = 0, count = 0;
+  return arr.map(v => {
+    if (v && v > 0) { sum += v; count++; }
+    return count ? +(sum / count).toFixed(1) : null;
+  });
+}
+
+// ============================================================
+// RENDER DASHBOARD
+// ============================================================
+function renderDashboard(CLIENT) {
+  const M = CLIENT.monthly;
+  const CASES = CLIENT.cases;
+  const months = M.map(m => m.month);
+
+  // Header
+  document.getElementById('clientChip').textContent = CLIENT.client_name;
+  document.getElementById('headerSubtitle').textContent = CLIENT.client_name + ' — Management Information';
+  document.getElementById('reportPeriod').textContent = CLIENT.report_period;
+  document.getElementById('reportYear').textContent = CLIENT.report_period;
+  document.getElementById('tablePeriodBadge').textContent = CLIENT.report_period;
+  document.getElementById('updateBanner').textContent =
+    'Data last updated: ' + CLIENT.last_updated + '  ·  Report period: ' + CLIENT.report_period + '  ·  Prepared by DLB Investigations Ltd';
+  document.getElementById('footerDate').textContent = 'Accessed: ' + new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+
+  // KPIs
+  const totalRev = M.reduce((a, m) => a + m.total_fees, 0);
+  const totalCases = M.reduce((a, m) => a + m.case_count, 0);
+  const avgFee = totalCases ? Math.round(totalRev / totalCases) : 0;
+  const validDaysArr = M.filter(m => m.ave_days > 0);
+  const avgDays = validDaysArr.length ? (validDaysArr.reduce((a, m) => a + m.ave_days, 0) / validDaysArr.length).toFixed(1) : 0;
+  const validCases = CASES.filter(c => c.total_days > 0);
+  const slaMet = validCases.filter(c => c.within_10_days).length;
+  const slaPct = validCases.length ? Math.round(slaMet / validCases.length * 100) : 0;
+
+  document.getElementById('kpiRevenue').textContent = '£' + totalRev.toLocaleString();
+  document.getElementById('kpiRevenueSub').textContent = CLIENT.report_period;
+  document.getElementById('kpiCases').textContent = totalCases;
+  document.getElementById('kpiCasesSub').textContent = months.filter((_, i) => M[i].case_count > 0).length + ' active months';
+  document.getElementById('kpiAvgFee').textContent = '£' + avgFee.toLocaleString();
+  document.getElementById('kpiAvgDays').textContent = avgDays + 'd';
+  document.getElementById('kpiSLA').textContent = slaPct + '%';
+  document.getElementById('kpiSLASub').textContent = slaMet + ' of ' + validCases.length + ' met SLA';
+  document.getElementById('caseCountBadge').textContent = CASES.length + ' Cases';
+
+  // ---- CHARTS ----
+
+  // Revenue
+  new Chart(document.getElementById('chartRevenue'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Total Fees', data: M.map(m => m.total_fees || null), backgroundColor: C.blueA, borderColor: C.blue, borderWidth: 1.5, borderRadius: 4, order: 2 },
+        { label: 'Running Avg', data: runningAvg(M.map(m => m.total_fees)), type: 'line', borderColor: C.green, borderWidth: 2, pointRadius: 3, pointBackgroundColor: C.green, tension: 0.4, fill: false, order: 1 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { boxWidth: 10, padding: 14 } }, tooltip: { callbacks: { label: ctx => ' £' + (ctx.raw||0).toLocaleString() } } },
+      scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(30,42,69,0.6)' }, ticks: { callback: v => '£' + v.toLocaleString() } } }
+    }
+  });
+
+  // Turnaround
+  new Chart(document.getElementById('chartTurnaround'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Avg Days', data: M.map(m => m.ave_days || null), backgroundColor: C.amberA, borderColor: C.amber, borderWidth: 1.5, borderRadius: 4, order: 2 },
+        { label: 'Running Avg', data: runningAvg(M.map(m => m.ave_days)), type: 'line', borderColor: C.purple, borderWidth: 2, pointRadius: 3, pointBackgroundColor: C.purple, tension: 0.4, fill: false, order: 1 },
+        { label: 'SLA Target (10d)', data: Array(months.length).fill(10), type: 'line', borderColor: C.red, borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, fill: false, order: 0 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { boxWidth: 10, padding: 14 } }, tooltip: { callbacks: { label: ctx => ' ' + (ctx.raw||0) + ' days' } } },
+      scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(30,42,69,0.6)' }, ticks: { callback: v => v + 'd' } } }
+    }
+  });
+
+  // Case Count
+  new Chart(document.getElementById('chartCaseCount'), {
+    type: 'bar',
+    data: { labels: months, datasets: [{ label: 'Cases', data: M.map(m => m.case_count || null), backgroundColor: C.purpleA, borderColor: C.purple, borderWidth: 1.5, borderRadius: 4 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(30,42,69,0.6)' }, ticks: { stepSize: 1 } } }
+    }
+  });
+
+  // SLA
+  new Chart(document.getElementById('chartSLA'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'SLA %',
+          data: M.map(m => m.sla_compliance_pct > 0 ? m.sla_compliance_pct : null),
+          backgroundColor: M.map(m => m.sla_compliance_pct >= 80 ? C.greenA : m.sla_compliance_pct >= 50 ? C.amberA : C.redA),
+          borderColor: M.map(m => m.sla_compliance_pct >= 80 ? C.green : m.sla_compliance_pct >= 50 ? C.amber : C.red),
+          borderWidth: 1.5, borderRadius: 4
+        },
+        { label: 'Target (80%)', data: Array(months.length).fill(80), type: 'line', borderColor: C.green, borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { boxWidth: 10, padding: 14 } }, tooltip: { callbacks: { label: ctx => ' ' + (ctx.raw||0) + '%' } } },
+      scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(30,42,69,0.6)' }, max: 110, ticks: { callback: v => v + '%' } } }
+    }
+  });
+
+  // Pie charts
+  const typeMap = {}, revMap = {};
+  CASES.forEach(c => {
+    if (c.case_type === 'Unknown') return;
+    typeMap[c.case_type] = (typeMap[c.case_type] || 0) + 1;
+    revMap[c.case_type] = (revMap[c.case_type] || 0) + c.invoice_total;
+  });
+  const pieColors = ['rgba(45,108,223,0.8)','rgba(155,93,229,0.8)','rgba(245,166,35,0.8)','rgba(31,212,160,0.8)','rgba(232,78,106,0.8)'];
+  const pieOpts = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 11 } } } }
+  };
+  new Chart(document.getElementById('chartTypePie'), {
+    type: 'doughnut',
+    data: { labels: Object.keys(typeMap), datasets: [{ data: Object.values(typeMap), backgroundColor: pieColors, borderColor: 'rgba(10,13,20,0.8)', borderWidth: 2 }] },
+    options: { ...pieOpts, plugins: { ...pieOpts.plugins, tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.raw + ' cases' } } } }
+  });
+  new Chart(document.getElementById('chartRevPie'), {
+    type: 'doughnut',
+    data: { labels: Object.keys(revMap), datasets: [{ data: Object.values(revMap), backgroundColor: pieColors, borderColor: 'rgba(10,13,20,0.8)', borderWidth: 2 }] },
+    options: { ...pieOpts, plugins: { ...pieOpts.plugins, tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': £' + ctx.raw.toLocaleString() } } } }
+  });
+
+  // Avg Fee per month
+  new Chart(document.getElementById('chartAvgFee'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Avg Fee', data: M.map(m => m.ave_fees || null), borderColor: C.amber, backgroundColor: C.amberA, borderWidth: 2, pointRadius: 4, pointBackgroundColor: C.amber, tension: 0.4, fill: true },
+        { label: 'Running Avg', data: runningAvg(M.map(m => m.ave_fees)), borderColor: C.blue, borderWidth: 2, pointRadius: 2, tension: 0.4, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { boxWidth: 10, padding: 14 } }, tooltip: { callbacks: { label: ctx => ' £' + (ctx.raw||0).toLocaleString() } } },
+      scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(30,42,69,0.6)' }, ticks: { callback: v => '£' + v } } }
+    }
+  });
+
+  // ---- MONTHLY TABLE ----
+  const tbody = document.getElementById('tableBody');
+  let rFeeSum = 0, rFeeN = 0, rDaySum = 0, rDayN = 0;
+  M.forEach(m => {
+    if (m.total_fees > 0) { rFeeSum += m.total_fees; rFeeN++; }
+    if (m.ave_days > 0) { rDaySum += m.ave_days; rDayN++; }
+    const rF = rFeeN ? '£' + Math.round(rFeeSum/rFeeN).toLocaleString() : '—';
+    const rD = rDayN ? (rDaySum/rDayN).toFixed(1) + 'd' : '—';
+    const sc = m.sla_compliance_pct;
+    const slaColor = sc >= 80 ? '#5a9e7c' : sc >= 50 ? '#b8860b' : '#c0392b';
+    const slaBg = sc >= 80 ? 'rgba(90,158,124,0.15)' : sc >= 50 ? 'rgba(184,134,11,0.15)' : 'rgba(192,57,43,0.15)';
+    tbody.innerHTML += `<tr>
+      <td><strong>${m.month}</strong></td>
+      <td>${m.case_count}</td>
+      <td>${m.total_fees > 0 ? '£'+m.total_fees.toLocaleString() : '—'}</td>
+      <td>${m.ave_fees > 0 ? '£'+m.ave_fees.toLocaleString() : '—'}</td>
+      <td>${m.ave_days > 0 ? m.ave_days+'d' : '—'}</td>
+      <td>${m.case_count > 0 ? '<span class="badge" style="background:'+slaBg+';color:'+slaColor+'">'+sc+'%</span>' : '—'}</td>
+      <td>${rF}</td>
+      <td>${rD}</td>
+    </tr>`;
+  });
+
+  // ---- CASE TABLE ----
+  const cbody = document.getElementById('caseTableBody');
+  CASES.forEach(c => {
+    const tc = c.case_type === 'Motor Fraud' ? 'b-mf' : c.case_type === 'Motor Theft' ? 'b-mt' : c.case_type === 'Surveillance' ? 'b-sv' : 'b-ll';
+    const sla1ok = c.sla1_pass === true;
+    const sla1na = c.sla1_pass === null || c.sla1_days === null;
+    const sla2ok = c.within_10_days === true || c.sla2_pass === true;
+    const sla2na = c.total_days === null && c.sla2_days === null;
+    const sla1Label = sla1na ? '—' : (sla1ok ? `✓ ${c.sla1_days}d` : `✗ ${c.sla1_days}d`);
+    const sla2Days  = c.sla2_days || c.total_days;
+    const sla2Label = sla2na ? '—' : (sla2ok ? `✓ ${sla2Days}d` : `✗ ${sla2Days}d`);
+    cbody.innerHTML += `<tr>
+      <td>${c.month}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${c.case_number || '—'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">${c.reference || '—'}</td>
+      <td><span class="badge ${tc}">${c.case_type}</span></td>
+      <td>${c.invoice_total > 0 ? '£'+c.invoice_total.toLocaleString() : '—'}</td>
+      <td><span class="badge ${sla1na?'b-na':sla1ok?'b-yes':'b-no'}">${sla1Label}</span></td>
+      <td><span class="badge ${sla2na?'b-na':sla2ok?'b-yes':'b-no'}">${sla2Label}</span></td>
+      <td><span class="badge b-yes">✓ Yes</span></td>
+    </tr>`;
+  });
+
+  // ---- COMPLAINTS TABLE ----
+  const complaints = CASES.filter(c => c.complaint === true);
+  document.getElementById('complaintCountBadge').textContent = complaints.length + ' Complaint' + (complaints.length !== 1 ? 's' : '');
+  if (complaints.length > 0) {
+    document.getElementById('complaintsNone').style.display = 'none';
+    document.getElementById('complaintsTable').style.display = 'table';
+    const cbodyC = document.getElementById('complaintsTableBody');
+    complaints.forEach(c => {
+      cbodyC.innerHTML += `<tr>
+        <td>${c.month}</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${c.case_number || '—'}</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">${c.reference || '—'}</td>
+        <td style="color:var(--accent4)">${c.complaint_details || 'No details provided'}</td>
+      </tr>`;
+    });
+    // Highlight the card border red
+    document.getElementById('complaintsCard').style.borderColor = 'rgba(192,57,43,0.4)';
+  }
+
+  // Show dashboard
+  document.getElementById('loadingScreen').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+}
+
+// ============================================================
+// DYNAMIC CLIENT DATA LOADER
+// ============================================================
+function logout() {
+  sessionStorage.clear();
+  window.location.href = 'index.html';
+}
+
+// Load client data file dynamically
+const script = document.createElement('script');
+script.src = clientFile + '?v=' + Date.now(); // cache bust on every load
+script.onload = () => {
+  if (typeof DLB_CLIENT_DATA !== 'undefined') {
+    renderDashboard(DLB_CLIENT_DATA);
+  } else {
+    alert('Error loading client data. Please contact your account manager.');
+  }
+};
+script.onerror = () => {
+  alert('Unable to load your data. Please try again or contact your account manager.');
+  sessionStorage.clear();
+  window.location.href = 'index.html';
+};
+document.head.appendChild(script);
+</script>
+</body>
+</html>
