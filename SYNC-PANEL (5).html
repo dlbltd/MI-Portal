@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DLB — TrackOps Sync Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d14;
+    --surface: #111520;
+    --surface2: #161c2c;
+    --surface3: #1a2235;
+    --border: #1e2a45;
+    --border2: #253354;
+    --accent: #2d6cdf;
+    --accent2: #1fd4a0;
+    --accent3: #f5a623;
+    --accent4: #e84e6a;
+    --text: #e8edf5;
+    --muted: #6b7a99;
+    --success: #1fd4a0;
+    --warning: #f5a623;
+    --error: #e84e6a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+  .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* HEADER */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 0 22px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo-mark {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 18px; color: #fff;
+  }
+  .header-titles h1 {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 18px;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .header-titles p { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .admin-badge {
+    background: rgba(245,166,35,0.15); border: 1px solid rgba(245,166,35,0.3);
+    color: var(--warning); padding: 4px 12px; border-radius: 20px;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+  }
+
+  /* CARDS / PANELS */
+  .panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 20px; overflow: hidden;
+  }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    cursor: pointer; user-select: none;
+  }
+  .panel-header:hover { background: var(--surface2); }
+  .panel-title {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 14px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .panel-icon { width: 8px; height: 8px; border-radius: 50%; }
+  .panel-chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+  .panel-chevron.open { transform: rotate(180deg); }
+  .panel-body { padding: 20px; }
+  .panel-body.hidden { display: none; }
+
+  /* SETTINGS GRID */
+  .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .settings-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group.full { grid-column: 1 / -1; }
+  label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted);
+  }
+  input, select {
+    background: #0d1019; border: 1px solid var(--border);
+    border-radius: 7px; padding: 9px 12px;
+    color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px;
+    outline: none; transition: border-color 0.2s; width: 100%;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+  input::placeholder { color: var(--muted); opacity: 0.6; }
+  select option { background: #0d1019; }
+
+  .hint { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .hint a { color: var(--accent); text-decoration: none; }
+  .hint a:hover { text-decoration: underline; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 18px; border-radius: 8px; border: none;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.5px; cursor: pointer; transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: #3d7cf0; }
+  .btn-success { background: rgba(31,212,160,0.15); border: 1px solid rgba(31,212,160,0.3); color: var(--accent2); }
+  .btn-success:hover:not(:disabled) { background: rgba(31,212,160,0.25); }
+  .btn-warning { background: rgba(245,166,35,0.15); border: 1px solid rgba(245,166,35,0.3); color: var(--warning); }
+  .btn-warning:hover:not(:disabled) { background: rgba(245,166,35,0.25); }
+  .btn-danger { background: rgba(232,78,106,0.15); border: 1px solid rgba(232,78,106,0.3); color: var(--error); }
+  .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--border2); color: var(--text); }
+  .btn-sm { padding: 6px 12px; font-size: 11px; }
+  .btn-full { width: 100%; justify-content: center; }
+
+  /* ACTION BAR */
+  .action-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .action-bar-left { display: flex; align-items: center; gap: 10px; }
+  .sync-status-bar {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: var(--muted);
+  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+  .status-dot.green { background: var(--success); box-shadow: 0 0 6px var(--success); }
+  .status-dot.amber { background: var(--warning); }
+  .status-dot.red { background: var(--error); }
+  .status-dot.pulse {
+    background: var(--accent); box-shadow: 0 0 6px var(--accent);
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+  /* CLIENT TABLE */
+  .client-table { width: 100%; border-collapse: collapse; }
+  .client-table th {
+    text-align: left; padding: 10px 14px;
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--border); background: var(--surface2);
+  }
+  .client-table td { padding: 12px 14px; border-bottom: 1px solid rgba(30,42,69,0.5); vertical-align: middle; }
+  .client-table tr:last-child td { border-bottom: none; }
+  .client-table tr:hover td { background: var(--surface2); }
+  .client-name { font-weight: 500; color: var(--text); }
+  .client-file { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  .workspace-input {
+    background: #0d1019; border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 10px;
+    color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    outline: none; transition: border-color 0.2s; width: 100%;
+  }
+  .workspace-input:focus { border-color: var(--accent); }
+
+  /* STATUS BADGES */
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.5px; white-space: nowrap;
+  }
+  .badge-idle { background: rgba(107,122,153,0.15); color: var(--muted); }
+  .badge-syncing { background: rgba(45,108,223,0.15); color: #7aacff; border: 1px solid rgba(45,108,223,0.2); }
+  .badge-success { background: rgba(31,212,160,0.12); color: var(--success); border: 1px solid rgba(31,212,160,0.2); }
+  .badge-error { background: rgba(232,78,106,0.12); color: var(--error); border: 1px solid rgba(232,78,106,0.2); }
+  .badge-skipped { background: rgba(245,166,35,0.12); color: var(--warning); border: 1px solid rgba(245,166,35,0.2); }
+
+  /* ACTIVITY LOG */
+  .log-box {
+    background: #070a11; border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    max-height: 280px; overflow-y: auto; line-height: 1.8;
+  }
+  .log-line { display: flex; gap: 10px; }
+  .log-time { color: #3a4a6b; flex-shrink: 0; }
+  .log-info { color: #7aacff; }
+  .log-success { color: var(--success); }
+  .log-warn { color: var(--warning); }
+  .log-error { color: var(--error); }
+  .log-muted { color: var(--muted); }
+  .log-empty { color: #3a4a6b; font-style: italic; }
+
+  /* PROGRESS BAR */
+  .progress-container { margin: 12px 0; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--muted); margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 4px; background: var(--surface3); border-radius: 4px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px; transition: width 0.3s ease; width: 0%;
+  }
+
+  /* FIELD MAPPING */
+  .mapping-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mapping-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface2); border-radius: 8px; padding: 10px 12px;
+  }
+  .mapping-label { font-size: 11px; color: var(--accent2); font-family: 'JetBrains Mono', monospace; flex: 1; }
+  .mapping-arrow { color: var(--muted); font-size: 12px; }
+
+  /* SUMMARY CARDS */
+  .summary-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .summary-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px;
+  }
+  .summary-card .val {
+    font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: 700;
+    line-height: 1;
+  }
+  .summary-card .lbl { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+  /* TOAST */
+  #toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 18px;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.3s ease; font-size: 13px;
+    max-width: 360px;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .settings-grid, .settings-grid.three { grid-template-columns: 1fr; }
+    .summary-row { grid-template-columns: 1fr 1fr; }
+    .mapping-grid { grid-template-columns: 1fr; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <div class="logo-mark">DLB</div>
+      <div class="header-titles">
+        <h1>DLB Investigations Ltd</h1>
+        <p>TrackOps → GitHub Sync Panel</p>
+      </div>
+    </div>
+    <div class="admin-badge">⚙ Admin</div>
+  </header>
+
+  <!-- SUMMARY CARDS -->
+  <div class="summary-row">
+    <div class="summary-card">
+      <div class="val" id="sumTotal" style="color:var(--accent)">—</div>
+      <div class="lbl">Total Clients</div>
+    </div>
+    <div class="summary-card">
+      <div class="val" id="sumConfigured" style="color:var(--accent2)">—</div>
+      <div class="lbl">Workspaces Mapped</div>
+    </div>
+    <div class="summary-card">
+      <div class="val" id="sumSynced" style="color:var(--warning)">0</div>
+      <div class="lbl">Synced This Session</div>
+    </div>
+    <div class="summary-card">
+      <div class="val" id="sumErrors" style="color:var(--error)">0</div>
+      <div class="lbl">Errors</div>
+    </div>
+  </div>
+
+  <!-- SETTINGS: TRACKOPS -->
+  <div class="panel" id="panelTrackops">
+    <div class="panel-header" onclick="togglePanel('panelTrackops')">
+      <div class="panel-title">
+        <div class="panel-icon" style="background:var(--accent)" id="dotTrackops"></div>
+        1 · TrackOps API Connection
+      </div>
+      <span class="panel-chevron open" id="chevronpanelTrackops">▼</span>
+    </div>
+    <div class="panel-body" id="bodypanelTrackops">
+      <div class="settings-grid three">
+        <div class="field-group full">
+          <label>TrackOps Base URL</label>
+          <input type="url" id="toBaseUrl" placeholder="https://dlbinvestigations.viewcases.com/api/v1" />
+          <div class="hint">Your TrackOps subdomain URL. Format: <code>https://YOUR-SUBDOMAIN.viewcases.com/api/v1</code></div>
+        </div>
+        <div class="field-group full">
+          <label>Cloudflare Proxy URL <span style="color:var(--warning)">(required)</span></label>
+          <input type="url" id="toProxyUrl" placeholder="https://dlb-proxy.YOUR-NAME.workers.dev" />
+          <div class="hint">
+            Your Cloudflare Worker URL — see <strong>trackops-proxy-worker.js</strong> for setup instructions (5 min, free).
+            Leave blank to attempt direct connection (will likely fail due to CORS).
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Authentication Method</label>
+          <select id="toAuthMethod" onchange="updateAuthFields()">
+            <option value="bearer">Bearer Token / API Key</option>
+            <option value="basic">Username + Password</option>
+            <option value="header">Custom Header (X-API-Key)</option>
+          </select>
+        </div>
+        <div class="field-group" id="authField1">
+          <label id="authLabel1">API Key / Token</label>
+          <input type="password" id="toAuthVal1" placeholder="Paste your API key here" />
+        </div>
+        <div class="field-group" id="authField2" style="display:none">
+          <label id="authLabel2">Password</label>
+          <input type="password" id="toAuthVal2" placeholder="Password" />
+        </div>
+        <div class="field-group">
+          <label>Workspaces Endpoint</label>
+          <input type="text" id="toWorkspacesEndpoint" value="/workspaces" placeholder="/workspaces" />
+          <div class="hint">Path to list all workspaces. E.g. <code>/workspaces</code> or <code>/folders</code></div>
+        </div>
+        <div class="field-group">
+          <label>Cases Endpoint Pattern</label>
+          <input type="text" id="toCasesEndpoint" value="/workspaces/{id}/cases" placeholder="/workspaces/{id}/cases" />
+          <div class="hint">Use <code>{id}</code> as placeholder for workspace ID</div>
+        </div>
+        <div class="field-group">
+          <label>Year Filter</label>
+          <input type="text" id="toYear" value="2025" placeholder="2025" />
+          <div class="hint">Only pull cases from this year</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="testTrackopsConnection()">⚡ Test Connection</button>
+        <button class="btn btn-ghost" onclick="loadWorkspaces()">📋 Load Workspaces from TrackOps</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS: GITHUB -->
+  <div class="panel" id="panelGithub">
+    <div class="panel-header" onclick="togglePanel('panelGithub')">
+      <div class="panel-title">
+        <div class="panel-icon" style="background:var(--accent2)" id="dotGithub"></div>
+        2 · GitHub Connection
+      </div>
+      <span class="panel-chevron open" id="chevronpanelGithub">▼</span>
+    </div>
+    <div class="panel-body" id="bodypanelGithub">
+      <div class="settings-grid three">
+        <div class="field-group">
+          <label>GitHub Username / Org</label>
+          <input type="text" id="ghOwner" placeholder="dlbinvestigations" />
+        </div>
+        <div class="field-group">
+          <label>Repository Name</label>
+          <input type="text" id="ghRepo" placeholder="mi-portal" />
+        </div>
+        <div class="field-group">
+          <label>Branch</label>
+          <input type="text" id="ghBranch" value="main" placeholder="main" />
+        </div>
+        <div class="field-group full">
+          <label>Personal Access Token (PAT)</label>
+          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+          <div class="hint">
+            Needs <strong>Contents: Read & Write</strong> permission. 
+            <a href="https://github.com/settings/tokens/new?scopes=repo&description=DLB+MI+Portal+Sync" target="_blank">Click here to create one on GitHub ↗</a>
+            — select <em>repo</em> scope or <em>Fine-grained → Contents: Read & Write</em>.
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <button class="btn btn-success" onclick="testGithubConnection()">⚡ Test GitHub Connection</button>
+    </div>
+  </div>
+
+  <!-- SETTINGS: FIELD MAPPING -->
+  <div class="panel" id="panelMapping">
+    <div class="panel-header" onclick="togglePanel('panelMapping')">
+      <div class="panel-title">
+        <div class="panel-icon" style="background:var(--accent3)" id="dotMapping"></div>
+        3 · TrackOps Field Mapping
+      </div>
+      <span class="panel-chevron" id="chevronpanelMapping">▼</span>
+    </div>
+    <div class="panel-body hidden" id="bodypanelMapping">
+      <p style="color:var(--muted); font-size:12px; margin-bottom:16px;">
+        Tell the sync tool which field names TrackOps uses for each piece of data. 
+        Use the <strong>Discover Fields</strong> button to auto-detect from a live case.
+      </p>
+      <div class="mapping-grid">
+        <div class="mapping-row">
+          <div class="mapping-label">case_type</div>
+          <div class="mapping-arrow">←</div>
+          <input class="workspace-input" id="mCaseType" value="case_type" placeholder="TrackOps field name" />
+        </div>
+        <div class="mapping-row">
+          <div class="mapping-label">invoice_total</div>
+          <div class="mapping-arrow">←</div>
+          <input class="workspace-input" id="mInvoiceTotal" value="invoice_total" placeholder="TrackOps field name" />
+        </div>
+        <div class="mapping-row">
+          <div class="mapping-label">total_days</div>
+          <div class="mapping-arrow">←</div>
+          <input class="workspace-input" id="mTotalDays" value="total_days" placeholder="TrackOps field name" />
+        </div>
+        <div class="mapping-row">
+          <div class="mapping-label">within_10_days (bool)</div>
+          <div class="mapping-arrow">←</div>
+          <input class="workspace-input" id="mWithin10" value="within_10_days" placeholder="or leave blank to auto-calc" />
+        </div>
+        <div class="mapping-row">
+          <div class="mapping-label">offer_appt_3_days (bool)</div>
+          <div class="mapping-arrow">←</div>
+          <input class="workspace-input" id="mAppt3" value="offer_appt_3_days" placeholder="TrackOps field name" />
+        </div>
+        <div class="mapping-row">
+          <div class="mapping-label">date (for month grouping)</div>
+          <div class="mapping-arrow">←</div>
+          <input class="workspace-input" id="mDate" value="created_on" placeholder="e.g. created_at, opened_date" />
+        </div>
+      </div>
+      <div class="divider"></div>
+      <button class="btn btn-ghost btn-sm" onclick="discoverFields()">🔍 Discover Fields from Live Case</button>
+      <div id="fieldDiscovery" style="display:none; margin-top:14px;"></div>
+    </div>
+  </div>
+
+  <!-- CLIENT SYNC TABLE -->
+  <div class="panel">
+    <div class="panel-header" style="cursor:default">
+      <div class="panel-title">
+        <div class="panel-icon" style="background:#9b5de5"></div>
+        4 · Clients — Workspace Mapping & Sync
+      </div>
+      <div style="display:flex; gap:8px; align-items:center">
+        <div class="sync-status-bar">
+          <div class="status-dot" id="globalStatusDot"></div>
+          <span id="globalStatusText">Ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body" style="padding:0">
+
+      <!-- ACTION BAR -->
+      <div style="padding:14px 16px; border-bottom:1px solid var(--border); display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="syncAll()">▶ Sync All Clients → GitHub</button>
+          <button class="btn btn-ghost btn-sm" onclick="saveSettings()">💾 Save Settings</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearLog()">🗑 Clear Log</button>
+        </div>
+        <div style="font-size:11px; color:var(--muted)">
+          Enter TrackOps workspace ID or name for each client, then hit Sync All
+        </div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div id="progressSection" style="display:none; padding:14px 16px; border-bottom:1px solid var(--border);">
+        <div class="progress-container">
+          <div class="progress-label">
+            <span id="progressLabel">Syncing…</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div style="overflow-x:auto">
+        <table class="client-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Client Name</th>
+              <th>Dashboard File</th>
+              <th>TrackOps Workspace ID / Name</th>
+              <th>Cases Pulled</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="clientTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY LOG -->
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel('panelLog')">
+      <div class="panel-title">
+        <div class="panel-icon" style="background:var(--muted)"></div>
+        Activity Log
+      </div>
+      <span class="panel-chevron open" id="chevronpanelLog">▼</span>
+    </div>
+    <div class="panel-body" id="bodypanelLog">
+      <div class="log-box" id="logBox">
+        <div class="log-line"><span class="log-empty">No activity yet. Configure settings above and click Sync.</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<!-- TOAST -->
+<div id="toast">
+  <span id="toastIcon">✓</span>
+  <span id="toastMsg">Done</span>
+</div>
+
+<script>
+// ============================================================
+// CLIENT REGISTRY — mirrors index.html CLIENT_REGISTRY
+// Each entry: [displayName, jsFilePath, accessCode]
+// ============================================================
+const CLIENTS = [
+  { name:"First Central Insurance", file:"clients/firstcentral.js",     code:"FIRSTCENTRAL25",  wsId:"" },
+  { name:"Zebra",                   file:"clients/zebra.js",            code:"ZEBRA25",          wsId:"" },
+  { name:"Trinity",                 file:"clients/trinity.js",          code:"TRINITY25",        wsId:"" },
+  { name:"Inshur",                  file:"clients/inshur.js",           code:"INSHUR25",         wsId:"" },
+  { name:"DWF Law",                 file:"clients/dwf.js",              code:"DWF25",            wsId:"" },
+  { name:"Car Care Plan",           file:"clients/carcareplan.js",      code:"CARCAREPLAN25",    wsId:"" },
+  { name:"Action 365",              file:"clients/action365.js",        code:"ACTION36525",      wsId:"" },
+  { name:"Collingwood Insurance",   file:"clients/collingwood.js",      code:"COLLINGWOOD25",    wsId:"" },
+  { name:"Direct Commercial",       file:"clients/directcommercial.js", code:"DIRECTCOMM25",     wsId:"" },
+  { name:"ITB",                     file:"clients/itb.js",              code:"ITB25",            wsId:"" },
+  { name:"J&P Solicitors",          file:"clients/jpsolicitors.js",     code:"JPSOLICITORS25",   wsId:"" },
+  { name:"Key Claims",              file:"clients/keyclaims.js",        code:"KEYCLAIMS25",      wsId:"" },
+  { name:"MSG",                     file:"clients/msg.js",              code:"MSG25",            wsId:"" },
+  { name:"Mulsanne Insurance",      file:"clients/mulsanne.js",         code:"MULSANNE25",       wsId:"" },
+  { name:"Rostella",                file:"clients/rostella.js",         code:"ROSTELLA25",       wsId:"" },
+  { name:"XSD",                     file:"clients/xsd.js",              code:"XSD25",            wsId:"" },
+  { name:"Zego Insurance",          file:"clients/zego.js",             code:"ZEGO25",           wsId:"" },
+];
+
+// Runtime state
+const clientStatus = {};  // { idx: { badge, cases } }
+let syncedCount = 0;
+let errorCount = 0;
+
+// ── INIT ────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  loadSettings();
+  renderTable();
+  updateSummary();
+});
+
+function renderTable() {
+  const tbody = document.getElementById('clientTableBody');
+  tbody.innerHTML = '';
+  CLIENTS.forEach((c, i) => {
+    const s = clientStatus[i] || {};
+    const badge = s.badge || '<span class="badge badge-idle">Idle</span>';
+    const cases = s.cases != null ? s.cases : '—';
+    tbody.innerHTML += `
+      <tr id="row-${i}">
+        <td style="color:var(--muted)">${i+1}</td>
+        <td><div class="client-name">${c.name}</div></td>
+        <td><div class="client-file">${c.file}</div></td>
+        <td>
+          <input class="workspace-input" id="ws-${i}" value="${c.wsId}"
+            placeholder="e.g. 12345 or workspace-slug"
+            onchange="CLIENTS[${i}].wsId=this.value; updateSummary();" />
+        </td>
+        <td id="cases-${i}" style="color:var(--accent2); font-family:'JetBrains Mono',monospace">${cases}</td>
+        <td id="status-${i}">${badge}</td>
+        <td>
+          <button class="btn btn-ghost btn-sm" onclick="syncClient(${i})">↻ Sync</button>
+        </td>
+      </tr>`;
+  });
+  updateSummary();
+}
+
+function updateSummary() {
+  const mapped = CLIENTS.filter(c => c.wsId && c.wsId.trim()).length;
+  document.getElementById('sumTotal').textContent = CLIENTS.length;
+  document.getElementById('sumConfigured').textContent = mapped;
+  document.getElementById('sumSynced').textContent = syncedCount;
+  document.getElementById('sumErrors').textContent = errorCount;
+}
+
+// ── PANEL TOGGLES ────────────────────────────────────────────
+function togglePanel(id) {
+  const body = document.getElementById('body' + id);
+  const chev = document.getElementById('chevron' + id);
+  if (!body) return;
+  body.classList.toggle('hidden');
+  chev.classList.toggle('open');
+}
+
+// ── AUTH FIELDS ──────────────────────────────────────────────
+function updateAuthFields() {
+  const method = document.getElementById('toAuthMethod').value;
+  const f2 = document.getElementById('authField2');
+  const l1 = document.getElementById('authLabel1');
+  if (method === 'basic') {
+    l1.textContent = 'Username';
+    f2.style.display = 'flex';
+  } else if (method === 'header') {
+    l1.textContent = 'API Key Value';
+    f2.style.display = 'none';
+  } else {
+    l1.textContent = 'API Key / Bearer Token';
+    f2.style.display = 'none';
+  }
+}
+
+// ── BUILD HEADERS ────────────────────────────────────────────
+function buildTrackopsHeaders() {
+  const method = document.getElementById('toAuthMethod').value;
+  const val1   = document.getElementById('toAuthVal1').value.trim();
+  const val2   = document.getElementById('toAuthVal2').value.trim();
+  const headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+  if (method === 'bearer')  headers['Authorization'] = `Bearer ${val1}`;
+  if (method === 'basic')   headers['Authorization'] = 'Basic ' + btoa(`${val1}:${val2}`);
+  if (method === 'header')  headers['X-API-Key'] = val1;
+  return headers;
+}
+
+function getTrackopsBase() {
+  return document.getElementById('toBaseUrl').value.trim().replace(/\/$/, '');
+}
+
+function buildProxyUrl(path) {
+  const proxy = document.getElementById('toProxyUrl').value.trim().replace(/\/$/, '');
+  if (proxy) {
+    // Route through Cloudflare Worker proxy
+    return `${proxy}?path=${encodeURIComponent(path)}`;
+  }
+  // Direct (will likely hit CORS)
+  return getTrackopsBase() + path;
+}
+
+// ── TEST TRACKOPS ────────────────────────────────────────────
+async function testTrackopsConnection() {
+  const base = getTrackopsBase();
+  if (!base) { showToast('⚠ Enter TrackOps Base URL first', 'warn'); return; }
+  log('info', `Testing TrackOps connection → ${base}`);
+  try {
+    const endpoint = document.getElementById('toWorkspacesEndpoint').value || '/cases';
+    const resp = await fetch(buildProxyUrl(endpoint), { headers: buildTrackopsHeaders() });
+    if (resp.ok) {
+      log('success', `✓ Connected to TrackOps — HTTP ${resp.status}`);
+      document.getElementById('dotTrackops').style.background = 'var(--success)';
+      showToast('✓ TrackOps connection successful!', 'success');
+    } else {
+      log('error', `✗ TrackOps returned HTTP ${resp.status} — check URL and credentials`);
+      showToast(`✗ HTTP ${resp.status} — check credentials`, 'error');
+    }
+  } catch (e) {
+    log('error', `✗ Connection failed: ${e.message}`);
+    log('warn', '  If you see a CORS error, TrackOps may need to whitelist this page.');
+    log('warn', '  Contact TrackOps support and ask them to enable CORS for your domain.');
+    showToast('✗ Connection failed — see log', 'error');
+  }
+}
+
+// ── LOAD WORKSPACES ──────────────────────────────────────────
+async function loadWorkspaces() {
+  const base = getTrackopsBase();
+  if (!base) { showToast('⚠ Enter TrackOps Base URL first', 'warn'); return; }
+  log('info', 'Loading workspaces from TrackOps…');
+  try {
+    const endpoint = document.getElementById('toWorkspacesEndpoint').value || '/cases';
+    const resp = await fetch(buildProxyUrl(endpoint), { headers: buildTrackopsHeaders() });
+    if (!resp.ok) { log('error', `HTTP ${resp.status}`); return; }
+    const data = await resp.json();
+    const items = Array.isArray(data) ? data : (data.workspaces || data.data || data.results || []);
+    log('success', `✓ Found ${items.length} workspaces:`);
+    items.forEach(w => {
+      const id   = w.id   || w.workspace_id || w._id  || '?';
+      const name = w.name || w.title        || w.label || 'Unnamed';
+      log('muted', `   [${id}]  ${name}`);
+    });
+    log('muted', 'Copy the ID or name above into the Workspace ID/Name column for each client.');
+    showToast(`✓ Found ${items.length} workspaces — see log`, 'success');
+  } catch (e) {
+    log('error', `✗ Failed: ${e.message}`);
+  }
+}
+
+// ── TEST GITHUB ──────────────────────────────────────────────
+async function testGithubConnection() {
+  const owner = document.getElementById('ghOwner').value.trim();
+  const repo  = document.getElementById('ghRepo').value.trim();
+  const token = document.getElementById('ghToken').value.trim();
+  if (!owner || !repo || !token) { showToast('⚠ Fill in all GitHub fields', 'warn'); return; }
+  log('info', `Testing GitHub connection → ${owner}/${repo}`);
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      log('success', `✓ GitHub connected — repo: ${data.full_name} (${data.visibility})`);
+      document.getElementById('dotGithub').style.background = 'var(--success)';
+      showToast('✓ GitHub connection successful!', 'success');
+    } else {
+      log('error', `✗ GitHub returned HTTP ${resp.status} — check token and repo name`);
+      showToast(`✗ GitHub HTTP ${resp.status}`, 'error');
+    }
+  } catch (e) {
+    log('error', `✗ GitHub error: ${e.message}`);
+  }
+}
+
+// ── DISCOVER FIELDS ──────────────────────────────────────────
+async function discoverFields() {
+  const wsId = CLIENTS.find(c => c.wsId)?.wsId;
+  if (!wsId) { showToast('⚠ Set at least one workspace ID first', 'warn'); return; }
+  const url = buildProxyUrl(`/cases?per_page=1`);
+  log('info', `Discovering fields from TrackOps…`);
+  try {
+    const resp = await fetch(url, { headers: buildTrackopsHeaders() });
+    if (!resp.ok) { log('error', `HTTP ${resp.status}`); return; }
+    const data  = await resp.json();
+    const items = Array.isArray(data) ? data : (data.casefiles || data.cases || data.data || data.results || []);
+    const sample = items[0];
+    if (!sample) { log('warn', 'No cases found'); return; }
+    const div = document.getElementById('fieldDiscovery');
+    div.style.display = 'block';
+    div.innerHTML = `<div style="background:#0d1019;border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;max-height:300px;overflow-y:auto">
+      <div style="color:var(--muted);margin-bottom:8px">Fields found in TrackOps case:</div>
+      ${Object.entries(sample).map(([k,v]) => `<div><span style="color:var(--accent2)">${k}</span><span style="color:#3a4a6b">: </span><span style="color:var(--muted)">${JSON.stringify(v)}</span></div>`).join('')}
+    </div>`;
+    log('success', `✓ Found ${Object.keys(sample).length} fields — check Section 3 panel for the list`);
+    // Also log all field names for easy reading
+    log('muted', 'Field names: ' + Object.keys(sample).join(', '));
+  } catch (e) {
+    log('error', `✗ ${e.message}`);
+  }
+}
+
+// ── SYNC ALL ─────────────────────────────────────────────────
+async function syncAll() {
+  const toSync = CLIENTS.filter(c => c.wsId && c.wsId.trim());
+  if (!toSync.length) {
+    showToast('⚠ No workspaces configured — add Workspace IDs first', 'warn');
+    return;
+  }
+  log('info', `═══════════════════════════════`);
+  log('info', `Starting full sync — ${toSync.length} clients`);
+  log('info', `═══════════════════════════════`);
+
+  document.getElementById('progressSection').style.display = 'block';
+  setGlobalStatus('pulse', 'Syncing…');
+
+  const total = toSync.length;
+  let done = 0;
+  let errors = 0;
+
+  for (const c of toSync) {
+    const i = CLIENTS.indexOf(c);
+    const ok = await syncClient(i, true);
+    done++;
+    errors += ok ? 0 : 1;
+    setProgress(done / total * 100, `${done}/${total} — ${c.name}`);
+    await sleep(300); // gentle pacing
+  }
+
+  document.getElementById('progressSection').style.display = 'none';
+  if (errors === 0) {
+    setGlobalStatus('green', `All ${done} clients synced ✓`);
+    log('success', `═══════════════════════════════`);
+    log('success', `✓ All ${done} clients synced successfully`);
+    log('success', `═══════════════════════════════`);
+    showToast(`✓ All ${done} clients synced to GitHub!`, 'success');
+  } else {
+    setGlobalStatus('amber', `${done - errors} synced, ${errors} errors`);
+    log('warn', `Sync complete — ${done - errors} ok, ${errors} with errors`);
+    showToast(`${done - errors} synced, ${errors} errors — see log`, 'warn');
+  }
+}
+
+// ── SYNC SINGLE CLIENT ────────────────────────────────────────
+async function syncClient(idx, batch = false) {
+  const c = CLIENTS[idx];
+  if (!c.wsId || !c.wsId.trim()) {
+    setStatus(idx, '<span class="badge badge-skipped">No Workspace</span>');
+    return false;
+  }
+
+  const base    = getTrackopsBase();
+  const year    = parseInt(document.getElementById('toYear').value) || 2025;
+  const owner   = document.getElementById('ghOwner').value.trim();
+  const repo    = document.getElementById('ghRepo').value.trim();
+  const branch  = document.getElementById('ghBranch').value.trim() || 'main';
+  const ghToken = document.getElementById('ghToken').value.trim();
+
+  if (!base || !owner || !repo || !ghToken) {
+    showToast('⚠ Fill in TrackOps URL and all GitHub fields first', 'warn');
+    return false;
+  }
+
+  setStatus(idx, '<span class="badge badge-syncing">⟳ Fetching…</span>');
+  log('info', `[${c.name}] Fetching cases from TrackOps (client ID: ${c.wsId})`);
+
+  // ── STEP 1: Fetch cases from TrackOps ─────────────────────
+  let cases = [];
+  try {
+    // Fetch all cases and filter by client_id client-side
+    const url  = buildProxyUrl(`/cases?per_page=250`);
+    const resp = await fetch(url, { headers: buildTrackopsHeaders() });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data     = await resp.json();
+    const allCases = Array.isArray(data) ? data : (data.casefiles || data.cases || data.data || data.results || []);
+
+    // Filter by client ID and year
+    const dateField = document.getElementById('mDate').value || 'created_on';
+    const clientId  = String(c.wsId).trim();
+    cases = allCases.filter(cas => {
+      // Match client
+      const cid = String(cas.client_id || cas.client?.id || '');
+      if (clientId && cid !== clientId) return false;
+      // Match year
+      const d = cas[dateField] || cas.created_on || cas.created_at || cas.date;
+      if (!d) return true;
+      return new Date(d).getFullYear() === year;
+    });
+    log('success', `  ✓ ${allCases.length} total cases pulled, ${cases.length} match client ${c.name} in ${year}`);
+    document.getElementById(`cases-${idx}`).textContent = cases.length;
+  } catch (e) {
+    log('error', `  ✗ TrackOps fetch failed: ${e.message}`);
+    setStatus(idx, '<span class="badge badge-error">✗ Fetch Failed</span>');
+    errorCount++;
+    updateSummary();
+    return false;
+  }
+
+  // ── STEP 2: Transform cases to DLB format ────────────────
+  setStatus(idx, '<span class="badge badge-syncing">⟳ Transforming…</span>');
+  const fCaseType  = document.getElementById('mCaseType').value    || 'case_type';
+  const fInvoice   = document.getElementById('mInvoiceTotal').value || 'invoice_total';
+  const fDays      = document.getElementById('mTotalDays').value    || 'total_days';
+  const fWithin10  = document.getElementById('mWithin10').value     || 'within_10_days';
+  const fAppt3     = document.getElementById('mAppt3').value        || 'offer_appt_3_days';
+  const fDate      = document.getElementById('mDate').value         || 'created_at';
+
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // Build monthly aggregates
+  const monthly = MONTHS.map((m, mi) => ({
+    month: m, month_num: mi + 1,
+    total_fees: 0, ave_fees: 0, ave_days: 0,
+    case_count: 0, sla_compliance_pct: 0,
+    _days_sum: 0, _sla_ok: 0
+  }));
+
+  const caseRows = cases.map(cas => {
+    const dateStr = cas[fDate] || cas.date || cas.created_at;
+    const d       = dateStr ? new Date(dateStr) : null;
+    const monthAb = d ? MONTHS[d.getMonth()] : 'Jan';
+    const monthI  = d ? d.getMonth() : 0;
+
+    const invoice  = parseFloat(cas[fInvoice]) || 0;
+    const days     = parseFloat(cas[fDays])    || 0;
+    let   w10      = cas[fWithin10];
+    if (w10 === undefined || w10 === null) w10 = (days > 0 && days <= 10);
+    else w10 = Boolean(w10);
+    const appt3    = Boolean(cas[fAppt3]);
+    const caseType = cas[fCaseType] || 'Motor Fraud';
+
+    // Add to monthly
+    const mo = monthly[monthI];
+    mo.case_count++;
+    mo.total_fees += invoice;
+    mo._days_sum  += days;
+    if (w10) mo._sla_ok++;
+
+    return {
+      month: monthAb,
+      case_type: caseType,
+      invoice_total: Math.round(invoice * 100) / 100,
+      total_days: days,
+      within_10_days: w10,
+      offer_appt_3_days: appt3
+    };
+  });
+
+  // Finalise monthly averages
+  monthly.forEach(mo => {
+    if (mo.case_count > 0) {
+      mo.ave_fees           = Math.round(mo.total_fees / mo.case_count * 100) / 100;
+      mo.ave_days           = Math.round(mo._days_sum  / mo.case_count * 10) / 10;
+      mo.sla_compliance_pct = Math.round(mo._sla_ok   / mo.case_count * 100);
+    }
+    delete mo._days_sum; delete mo._sla_ok;
+  });
+
+  // ── STEP 3: Build JS file content ────────────────────────
+  const today  = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  const jsContent = buildJsFile(c, monthly, caseRows, today, year);
+
+  // ── STEP 4: Push to GitHub ────────────────────────────────
+  setStatus(idx, '<span class="badge badge-syncing">⟳ Pushing…</span>');
+  log('info', `  Pushing ${c.file} to GitHub…`);
+  try {
+    // Get current file SHA (needed for updates)
+    let sha = null;
+    const getResp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${c.file}?ref=${branch}`,
+      { headers: { Authorization: `token ${ghToken}`, Accept: 'application/vnd.github.v3+json' } }
+    );
+    if (getResp.ok) {
+      const existing = await getResp.json();
+      sha = existing.sha;
+    }
+
+    // Push new content
+    const body = {
+      message: `Sync ${c.name} — ${cases.length} cases — ${today}`,
+      content:  btoa(unescape(encodeURIComponent(jsContent))),
+      branch:   branch
+    };
+    if (sha) body.sha = sha;
+
+    const putResp = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${c.file}`,
+      {
+        method: 'PUT',
+        headers: { Authorization: `token ${ghToken}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      }
+    );
+    if (!putResp.ok) {
+      const err = await putResp.json();
+      throw new Error(err.message || `HTTP ${putResp.status}`);
+    }
+
+    log('success', `  ✓ Pushed to GitHub — ${cases.length} cases, dashboard updates in ~60s`);
+    setStatus(idx, `<span class="badge badge-success">✓ Synced</span>`);
+    syncedCount++;
+    updateSummary();
+    return true;
+  } catch (e) {
+    log('error', `  ✗ GitHub push failed: ${e.message}`);
+    setStatus(idx, '<span class="badge badge-error">✗ Push Failed</span>');
+    errorCount++;
+    updateSummary();
+    return false;
+  }
+}
+
+// ── BUILD JS FILE ────────────────────────────────────────────
+function buildJsFile(client, monthly, cases, today, year) {
+  const monthlyStr = monthly.map(m =>
+    `    { month:"${m.month}", month_num:${m.month_num},  total_fees:${m.total_fees}, ave_fees:${m.ave_fees}, ave_days:${m.ave_days}, case_count:${m.case_count}, sla_compliance_pct:${m.sla_compliance_pct} }`
+  ).join(',\n');
+
+  const casesStr = cases.length
+    ? cases.map(cas =>
+        `    { month:"${cas.month}", case_type:"${cas.case_type}", invoice_total:${cas.invoice_total}, total_days:${cas.total_days}, within_10_days:${cas.within_10_days}, offer_appt_3_days:${cas.offer_appt_3_days} }`
+      ).join(',\n')
+    : '    // No cases found for this period';
+
+  return `// ============================================================
+// DLB INVESTIGATIONS LTD — CLIENT DATA FILE
+// Client:       ${client.name}
+// Access Code:  ${client.code}
+// Last Updated: ${today}
+//
+// AUTO-GENERATED by TrackOps Sync — do not edit manually.
+// Run trackops-sync.html to refresh this file.
+// ============================================================
+
+var DLB_CLIENT_DATA = {
+
+  client_name:   "${client.name}",
+  report_period: "${year} Full Year",
+  last_updated:  "${today}",
+
+  monthly: [
+${monthlyStr}
+  ],
+
+  cases: [
+${casesStr}
+  ]
+};
+`;
+}
+
+// ── HELPERS ──────────────────────────────────────────────────
+function setStatus(idx, html) {
+  const el = document.getElementById(`status-${idx}`);
+  if (el) el.innerHTML = html;
+}
+
+function setProgress(pct, label) {
+  document.getElementById('progressFill').style.width  = pct + '%';
+  document.getElementById('progressPct').textContent   = Math.round(pct) + '%';
+  document.getElementById('progressLabel').textContent = label;
+}
+
+function setGlobalStatus(type, text) {
+  const dot  = document.getElementById('globalStatusDot');
+  const span = document.getElementById('globalStatusText');
+  dot.className = 'status-dot ' + type;
+  span.textContent = text;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── LOGGING ──────────────────────────────────────────────────
+const logMessages = [];
+function log(type, msg) {
+  const now  = new Date().toTimeString().slice(0, 8);
+  logMessages.push({ type, msg, time: now });
+  const box  = document.getElementById('logBox');
+  const line = document.createElement('div');
+  line.className = 'log-line';
+  line.innerHTML = `<span class="log-time">${now}</span><span class="log-${type}">${msg}</span>`;
+  if (logMessages.length === 1) box.innerHTML = '';
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+
+function clearLog() {
+  logMessages.length = 0;
+  document.getElementById('logBox').innerHTML =
+    '<div class="log-line"><span class="log-empty">Log cleared.</span></div>';
+}
+
+// ── TOAST ────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent  = msg;
+  document.getElementById('toastIcon').textContent = type === 'success' ? '✓' : type === 'error' ? '✗' : '⚠';
+  t.style.borderColor = type === 'success' ? 'rgba(31,212,160,0.3)' : type === 'error' ? 'rgba(232,78,106,0.3)' : 'rgba(245,166,35,0.3)';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── SETTINGS PERSISTENCE (localStorage — real file only) ─────
+function saveSettings() {
+  try {
+    const cfg = {
+      toBaseUrl:            document.getElementById('toBaseUrl').value,
+      toProxyUrl:           document.getElementById('toProxyUrl').value,
+      toAuthMethod:         document.getElementById('toAuthMethod').value,
+      toAuthVal1:           document.getElementById('toAuthVal1').value,
+      toAuthVal2:           document.getElementById('toAuthVal2').value,
+      toWorkspacesEndpoint: document.getElementById('toWorkspacesEndpoint').value,
+      toCasesEndpoint:      document.getElementById('toCasesEndpoint').value,
+      toYear:               document.getElementById('toYear').value,
+      ghOwner:              document.getElementById('ghOwner').value,
+      ghRepo:               document.getElementById('ghRepo').value,
+      ghBranch:             document.getElementById('ghBranch').value,
+      ghToken:              document.getElementById('ghToken').value,
+      mCaseType:            document.getElementById('mCaseType').value,
+      mInvoiceTotal:        document.getElementById('mInvoiceTotal').value,
+      mTotalDays:           document.getElementById('mTotalDays').value,
+      mWithin10:            document.getElementById('mWithin10').value,
+      mAppt3:               document.getElementById('mAppt3').value,
+      mDate:                document.getElementById('mDate').value,
+      workspaces:           CLIENTS.map(c => c.wsId),
+    };
+    localStorage.setItem('dlb_sync_config', JSON.stringify(cfg));
+    showToast('✓ Settings saved to browser', 'success');
+    log('success', 'Settings saved to browser storage');
+  } catch(e) {
+    showToast('⚠ Could not save settings', 'warn');
+  }
+}
+
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem('dlb_sync_config');
+    if (!raw) return;
+    const cfg = JSON.parse(raw);
+    const set = (id, val) => { if (val !== undefined && document.getElementById(id)) document.getElementById(id).value = val; };
+    set('toBaseUrl',            cfg.toBaseUrl);
+    set('toProxyUrl',           cfg.toProxyUrl);
+    set('toAuthMethod',         cfg.toAuthMethod);
+    set('toAuthVal1',           cfg.toAuthVal1);
+    set('toAuthVal2',           cfg.toAuthVal2);
+    set('toWorkspacesEndpoint', cfg.toWorkspacesEndpoint);
+    set('toCasesEndpoint',      cfg.toCasesEndpoint);
+    set('toYear',               cfg.toYear);
+    set('ghOwner',              cfg.ghOwner);
+    set('ghRepo',               cfg.ghRepo);
+    set('ghBranch',             cfg.ghBranch);
+    set('ghToken',              cfg.ghToken);
+    set('mCaseType',            cfg.mCaseType);
+    set('mInvoiceTotal',        cfg.mInvoiceTotal);
+    set('mTotalDays',           cfg.mTotalDays);
+    set('mWithin10',            cfg.mWithin10);
+    set('mAppt3',               cfg.mAppt3);
+    set('mDate',                cfg.mDate);
+    if (cfg.workspaces) {
+      cfg.workspaces.forEach((ws, i) => { if (CLIENTS[i]) CLIENTS[i].wsId = ws || ''; });
+    }
+    if (cfg.toAuthMethod) updateAuthFields();
+    log('muted', 'Settings loaded from browser storage');
+  } catch(e) { /* ignore */ }
+}
+</script>
+</body>
+</html>
