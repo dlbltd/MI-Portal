@@ -1,13 +1,13 @@
 // ============================================================
 // DLB INVESTIGATIONS LTD — CLIENT DATA FILE
-// Client:       ITB
-// Access Code:  ITB26
+// Client:       And-E
+// Access Code:  ANDE26
 // Last Updated: 6 March 2026
 // AUTO-GENERATED — do not edit manually
 // ============================================================
 
 var DLB_CLIENT_DATA = {
-  client_name:   "ITB",
+  client_name:   "And-E",
   report_period: "2026 Full Year",
   last_updated:  "6 March 2026",
 
