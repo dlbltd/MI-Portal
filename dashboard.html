@@ -8,17 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0d14;
-    --surface: #111520;
-    --surface2: #161c2c;
-    --border: #1e2a45;
-    --accent: #2d6cdf;
-    --accent2: #1fd4a0;
-    --accent3: #f5a623;
-    --accent4: #e84e6a;
-    --purple: #9b5de5;
-    --text: #e8edf5;
-    --muted: #6b7a99;
+    --bg: #1e2128;
+    --surface: #252931;
+    --surface2: #2d323c;
+    --border: #3a404d;
+    --accent: #4a7fc1;
+    --accent2: #6b9fd4;
+    --accent3: #8eadc7;
+    --accent4: #c0392b;
+    --purple: #7d8fa8;
+    --text: #e8ecf0;
+    --muted: #8a95a3;
     --grid: rgba(255,255,255,0.03);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -74,7 +74,7 @@
   .header-left { display: flex; align-items: center; gap: 16px; }
   .logo-mark {
     width: 42px; height: 42px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, #2c3e6b, #4a7fc1);
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Rajdhani', sans-serif;
@@ -447,11 +447,11 @@ Chart.defaults.font.family = "'Inter', sans-serif";
 Chart.defaults.font.size = 11;
 
 const C = {
-  blue:   '#2d6cdf',  blueA:   'rgba(45,108,223,0.15)',
-  green:  '#1fd4a0',  greenA:  'rgba(31,212,160,0.15)',
-  amber:  '#f5a623',  amberA:  'rgba(245,166,35,0.15)',
-  red:    '#e84e6a',  redA:    'rgba(232,78,106,0.15)',
-  purple: '#9b5de5',  purpleA: 'rgba(155,93,229,0.15)',
+  blue:   '#4a7fc1',  blueA:   'rgba(74,127,193,0.2)',
+  green:  '#5a9e7c',  greenA:  'rgba(90,158,124,0.2)',
+  amber:  '#b8860b',  amberA:  'rgba(184,134,11,0.2)',
+  red:    '#c0392b',  redA:    'rgba(192,57,43,0.2)',
+  purple: '#7d8fa8',  purpleA: 'rgba(125,143,168,0.2)',
 };
 
 // ============================================================
@@ -623,8 +623,8 @@ function renderDashboard(CLIENT) {
     const rF = rFeeN ? '£' + Math.round(rFeeSum/rFeeN).toLocaleString() : '—';
     const rD = rDayN ? (rDaySum/rDayN).toFixed(1) + 'd' : '—';
     const sc = m.sla_compliance_pct;
-    const slaColor = sc >= 80 ? '#1fd4a0' : sc >= 50 ? '#f5a623' : '#e84e6a';
-    const slaBg = sc >= 80 ? 'rgba(31,212,160,0.1)' : sc >= 50 ? 'rgba(245,166,35,0.1)' : 'rgba(232,78,106,0.1)';
+    const slaColor = sc >= 80 ? '#5a9e7c' : sc >= 50 ? '#b8860b' : '#c0392b';
+    const slaBg = sc >= 80 ? 'rgba(90,158,124,0.15)' : sc >= 50 ? 'rgba(184,134,11,0.15)' : 'rgba(192,57,43,0.15)';
     tbody.innerHTML += `<tr>
       <td><strong>${m.month}</strong></td>
       <td>${m.case_count}</td>
