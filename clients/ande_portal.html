@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AND-e Insurance Group — DLB Investigations MI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{background:#F1F4F8;color:#0D1B2A;font-family:'DM Sans',system-ui,sans-serif;font-size:13.5px;line-height:1.5;min-height:100vh}
+
+/* HEADER */
+.hdr{background:#1B3664;padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.hdr-left{display:flex;align-items:center;gap:16px}
+.hdr-logo{height:32px;opacity:.9}
+.hdr-div{width:1px;height:24px;background:rgba(255,255,255,.15)}
+.hdr-title{font-family:'DM Serif Display',serif;font-size:18px;color:#fff}
+.hdr-sub{font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
+.hdr-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:5px 12px;font-size:11.5px;color:rgba(255,255,255,.7);font-weight:500}
+
+/* PAGE */
+.page{max-width:1200px;margin:0 auto;padding:32px 24px 80px}
+
+/* CLIENT BANNER */
+.client-banner{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(15,34,68,.06)}
+.client-name{font-family:'DM Serif Display',serif;font-size:26px;color:#1B3664}
+.client-meta{font-size:12px;color:#64748B;margin-top:4px}
+.period-badge{background:#EEF3FB;color:#1B3664;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600}
+
+/* BRAND PILLS */
+.brand-strip{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.brand-pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:5px 12px;font-size:11.5px;font-weight:500;color:#2C3E55}
+.brand-dot{width:7px;height:7px;border-radius:50%;background:#1B3664}
+
+/* KPI STRIP */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+@media(max-width:860px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+.kpi{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:18px 20px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(15,34,68,.05)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--kc,#1B3664)}
+.kpi-n{font-family:'DM Serif Display',serif;font-size:32px;line-height:1;color:#0D1B2A;margin-bottom:4px}
+.kpi-l{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:#64748B}
+.kpi-sub{font-size:11px;color:#94A3B8;margin-top:2px}
+.kc-total{--kc:#1B3664}.kc-rtc{--kc:#2563EB}.kc-sla{--kc:#059669}.kc-red{--kc:#DC2626}.kc-amber{--kc:#B45309}
+
+/* CHARTS ROW */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:24px}
+@media(max-width:800px){.charts-row{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(15,34,68,.06)}
+.card-hdr{padding:14px 20px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'DM Serif Display',serif;font-size:15px;color:#0D1B2A}
+.card-body{padding:20px}
+
+/* BAR CHART */
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:140px;margin-bottom:8px}
+.bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bar-wrap{flex:1;display:flex;align-items:flex-end;gap:2px;width:100%}
+.bar{border-radius:3px 3px 0 0;transition:height .5s;min-height:2px;flex:1}
+.bar-rtc{background:#1B3664}.bar-std{background:#CBD5E1}
+.bar-lbl{font-size:10px;color:#94A3B8;text-align:center}
+.bar-legend{display:flex;gap:14px;justify-content:flex-end;margin-top:8px}
+.bar-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#64748B}
+.bar-legend-dot{width:10px;height:10px;border-radius:2px}
+
+/* RISK DONUT */
+.risk-wrap{display:flex;flex-direction:column;align-items:center;padding:12px 0}
+.donut-svg{width:140px;height:140px}
+.risk-legend{width:100%;margin-top:16px}
+.risk-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F1F4F8;font-size:12.5px}
+.risk-item:last-child{border-bottom:none}
+.risk-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.risk-name{display:flex;align-items:center;gap:7px;color:#2C3E55;font-weight:500}
+.risk-count{font-family:'DM Serif Display',serif;font-size:16px;color:#0D1B2A}
+
+/* SLA */
+.sla-block{display:flex;flex-direction:column;gap:16px}
+.sla-item-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748B;margin-bottom:6px}
+.sla-bar-bg{height:10px;border-radius:5px;background:#E2E8F0;overflow:hidden;margin-bottom:5px}
+.sla-bar-fill{height:100%;border-radius:5px;transition:width .7s}
+.sla-row{display:flex;justify-content:space-between;font-size:11.5px}
+.sla-pct{font-weight:700;font-size:15px}
+
+/* CASES TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748B;background:#FAFBFC;border-bottom:1px solid #E2E8F0;white-space:nowrap}
+th:first-child{padding-left:18px}th:last-child{padding-right:18px;text-align:right}
+td{padding:11px 14px;font-size:12.5px;color:#2C3E55;border-bottom:1px solid #F1F4F8;vertical-align:middle}
+td:first-child{padding-left:18px}td:last-child{padding-right:18px}
+tr:last-child td{border-bottom:none}tr:hover td{background:#F8FAFF}
+.ref{font-weight:600;color:#1B3664;font-size:12px}
+.risk-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.rp-RED{background:#FEF2F2;color:#DC2626}.rp-AMBER{background:#FFFBEB;color:#B45309}.rp-GREEN{background:#ECFDF5;color:#059669}.rp-none{background:#F1F5F9;color:#64748B}
+.status-pill{display:inline-flex;padding:3px 8px;border-radius:20px;font-size:10.5px;font-weight:600}
+.sp-new{background:#F1F5F9;color:#475569}.sp-assessed{background:#ECFDF5;color:#065F46}.sp-report{background:#D1FAE5;color:#064E3B}.sp-scheduled{background:#EFF6FF;color:#1D4ED8}
+.brand-tag{display:inline-flex;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;background:#EEF3FB;color:#1B3664;letter-spacing:.2px}
+.report-tick{color:#059669;font-weight:700}
+
+/* LOADING */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;color:#64748B}
+.spinner{width:36px;height:36px;border:3px solid #E2E8F0;border-top-color:#1B3664;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#F1F4F8}
+.login-card{background:#fff;border-radius:16px;padding:48px 40px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(15,34,68,.12);text-align:center}
+.login-logo{height:48px;margin-bottom:24px}
+.login-title{font-family:'DM Serif Display',serif;font-size:26px;color:#1B3664;margin-bottom:8px}
+.login-sub{font-size:13px;color:#64748B;margin-bottom:32px;line-height:1.6}
+.login-input{width:100%;padding:12px 16px;border:1.5px solid #E2E8F0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:15px;color:#0D1B2A;outline:none;text-align:center;letter-spacing:2px;text-transform:uppercase;transition:border-color .15s}
+.login-input:focus{border-color:#1B3664;box-shadow:0 0 0 3px rgba(27,54,100,.1)}
+.login-btn{width:100%;padding:13px;background:#1B3664;color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px;transition:.15s}
+.login-btn:hover{background:#0F2247}
+.login-err{color:#DC2626;font-size:13px;margin-top:10px;display:none}
+.login-footer{margin-top:32px;font-size:11.5px;color:#94A3B8}
+
+/* FILTER */
+.filter-row{display:flex;gap:10px;align-items:center;padding:14px 18px;border-bottom:1px solid #E2E8F0;flex-wrap:wrap}
+.filter-inp{padding:7px 10px;border:1px solid #E2E8F0;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;color:#0D1B2A;outline:none;background:#FAFBFC}
+.filter-inp:focus{border-color:#1B3664}
+
+/* UPDATED TS */
+.updated{font-size:11px;color:#94A3B8;text-align:right;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <img src="https://dlbltd.github.io/MI-Portal/DLB_Logo_Blue_RGB_72dpi.png" class="login-logo" onerror="this.style.display='none'">
+    <div class="login-title">MI Portal</div>
+    <div class="login-sub">DLB Investigations<br>Management Information Dashboard</div>
+    <input class="login-input" id="codeInput" placeholder="ACCESS CODE" maxlength="20"
+      onkeydown="if(event.key==='Enter')login()" autocomplete="off" spellcheck="false">
+    <button class="login-btn" onclick="login()">Access Dashboard</button>
+    <div class="login-err" id="loginErr">Invalid access code. Please try again.</div>
+    <div class="login-footer">DLB Investigations Ltd &middot; 0800 772 0302<br>Authorised personnel only</div>
+  </div>
+</div>
+
+<!-- DASHBOARD (hidden until login) -->
+<div id="dashboard" style="display:none">
+  <div class="hdr">
+    <div class="hdr-left">
+      <img src="https://dlbltd.github.io/MI-Portal/DLB_Symbol_RGB_White_310px.png" class="hdr-logo" onerror="this.style.display='none'">
+      <div class="hdr-div"></div>
+      <div>
+        <div class="hdr-title">Management Information</div>
+        <div class="hdr-sub">DLB Investigations Ltd</div>
+      </div>
+    </div>
+    <div class="hdr-badge" id="hdrPeriod"></div>
+  </div>
+
+  <div class="page">
+    <div id="loadingState" class="loading">
+      <div class="spinner"></div>
+      <div>Loading your data&hellip;</div>
+    </div>
+
+    <div id="mainContent" style="display:none">
+      <div class="updated" id="updatedTs"></div>
+
+      <!-- CLIENT BANNER -->
+      <div class="client-banner">
+        <div>
+          <div class="client-name" id="clientName"></div>
+          <div class="client-meta" id="clientMeta"></div>
+        </div>
+        <span class="period-badge" id="periodBadge"></span>
+      </div>
+
+      <!-- BRAND PILLS -->
+      <div class="brand-strip" id="brandStrip"></div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi kc-total"><div class="kpi-n" id="kTotal">0</div><div class="kpi-l">Total Cases</div><div class="kpi-sub">All instructions</div></div>
+        <div class="kpi kc-rtc"><div class="kpi-n" id="kRTC">0</div><div class="kpi-l">RTC Assessments</div><div class="kpi-sub">Rapid triage</div></div>
+        <div class="kpi kc-sla"><div class="kpi-n" id="kSLA">—</div><div class="kpi-l">RTC SLA 48hr</div><div class="kpi-sub">On-time delivery</div></div>
+        <div class="kpi kc-red"><div class="kpi-n" id="kRed">0</div><div class="kpi-l">High Risk</div><div class="kpi-sub">Red-rated cases</div></div>
+        <div class="kpi kc-amber"><div class="kpi-n" id="kAmber">0</div><div class="kpi-l">Medium Risk</div><div class="kpi-sub">Amber-rated cases</div></div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="charts-row">
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title">Monthly Case Volume</div>
+            <div id="chartYear" style="font-size:11.5px;color:#64748B"></div>
+          </div>
+          <div class="card-body">
+            <div class="bar-chart" id="barChart"></div>
+            <div class="bar-legend">
+              <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#1B3664"></div>RTC</div>
+              <div class="bar-legend-item"><div class="bar-legend-dot" style="background:#CBD5E1"></div>Standard</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Risk Distribution</div></div>
+          <div class="card-body">
+            <div class="risk-wrap">
+              <svg class="donut-svg" viewBox="0 0 140 140" id="donutSvg"></svg>
+              <div class="risk-legend" id="riskLegend"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLA -->
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-hdr"><div class="card-title">SLA Performance</div></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" id="slaBlock"></div>
+        </div>
+      </div>
+
+      <!-- CASES TABLE -->
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Case Detail</div>
+          <div style="font-size:11.5px;color:#64748B" id="tableCount"></div>
+        </div>
+        <div class="filter-row">
+          <input class="filter-inp" id="searchInp" placeholder="Search reference&hellip;" oninput="renderTable()">
+          <select class="filter-inp" id="riskFilt" onchange="renderTable()">
+            <option value="">All Risk</option>
+            <option value="RED">High Risk</option>
+            <option value="AMBER">Medium Risk</option>
+            <option value="GREEN">Low Risk</option>
+          </select>
+          <select class="filter-inp" id="typeFilt" onchange="renderTable()">
+            <option value="">All Types</option>
+            <option value="rtc">RTC</option>
+            <option value="std">Standard</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Reference</th><th>Brand</th><th>Type</th><th>Date</th>
+              <th>Status</th><th>Risk</th><th>Score</th><th style="text-align:right">Report</th>
+            </tr></thead>
+            <tbody id="caseTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var API_BASE = 'https://rtc-8jmy.onrender.com';
+var BRANDS = ['AND-e','ITB','Insure the Box','Kwik Fit','Toyota','Tesco Box','Tesco Insurance'];
+var _data = null;
+var _code = '';
+
+function login(){
+  var code = document.getElementById('codeInput').value.trim().toUpperCase();
+  if(!code){ return; }
+  document.getElementById('loginErr').style.display='none';
+  fetchData(code);
+}
+
+async function fetchData(code){
+  try{
+    var r = await fetch(API_BASE+'/api/mi/'+encodeURIComponent(code));
+    if(!r.ok){ document.getElementById('loginErr').style.display='block'; return; }
+    var d = await r.json();
+    if(d.error){ document.getElementById('loginErr').style.display='block'; return; }
+    _data = d; _code = code;
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    render(d);
+  }catch(e){
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+
+function render(d){
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+
+  var now = new Date();
+  document.getElementById('updatedTs').textContent = 'Last updated: '+now.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('hdrPeriod').textContent = d.report_period || new Date().getFullYear();
+  document.getElementById('periodBadge').textContent = 'Data period: '+( d.report_period||new Date().getFullYear());
+  document.getElementById('clientName').textContent = d.client_name || 'AND-e Insurance Group';
+  document.getElementById('clientMeta').textContent = 'DLB Investigations MI Portal · '+( d.total_cases)+' cases this year';
+  document.getElementById('chartYear').textContent = d.report_period||'';
+
+  // Brand pills
+  document.getElementById('brandStrip').innerHTML = BRANDS.map(b=>
+    '<span class="brand-pill"><span class="brand-dot"></span>'+b+'</span>'
+  ).join('');
+
+  // KPIs
+  document.getElementById('kTotal').textContent = d.total_cases||0;
+  document.getElementById('kRTC').textContent = d.rtc_cases||0;
+  document.getElementById('kSLA').textContent = d.rtc_sla_48h_pct!=null?d.rtc_sla_48h_pct+'%':'N/A';
+  document.getElementById('kRed').textContent = d.risk_red||0;
+  document.getElementById('kAmber').textContent = d.risk_amber||0;
+
+  // Bar chart
+  var monthly = d.monthly||[];
+  var maxVal = Math.max(1,...monthly.map(m=>m.case_count));
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('barChart').innerHTML = monthly.map((m,i)=>{
+    var rtcH = Math.round((m.rtc_count/maxVal)*120);
+    var stdH = Math.round(((m.case_count-m.rtc_count)/maxVal)*120);
+    return '<div class="bar-group">'
+      +'<div class="bar-wrap">'
+      +'<div class="bar bar-rtc" style="height:'+rtcH+'px"></div>'
+      +(stdH>0?'<div class="bar bar-std" style="height:'+stdH+'px"></div>':'')
+      +'</div>'
+      +'<div class="bar-lbl">'+months[i]+'</div>'
+    +'</div>';
+  }).join('');
+
+  // Donut
+  var total = (d.risk_red||0)+(d.risk_amber||0)+(d.risk_green||0);
+  if(total===0) total=1;
+  var slices=[
+    {val:d.risk_red||0,color:'#DC2626',label:'High Risk'},
+    {val:d.risk_amber||0,color:'#B45309',label:'Medium Risk'},
+    {val:d.risk_green||0,color:'#059669',label:'Low Risk'},
+  ];
+  var cx=70,cy=70,r=55,inner=34,pi=Math.PI;
+  var start=0,paths='';
+  slices.forEach(s=>{
+    var frac=s.val/total,angle=frac*2*pi;
+    var x1=cx+r*Math.sin(start),y1=cy-r*Math.cos(start);
+    var x2=cx+r*Math.sin(start+angle),y2=cy-r*Math.cos(start+angle);
+    var xi1=cx+inner*Math.sin(start),yi1=cy-inner*Math.cos(start);
+    var xi2=cx+inner*Math.sin(start+angle),yi2=cy-inner*Math.cos(start+angle);
+    var lg=angle>pi?1:0;
+    if(s.val>0)paths+='<path d="M'+xi1+' '+yi1+' L'+x1+' '+y1+' A'+r+' '+r+' 0 '+lg+' 1 '+x2+' '+y2+' L'+xi2+' '+yi2+' A'+inner+' '+inner+' 0 '+lg+' 0 '+xi1+' '+yi1+'" fill="'+s.color+'"/>';
+    start+=angle;
+  });
+  document.getElementById('donutSvg').innerHTML = paths
+    +'<text x="70" y="65" text-anchor="middle" font-family="DM Serif Display,serif" font-size="22" fill="#0D1B2A">'+total+'</text>'
+    +'<text x="70" y="82" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#64748B">cases</text>';
+
+  document.getElementById('riskLegend').innerHTML = slices.map(s=>
+    '<div class="risk-item">'
+    +'<div class="risk-name"><div class="risk-dot" style="background:'+s.color+'"></div>'+s.label+'</div>'
+    +'<div class="risk-count">'+s.val+'</div>'
+    +'</div>'
+  ).join('');
+
+  // SLA
+  var slaBlocks = [
+    {label:'RTC — 48 Hour Target',pct:d.rtc_sla_48h_pct,color:'#1B3664'},
+    {label:'Standard — 10 Day Target',pct:d.std_sla_10d_pct,color:'#059669'},
+  ];
+  document.getElementById('slaBlock').innerHTML = slaBlocks.map(s=>{
+    var pct = s.pct!=null?s.pct:null;
+    var color = pct>=80?'#059669':pct>=60?'#B45309':'#DC2626';
+    return '<div>'
+      +'<div class="sla-item-title">'+s.label+'</div>'
+      +'<div class="sla-bar-bg"><div class="sla-bar-fill" style="width:'+(pct||0)+'%;background:'+color+'"></div></div>'
+      +'<div class="sla-row"><span style="font-size:11px;color:#94A3B8">'+(pct!=null?(pct>=80?'On target':'Below target'):'No data')+'</span>'
+      +'<span class="sla-pct" style="color:'+color+'">'+(pct!=null?pct+'%':'N/A')+'</span></div>'
+    +'</div>';
+  }).join('');
+
+  // Store cases for table
+  window._cases = d.cases||[];
+  renderTable();
+}
+
+function renderTable(){
+  var cases = window._cases||[];
+  var search = (document.getElementById('searchInp').value||'').toLowerCase();
+  var riskF = document.getElementById('riskFilt').value;
+  var typeF = document.getElementById('typeFilt').value;
+
+  var filtered = cases.filter(c=>{
+    var ms = !search||(c.claim_ref||'').toLowerCase().includes(search)||(c.client_ref||'').toLowerCase().includes(search);
+    var mr = !riskF||(c.risk_band||'').toUpperCase()===riskF;
+    var mt = !typeF||(typeF==='rtc'&&c.is_rtc)||(typeF==='std'&&!c.is_rtc);
+    return ms&&mr&&mt;
+  });
+
+  document.getElementById('tableCount').textContent = filtered.length===cases.length?cases.length+' cases':filtered.length+' of '+cases.length+' shown';
+
+  var stClass={'new':'sp-new','assessed':'sp-assessed','report_generated':'sp-report','scheduled':'sp-scheduled'};
+  var stLabel={'new':'New','assessed':'Assessed','report_generated':'Report Done','scheduled':'Scheduled','interview_complete':'Interviewed','interview_started':'Interviewing'};
+
+  document.getElementById('caseTbody').innerHTML = filtered.length?filtered.map(c=>{
+    var rb=(c.risk_band||'').toUpperCase();
+    var dt=c.created_at?new Date(c.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'—';
+    var ins=(c.insurer||'').replace(/AND-e|AND e|ANDE/gi,'AND-e');
+    return '<tr>'
+      +'<td><span class="ref">'+esc(c.claim_ref||'')+'</span>'+(c.client_ref?'<div style="font-size:10.5px;color:#94A3B8">'+esc(c.client_ref)+'</div>':'')+'</td>'
+      +'<td><span class="brand-tag">'+esc(ins||'AND-e')+'</span></td>'
+      +'<td><span style="font-size:11px;font-weight:600;color:'+(c.is_rtc?'#1B3664':'#64748B')+'">'+(c.is_rtc?'RTC':'Standard')+'</span></td>'
+      +'<td style="font-size:11.5px;color:#64748B">'+dt+'</td>'
+      +'<td><span class="status-pill '+(stClass[c.status]||'sp-new')+'">'+(stLabel[c.status]||c.status||'New')+'</span></td>'
+      +'<td>'+(rb?'<span class="risk-pill rp-'+rb+'">'+rb+'</span>':'<span class="risk-pill rp-none">—</span>')+'</td>'
+      +'<td style="font-family:\'DM Serif Display\',serif;font-size:15px;color:#0D1B2A">'+(c.risk_score||'—')+'</td>'
+      +'<td style="text-align:right">'+(c.has_report?'<span class="report-tick">&#10003; Yes</span>':'<span style="color:#94A3B8;font-size:12px">No</span>')+'</td>'
+    +'</tr>';
+  }).join(''):'<tr><td colspan="8" style="text-align:center;padding:40px;color:#94A3B8">No cases match your filters</td></tr>';
+}
+
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// Auto-login if code in URL hash
+(function(){
+  var hash = location.hash.replace('#','');
+  if(hash) { document.getElementById('codeInput').value=hash; fetchData(hash.toUpperCase()); }
+})();
+</script>
+</body>
+</html>
