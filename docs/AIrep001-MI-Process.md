@@ -1,7 +1,7 @@
 # AIrep001 — Management Information (MI) Report Writing Process
 
 **Document reference:** AIrep001
-**Version:** 1.0
+**Version:** 1.1
 **Issue date:** 11 May 2026
 **Owner:** Managing Director, DLB Investigations Ltd
 **Approved by:** Managing Director
@@ -112,27 +112,62 @@ The MI Analyst shall, two working days before each release:
 
 ### 7.2 Production day — export and process (Day 0, ~10 min)
 
+#### 7.2.1 Export the CSV from TrackOps
+
 The MI Analyst shall:
 
-1. Sign into TrackOps. Navigate to **Cases**.
-2. Filter to `Date Created` between **1 January [current year]** and **today**.
-3. Click **Export → CSV**. Save the file to `~/Downloads/` with its default name.
-4. On the workstation, open a terminal and run:
+1. Open **TrackOps** at `https://dlbinvestigations.viewcases.com` and sign in.
+2. Navigate to the **Case List**.
+3. Click **Advanced** to expand the advanced filters panel.
+4. **Scroll to the bottom of the screen.** In the **right-hand sidebar at the foot of the page** there is a date-range filter.
+5. Enter the date range:
+   - **From:** `1 January` of the current calendar year (e.g. `1/1/26`)
+   - **To:** the **last day of the last full calendar month** that precedes today's date.
+     - **Example:** if today is `11/5/26` (11 May 2026), the end date is `30/4/26` (30 April 2026).
+     - **Example:** if today is `5/12/26` (5 December 2026), the end date is `30/11/26` (30 November 2026).
+   - The current month is **always excluded** because it is not yet complete and would skew month-end aggregates.
+6. Apply the filter and wait until the filtered case list is fully loaded on screen.
+7. At the **top right of the screen**, click **Export**. Select **CSV** if prompted for a format.
+8. Save the downloaded file. By default it lands in `~/Downloads/` with a name of the form `cases_YYYY-MM-DD_-_YYYY-MM-DD_<timestamp>.csv`. Do not rename it — the processor accepts the default name.
 
+#### 7.2.2 Process the CSV
+
+The MI Analyst has two routes — either is acceptable, both produce identical output.
+
+**Route A — via Claude Code** (recommended for non-technical users)
+
+1. Open **Terminal.app** on the workstation.
+2. Change into the MI Portal project directory:
    ```bash
-   cd ~/Desktop/MI-Portal
-   git pull origin main
-   node scripts/process-csv.js ~/Downloads/cases_*_<timestamp>.csv
+   cd /Users/daveb/Desktop/MI-Portal
    ```
+   *(or the equivalent path if the repository is cloned elsewhere on the analyst's machine)*
+3. Start a Claude Code session by typing `claude` and pressing **Return**. Claude Code is installed system-wide; if the command is not recognised, install it once per the instructions at https://docs.claude.com/claude-code.
+4. At the Claude Code prompt, paste the full path of the file saved in §7.2.1 step 8 and ask Claude to update the MI. A working prompt is:
 
-5. Review the script output. Each client line shows:
-   - Case count (total) and RTC count in parentheses
-   - SLA percentages for each measurable SLA dimension
-6. **Verification checks** (all must pass before continuing):
-   - [ ] **No "Unmatched client names"** appear in the script output. If any do, add the client name (lowercased) to `scripts/client-map.json` mapping to the correct file, then re-run.
-   - [ ] **Total case count matches expectation** for the period (compare to TrackOps Cases view total).
-   - [ ] **No script errors** ("ReferenceError", "SyntaxError" etc.).
-7. Open `clients/zego.js` in a text editor and confirm the header reads `Period: Jan–Dec [year]` and `Updated: [today's date]`.
+   > Please update the MI from this CSV: `/Users/daveb/Downloads/cases_2026-01-01_-_2026-04-30_<timestamp>.csv`
+
+5. Claude will run the processor, summarise the per-client output, perform the verification checks listed in §7.2.3, and offer to commit and push the changes. Approve the commit when prompted.
+
+**Route B — direct terminal command** (for technical users)
+
+```bash
+cd /Users/daveb/Desktop/MI-Portal
+git pull origin main
+node scripts/process-csv.js ~/Downloads/cases_*_<timestamp>.csv
+```
+
+#### 7.2.3 Verify the output
+
+The MI Analyst shall review the script (or Claude Code) output. Each client line shows the case count (total) and RTC count in parentheses, plus SLA percentages for each measurable SLA dimension.
+
+**Verification checks** — all must pass before continuing to §7.3:
+
+- [ ] **No "Unmatched client names"** appear in the output. If any do, add the client name (lowercased) to `scripts/client-map.json` mapping to the correct file, then re-run.
+- [ ] **Total case count matches expectation** for the period (compare to the TrackOps Case List total).
+- [ ] **No script errors** ("ReferenceError", "SyntaxError" etc.).
+
+Open `clients/zego.js` in a text editor and confirm the header reads `Period: Jan–Dec [year]` and `Updated: [today's date]`.
 
 ### 7.3 Production day — publish (Day 0, ~5 min)
 
@@ -277,3 +312,4 @@ Sign-off:               __________________________  Date: ______
 | Version | Date | Author | Summary of changes |
 |---|---|---|---|
 | 1.0 | 11 May 2026 | David Booker | Initial issue. Establishes monthly release cadence on 5th of month with automated email distribution via Microsoft Graph. |
+| 1.1 | 11 May 2026 | David Booker | Expanded §7.2 with the specific TrackOps export click-path (Case List → Advanced → date-range filter at foot of right-hand sidebar) and an explicit rule for choosing the end date (last day of the last full calendar month preceding today). Added Route A (Claude Code) alongside Route B (direct terminal command) for running the processor. |
