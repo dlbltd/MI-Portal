@@ -1,0 +1,48 @@
+{
+  "_comment": "Recipients for the monthly MI release email. Keyed by access code (matches index.html CLIENT_REGISTRY). Each entry is an array of { name, email } — multiple recipients per client are fine. Clients with an empty array are skipped by the mailer.",
+  "recipients": {
+    "ZEGO26": [
+      { "name": "Victoria Wallace", "email": "victoria.wallace@zego.com" }
+    ],
+    "INSHUR26": [
+      { "name": "Jon Crawley",  "email": "jon.crawley@inshur.com" },
+      { "name": "Mick Lawless", "email": "mick.lawless@inshur.com" }
+    ],
+    "FIRSTCENTRAL26": [
+      { "name": "Kyle Fletcher", "email": "kyle.fletcher@first-central.com" }
+    ],
+    "TRINITY26": [
+      { "name": "John Turnham",  "email": "john.turnham@trinityclaims.co.uk" },
+      { "name": "Peter Wright",  "email": "peter.wright@trinityclaims.co.uk" }
+    ],
+    "CARCAREPLAN26": [
+      { "name": "Tony Cunnett", "email": "tony.cunnett@carcareplan.co.uk" }
+    ],
+    "COLLINGWOOD26": [
+      { "name": "Melvin Hair", "email": "Melvin.Hair@Collingwood.co.uk" }
+    ],
+    "DWF26": [
+      { "name": "Mathew Lynch",  "email": "mathew.lynch@dwf.law" },
+      { "name": "Lauren France", "email": "lauren.france@dwf.law" }
+    ],
+    "ANDE26": [
+      { "name": "Kris Brown (Aioi)", "email": "kris.brown@aioinissaydowa.eu" },
+      { "name": "Kris Brown",        "email": "kris.brown@and-e.com" },
+      { "name": "Amanda Rochester",  "email": "amanda.rochester@and-e.com" }
+    ],
+
+    "_clients_without_emails_yet": "Add entries below as you collect addresses. The mailer skips empty arrays.",
+    "ZEBRA26":        [],
+    "KEOGHS26":       [],
+    "WEIGHTMANS26":   [],
+    "JPSOLICITORS26": [],
+    "TRANSPORT26":    [],
+    "ACTION36526":    [],
+    "DIRECTCOMM26":   [],
+    "KEYCLAIMS26":    [],
+    "MSG26":          [],
+    "MULSANNE26":     [],
+    "ROSTELLA26":     [],
+    "XSD26":          []
+  }
+}

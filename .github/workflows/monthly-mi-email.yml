@@ -1,0 +1,42 @@
+name: Monthly MI release email
+
+on:
+  schedule:
+    # 08:00 UTC on the 5th of every month (09:00 BST / 08:00 GMT).
+    - cron: '0 8 5 * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (log recipients but do not send)'
+        type: boolean
+        default: false
+      only_to:
+        description: 'Restrict to a single recipient email (testing)'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --omit=dev
+
+      - name: Send monthly MI emails
+        env:
+          SMTP_USER:      ${{ secrets.SMTP_USER }}
+          SMTP_PASS:      ${{ secrets.SMTP_PASS }}
+          SMTP_FROM_NAME: ${{ secrets.SMTP_FROM_NAME }}
+          PORTAL_URL:     ${{ vars.PORTAL_URL }}
+          DRY_RUN:        ${{ inputs.dry_run && '1' || '' }}
+          ONLY_TO:        ${{ inputs.only_to }}
+        run: npm run mail

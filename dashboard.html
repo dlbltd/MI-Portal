@@ -23,7 +23,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   #loadingScreen p { color: var(--muted); font-size: 12px; letter-spacing: 1px; }
 
-  .wrapper { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; padding: 0 24px 48px; }
+  .wrapper { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; padding: 0 24px 32px; }
 
   header { display: flex; align-items: center; justify-content: space-between; padding: 24px 0 22px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
   .header-left { display: flex; align-items: center; gap: 16px; }
@@ -40,13 +40,16 @@
   .logout-btn:hover { border-color: var(--accent4); color: var(--accent4); }
   .report-year { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; color: var(--border); letter-spacing: 3px; }
 
-  .section-label { font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-label { font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 14px 0 8px; display: flex; align-items: center; gap: 10px; }
+  .section-label:first-of-type { margin-top: 0; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .section-label.rtc-section { color: #a78bfa; }
   .section-label.rtc-section::after { background: rgba(124,58,237,0.3); }
 
-  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
-  .kpi-row-2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .kpi-row { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .kpi-row > .kpi-card { flex: 1 1 0; min-width: 180px; }
+  .kpi-row-2 { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .kpi-row-2 > .kpi-card { flex: 1 1 0; min-width: 180px; }
   .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; position: relative; overflow: hidden; }
   .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
   .kpi-card.c-blue::before { background: var(--accent); }
@@ -61,9 +64,9 @@
   .kpi-sub { font-size: 11px; color: var(--muted); }
   .kpi-tag { font-size: 9px; font-weight: 600; padding: 1px 5px; border-radius: 3px; background: rgba(124,58,237,0.3); color: #a78bfa; margin-left: 5px; vertical-align: middle; letter-spacing: .5px; }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-  .grid-full { margin-bottom: 18px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+  .grid-full { margin-bottom: 10px; }
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
   .card.rtc-card { border-color: rgba(124,58,237,0.25); }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
@@ -87,6 +90,53 @@
   .b-ll  { background: rgba(232,78,106,0.12); color: #e84e6a; }
   .b-sla-met  { background: rgba(90,158,124,0.15); color: #5a9e7c; }
   .b-sla-notmet { background: rgba(192,57,43,0.2); color: #e05252; }
+  .b-mid { background: rgba(184,134,11,0.15); color: #b8860b; }
+  .sla-frac { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-left: 4px; }
+
+  .histogram { display: flex; align-items: flex-end; gap: 2px; height: 32px; margin: 6px 0 4px; }
+  .histogram .h-bar { flex: 1; background: rgba(74,127,193,0.5); border-radius: 2px 2px 0 0; position: relative; min-height: 2px; transition: background 0.15s; }
+  .histogram .h-bar.h-miss { background: rgba(192,57,43,0.55); }
+  .histogram .h-bar:hover { background: var(--accent); }
+  .histogram .h-bar:hover.h-miss { background: #e05252; }
+  .histogram .h-bar > .h-lbl { position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%); font-size: 9px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  /* compact card padding; histograms add their own room below themselves */
+  .kpi-card { padding: 14px 16px 18px; }
+  .kpi-card .kpi-value { line-height: 1; }
+  .kpi-card .kpi-label { margin-bottom: 4px; }
+  .kpi-card .kpi-sub   { margin-top: 6px; }
+  .histogram { margin: 6px 0 12px; height: 28px; }
+
+  .fee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 10px; }
+  .fee-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; position: relative; overflow: hidden; }
+  .fee-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background: var(--accent); }
+  .fee-card.rtc::before { background: #7c3aed; }
+  .fee-card .fc-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .fee-card .fc-value { font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.1; }
+  .fee-card .fc-sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .fee-card .fc-total { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+  .fee-card.rtc .fc-label { color: #a78bfa; }
+  .fee-card.overall::before { background: #4a7fc1; width: 4px; }
+  .fee-card.overall { background: rgba(74,127,193,0.06); }
+  .fee-card.overall .fc-label { color: #6b9fd4; font-weight: 700; }
+  .fee-card.overall .fc-value { color: #6b9fd4; }
+  .kpi-card.rtc-perf { border-left: 3px solid #7c3aed; }
+  .kpi-card.rtc-perf .kpi-label { color: #a78bfa; }
+
+  /* Grouping panels — wraps financial bits and SLA bits as distinct visual zones */
+  .panel { padding: 18px 20px 16px; border: 1px solid var(--border); border-radius: 14px; margin-bottom: 14px; background: rgba(255,255,255,0.015); }
+  .panel-financial { border-color: rgba(184,134,11,0.22); background: linear-gradient(180deg, rgba(184,134,11,0.04), transparent 60%); }
+  .panel-sla       { border-color: rgba(90,158,124,0.22); background: linear-gradient(180deg, rgba(90,158,124,0.04), transparent 60%); }
+  .panel-title { font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+  .panel-financial .panel-title { color: #d4a948; }
+  .panel-sla       .panel-title { color: #7eb097; }
+  .panel-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .panel-title .panel-hint { font-weight: 400; font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: none; }
+  .sub-label { font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 14px 0 8px; display: flex; align-items: center; gap: 10px; }
+  .sub-label::before { content: ''; width: 16px; height: 2px; background: var(--border); border-radius: 1px; }
+  .sub-label.rtc::before { background: #7c3aed; }
+  .sub-label.rtc       { color: #a78bfa; }
+  .sub-label.general::before { background: #5a9e7c; }
+  .sub-label.general   { color: #7eb097; }
 
   .days-good  { color: #5a9e7c; font-weight: 600; }
   .days-warn  { color: #b8860b; font-weight: 600; }
@@ -100,8 +150,8 @@
   footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 11px; letter-spacing: 0.5px; }
   .footer-brand { font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
 
-  @media (max-width: 1100px) { .kpi-row, .kpi-row-2 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 768px) { .kpi-row, .kpi-row-2 { grid-template-columns: repeat(2, 1fr); } .grid-2, .grid-3 { grid-template-columns: 1fr; } .report-year { display: none; } }
+  @media (max-width: 1100px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .report-year { display: none; } }
 </style>
 </head>
 <body>
@@ -123,7 +173,6 @@
     </div>
     <div class="header-right">
       <div class="client-chip" id="clientChip">Client</div>
-      <div class="rtc-chip" id="rtcChip">RTC Client</div>
       <div class="live-badge"><span class="live-dot"></span> <span id="reportPeriod">2026</span></div>
       <div class="report-year" id="reportYear">2026</div>
       <button class="logout-btn" onclick="logout()">Sign Out</button>
@@ -135,7 +184,7 @@
     <span id="updateBanner">Data last updated: loading...</span>
   </div>
 
-  <!-- KPIs ROW 1 -->
+  <!-- TOP: overall fees and SLA together -->
   <div class="section-label">Performance Overview</div>
   <div class="kpi-row">
     <div class="kpi-card c-blue">
@@ -148,84 +197,106 @@
       <div class="kpi-value" id="kpiCases">—</div>
       <div class="kpi-sub" id="kpiCasesSub">All months</div>
     </div>
-    <div class="kpi-card c-amber">
+    <div class="kpi-card c-amber" title="Average invoice fee per case across the period.">
       <div class="kpi-label">Avg Fee / Case</div>
       <div class="kpi-value" id="kpiAvgFee">—</div>
-      <div class="kpi-sub">Period average</div>
+      <div class="histogram" id="histAvgFee"></div>
+      <div class="kpi-sub"><span id="kpiAvgFeeBreakdown">Period average</span></div>
     </div>
-    <div class="kpi-card c-purple">
-      <div class="kpi-label">Avg: Creation → First Update</div>
-      <div class="kpi-value" id="kpiAvgUpdate">—</div>
-      <div class="kpi-sub">Days to first contact</div>
+    <div class="kpi-card c-rtc">
+      <div class="kpi-label">Overall SLA Compliance</div>
+      <div class="kpi-value" id="kpiSLA">—</div>
+      <div class="kpi-sub" id="kpiSLASub">Across all measurable SLAs</div>
     </div>
   </div>
 
-  <!-- KPIs ROW 2 -->
-  <div class="kpi-row-2">
-    <div class="kpi-card c-blue">
-      <div class="kpi-label">Avg: Creation → Report</div>
-      <div class="kpi-value" id="kpiAvgReport">—</div>
-      <div class="kpi-sub">Instruction to report sent</div>
+  <!-- RTC -->
+  <div class="section-label" id="rtcSectionLabel" style="display:none">RTC Performance <span style="font-weight:400;color:var(--muted);font-size:11px;text-transform:none;margin-left:8px">48h report target</span></div>
+  <div class="kpi-row" id="rtcKpiRow" style="display:none">
+    <div class="kpi-card rtc-perf">
+      <div class="kpi-label">RTC Cases</div>
+      <div class="kpi-value" id="kpiRtcCases">—</div>
+      <div class="kpi-sub" id="kpiRtcCasesSub">—</div>
+    </div>
+    <div class="kpi-card rtc-perf">
+      <div class="kpi-label">RTC Avg Fee</div>
+      <div class="kpi-value" id="kpiRtcAvgFee">—</div>
+      <div class="kpi-sub" id="kpiRtcTotalFees">—</div>
+    </div>
+    <div class="kpi-card rtc-perf" title="Calendar days from Date Statement Obtained to Date Report Sent for RTC-type cases. Target ≤ 2 days (48 hrs).">
+      <div class="kpi-label">RTC Stmt → Report</div>
+      <div class="kpi-value" id="kpiRtcStmtReport">—</div>
+      <div class="histogram" id="histRtcStmtReport"></div>
+      <div class="kpi-sub" id="kpiRtcStmtSub">target ≤2d</div>
+    </div>
+    <div class="kpi-card rtc-perf" title="Percentage of RTC-type cases where the report was sent within 48 hours of the statement being obtained.">
+      <div class="kpi-label">RTC Report SLA</div>
+      <div class="kpi-value" id="kpiRtcSla">—</div>
+      <div class="kpi-sub" id="kpiRtcSlaSub">≤ 48 hours</div>
+    </div>
+  </div>
+
+  <!-- GENERAL -->
+  <div class="section-label" id="genSectionLabel" style="display:none">General Case Types <span style="font-weight:400;color:var(--muted);font-size:11px;text-transform:none;margin-left:8px">5d update · 72h report</span></div>
+  <div class="kpi-row" id="genKpiRow" style="display:none">
+    <div class="kpi-card c-green">
+      <div class="kpi-label">General Cases</div>
+      <div class="kpi-value" id="kpiGenCases">—</div>
+      <div class="kpi-sub" id="kpiGenCasesSub">—</div>
     </div>
     <div class="kpi-card c-amber">
-      <div class="kpi-label">Avg: Statement → Report</div>
-      <div class="kpi-value" id="kpiAvgStmtReport">—</div>
-      <div class="kpi-sub">Statement to final report</div>
+      <div class="kpi-label">General Avg Fee</div>
+      <div class="kpi-value" id="kpiGenAvgFee">—</div>
+      <div class="kpi-sub" id="kpiGenTotalFees">—</div>
     </div>
-    <div class="kpi-card c-green">
-      <div class="kpi-label">Avg: Creation → Invoice</div>
-      <div class="kpi-value" id="kpiAvgInvoice">—</div>
-      <div class="kpi-sub">Instruction to invoiced</div>
+    <div class="kpi-card c-purple" title="Calendar days from case creation to first client update for non-RTC cases. SLA target ≤ 5 days.">
+      <div class="kpi-label">Creation → First Update</div>
+      <div class="kpi-value" id="kpiGenUpdate">—</div>
+      <div class="histogram" id="histGenUpdate"></div>
+      <div class="kpi-sub" id="kpiGenUpdateSub">target ≤5d</div>
     </div>
-    <div class="kpi-card c-rtc" id="kpiSLACard">
-      <div class="kpi-label">SLA Compliance <span class="kpi-tag">RTC</span></div>
-      <div class="kpi-value" id="kpiSLA">—</div>
-      <div class="kpi-sub" id="kpiSLASub">Met / not met</div>
+    <div class="kpi-card c-blue" title="Calendar days from Date Statement Obtained to Date Report Sent for non-RTC cases. Target ≤ 3 days (72 hrs).">
+      <div class="kpi-label">General Stmt → Report</div>
+      <div class="kpi-value" id="kpiGenStmtReport">—</div>
+      <div class="histogram" id="histGenStmtReport"></div>
+      <div class="kpi-sub" id="kpiGenStmtSub">target ≤3d</div>
     </div>
   </div>
 
-  <!-- MONTHLY CHARTS -->
+  <!-- FEES BY WORK TYPE -->
+  <div class="section-label">Fees by Work Type</div>
+  <div class="fee-grid" id="feeGrid"></div>
+
+  <!-- MONTHLY PERFORMANCE -->
   <div class="section-label">Monthly Performance</div>
   <div class="grid-2">
     <div class="card">
-      <div class="card-header"><span class="card-title">Revenue by Month</span><span class="card-badge">Total Fees + Running Avg</span></div>
-      <div style="height:210px"><canvas id="chartRevenue"></canvas></div>
+      <div class="card-header"><span class="card-title">Revenue by Month</span></div>
+      <div style="height:180px"><canvas id="chartRevenue"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-header"><span class="card-title">Avg Days: Creation → Report</span><span class="card-badge">Monthly Average</span></div>
-      <div style="height:210px"><canvas id="chartTurnaround"></canvas></div>
+      <div class="card-header"><span class="card-title">Avg Fee per Case / Month</span></div>
+      <div style="height:180px"><canvas id="chartAvgFee"></canvas></div>
     </div>
   </div>
-
   <div class="grid-2">
     <div class="card">
-      <div class="card-header"><span class="card-title">Case Volume</span><span class="card-badge">Cases per Month</span></div>
-      <div style="height:190px"><canvas id="chartCaseCount"></canvas></div>
+      <div class="card-header"><span class="card-title">SLA Compliance by Month</span></div>
+      <div style="height:180px"><canvas id="chartSLA"></canvas></div>
     </div>
-    <div class="card rtc-card" id="slaChartCard">
-      <div class="card-header"><span class="card-title">SLA Compliance <span class="kpi-tag">RTC</span></span><span class="card-badge">% Met per Month</span></div>
-      <div style="height:190px"><canvas id="chartSLA"></canvas></div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Case Volume by Month</span></div>
+      <div style="height:180px"><canvas id="chartCaseCount"></canvas></div>
     </div>
   </div>
-
-  <!-- COMPOSITION -->
-  <div class="section-label">Case Composition &amp; Financials</div>
-  <div class="grid-3">
+  <div class="grid-full">
     <div class="card">
-      <div class="card-header"><span class="card-title">Case Type — Volume</span><span class="card-badge">By Count</span></div>
-      <div style="height:200px"><canvas id="chartTypePie"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">Case Type — Revenue</span><span class="card-badge">By Value £</span></div>
+      <div class="card-header"><span class="card-title">Revenue by Work Type</span></div>
       <div style="height:200px"><canvas id="chartRevPie"></canvas></div>
     </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">Avg Fee per Case / Month</span><span class="card-badge">£ + Running Avg</span></div>
-      <div style="height:200px"><canvas id="chartAvgFee"></canvas></div>
-    </div>
   </div>
 
-  <!-- MONTHLY TABLE -->
+  <!-- MONTHLY SUMMARY TABLE -->
   <div class="section-label">Monthly Summary</div>
   <div class="grid-full">
     <div class="card">
@@ -238,11 +309,12 @@
             <th>Total Fees</th>
             <th>Avg Fee</th>
             <th>Avg: Create→Update</th>
-            <th>Avg: Create→Report</th>
             <th>Avg: Stmt→Report</th>
-            <th>Avg: Create→Invoice</th>
-            <th class="rtc-col">SLA Met</th>
-            <th class="rtc-col">SLA Not Met</th>
+            <th>Ack ≤4h</th>
+            <th>Contact ≤24h</th>
+            <th class="col-update">Update ≤5d</th>
+            <th class="col-rep-gen">Report ≤72h</th>
+            <th class="col-rep-rtc">Report RTC ≤48h</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -271,17 +343,18 @@
             <th>Report Sent</th>
             <th>Days: Create→Update</th>
             <th>Days: Stmt→Report</th>
-            <th>Days: Create→Report</th>
-            <th>Days: Create→Invoice</th>
             <th>Invoice</th>
-            <th class="rtc-col">SLA</th>
+            <th>Ack</th>
+            <th>Contact</th>
+            <th class="col-update">Update</th>
+            <th>Report</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody id="caseTableBody"></tbody>
       </table>
       </div>
-      <div class="proxy-note" style="margin-top:10px;padding:0 4px">† Report date estimated from last status change (invoice date). Populate "Date Report sent to client?" in TrackOps for exact figures.</div>
+      <div class="proxy-note" style="margin-top:10px;padding:0 4px">† Report SLA measured from "Date client first updated?" because no statement date was recorded for this case. For exact figures populate "Date statement obtained" in TrackOps.</div>
     </div>
   </div>
 
@@ -293,6 +366,14 @@
 </div>
 
 <script>
+// Visible JS error banner — temporary diagnostic
+window.addEventListener('error', e => {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#c0392b;color:#fff;padding:14px 20px;font:13px/1.4 monospace;white-space:pre-wrap;';
+  el.textContent = '⚠ JS ERROR: ' + e.message + '\nat ' + (e.filename||'?') + ':' + (e.lineno||'?') + ':' + (e.colno||'?');
+  document.body && document.body.appendChild(el);
+});
+
 const authCode  = sessionStorage.getItem('dlb_auth');
 const clientFile = sessionStorage.getItem('dlb_client');
 if (!authCode || !clientFile) { window.location.href = 'index.html'; }
@@ -334,8 +415,9 @@ function logout() { sessionStorage.clear(); window.location.href = 'index.html';
 function renderDashboard(CLIENT) {
   const M      = CLIENT.monthly;
   const CASES  = CLIENT.cases || [];
-  const isRTC  = CLIENT.is_rtc_client === true;
   const months = M.map(m => m.month);
+  const hasRTC     = CLIENT.has_rtc_cases === true;
+  const hasGeneral = CLIENT.has_general_cases !== false;
 
   // Header
   document.getElementById('clientChip').textContent     = CLIENT.client_name;
@@ -348,17 +430,17 @@ function renderDashboard(CLIENT) {
   document.getElementById('footerDate').textContent =
     'Accessed: ' + new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'});
 
-  if (isRTC) { document.getElementById('rtcChip').style.display = 'block'; }
-
   // KPIs
   const totalRev   = M.reduce((a,m) => a + (m.total_fees||0), 0);
   const totalCases = M.reduce((a,m) => a + (m.case_count||0), 0);
   const avgFee     = totalCases ? Math.round(totalRev / totalCases) : 0;
 
-  const avgUpdate  = CLIENT.avg_days_creation_to_update  || 0;
-  const avgReport  = CLIENT.avg_days_creation_to_report  || 0;
-  const avgStmt    = CLIENT.avg_days_stmt_to_report      || 0;
-  const avgInvoice = CLIENT.avg_days_creation_to_invoice || 0;
+  // Overall + per-segment day averages
+  const avgUpdate    = CLIENT.avg_days_creation_to_update          || 0;
+  const avgUpdateGen = CLIENT.avg_days_creation_to_update_general  || 0;
+  const avgStmt      = CLIENT.avg_days_stmt_to_report              || 0;
+  const avgStmtRtc   = CLIENT.avg_days_stmt_to_report_rtc          || 0;
+  const avgStmtGen   = CLIENT.avg_days_stmt_to_report_general      || 0;
   const slaMet     = CLIENT.sla_met     || 0;
   const slaNotMet  = CLIENT.sla_not_met || 0;
   const slaTot     = slaMet + slaNotMet;
@@ -369,12 +451,134 @@ function renderDashboard(CLIENT) {
   document.getElementById('kpiCases').textContent      = totalCases;
   document.getElementById('kpiCasesSub').textContent   = M.filter(m => m.case_count > 0).length + ' active months';
   document.getElementById('kpiAvgFee').textContent     = '£' + avgFee.toLocaleString();
-  document.getElementById('kpiAvgUpdate').textContent  = avgUpdate ? avgUpdate + 'd' : '—';
-  document.getElementById('kpiAvgReport').textContent  = avgReport ? avgReport + 'd' : '—';
-  document.getElementById('kpiAvgStmtReport').textContent = avgStmt ? avgStmt + 'd' : '—';
-  document.getElementById('kpiAvgInvoice').textContent = avgInvoice ? avgInvoice + 'd' : '—';
-  document.getElementById('kpiSLA').textContent        = isRTC ? (slaPct + '%') : 'N/A';
-  document.getElementById('kpiSLASub').textContent     = isRTC ? (slaMet + ' met, ' + slaNotMet + ' not met') : 'RTC clients only';
+  // Histogram helper — bars in red when over SLA threshold (or null for no threshold)
+  function renderHistogram(el, days, threshold) {
+    if (!el) return;
+    if (!days.length) { el.innerHTML = '<div style="font-size:10px;color:var(--muted);align-self:center;margin:auto">No data yet</div>'; return; }
+    const max = Math.max(...days);
+    const buckets = [];
+    for (let i = 0; i <= max; i++) buckets.push(0);
+    for (const d of days) buckets[d]++;
+    const peak = Math.max(...buckets);
+    el.innerHTML = buckets.map((count, day) => {
+      const h = peak ? Math.max(2, (count / peak) * 100) : 2;
+      const cls = (threshold !== null && day > threshold) ? 'h-bar h-miss' : 'h-bar';
+      return `<div class="${cls}" style="height:${h}%" title="${count} case${count===1?'':'s'} at ${day} day${day===1?'':'s'}">${(day===0 || day===max) ? `<span class="h-lbl">${day}d</span>` : ''}</div>`;
+    }).join('');
+  }
+
+  // ── RTC PERFORMANCE SECTION ─────────────────────────────────
+  if (hasRTC) {
+    document.getElementById('rtcSectionLabel').style.display = 'flex';
+    document.getElementById('rtcKpiRow').style.display       = 'flex';
+    const rtcCases = CASES.filter(c => c.is_rtc_case);
+    const rtcN = CLIENT.rtc_case_count || 0;
+    const totalN = CLIENT.total_cases || CASES.length;
+    document.getElementById('kpiRtcCases').textContent     = rtcN;
+    document.getElementById('kpiRtcCasesSub').textContent  = totalN ? `${Math.round(rtcN/totalN*100)}% of total cases` : '—';
+    document.getElementById('kpiRtcAvgFee').textContent    = '£' + (CLIENT.avg_fee_rtc || 0).toLocaleString();
+    document.getElementById('kpiRtcTotalFees').textContent = 'Total £' + (CLIENT.total_fees_rtc || 0).toLocaleString();
+    document.getElementById('kpiRtcStmtReport').textContent = avgStmtRtc ? avgStmtRtc + 'd' : '—';
+    const rtcStmtDays = rtcCases.map(c => c.days_stmt_to_report).filter(d => d !== null);
+    renderHistogram(document.getElementById('histRtcStmtReport'), rtcStmtDays, 2);
+    document.getElementById('kpiRtcStmtSub').textContent = `${rtcStmtDays.length} measurable case${rtcStmtDays.length===1?'':'s'} · target ≤2d`;
+    const rPct = CLIENT.sla_report_rtc_pct;
+    document.getElementById('kpiRtcSla').textContent = (rPct === null || rPct === undefined) ? '—' : rPct + '%';
+    // Compute met/n on the fly: pct = met/n*100 → met = round(pct*n/100), need n separately
+    const rtcMeasurable = rtcCases.filter(c => c.sla_report !== null);
+    const rtcMet = rtcMeasurable.filter(c => c.sla_report === true).length;
+    document.getElementById('kpiRtcSlaSub').textContent = `${rtcMet}/${rtcMeasurable.length} measurable · target ≤48h`;
+  }
+
+  // ── GENERAL PERFORMANCE SECTION ─────────────────────────────
+  if (hasGeneral) {
+    document.getElementById('genSectionLabel').style.display = 'flex';
+    document.getElementById('genKpiRow').style.display       = 'flex';
+    const genCases = CASES.filter(c => !c.is_rtc_case);
+    const genN = CLIENT.general_case_count || 0;
+    const totalN = CLIENT.total_cases || CASES.length;
+    document.getElementById('kpiGenCases').textContent     = genN;
+    document.getElementById('kpiGenCasesSub').textContent  = totalN ? `${Math.round(genN/totalN*100)}% of total cases` : '—';
+    document.getElementById('kpiGenAvgFee').textContent    = '£' + (CLIENT.avg_fee_general || 0).toLocaleString();
+    document.getElementById('kpiGenTotalFees').textContent = 'Total £' + (CLIENT.total_fees_general || 0).toLocaleString();
+    document.getElementById('kpiGenUpdate').textContent    = avgUpdateGen ? avgUpdateGen + 'd' : '—';
+    const genUpdateDays = genCases.map(c => c.days_creation_to_update).filter(d => d !== null);
+    renderHistogram(document.getElementById('histGenUpdate'), genUpdateDays, 5);
+    const updPct = CLIENT.sla_update_pct;
+    document.getElementById('kpiGenUpdateSub').textContent = (updPct === null || updPct === undefined)
+      ? `${genUpdateDays.length} measurable · target ≤5d`
+      : `${updPct}% within SLA · ${genUpdateDays.length} measurable · target ≤5d`;
+    document.getElementById('kpiGenStmtReport').textContent = avgStmtGen ? avgStmtGen + 'd' : '—';
+    const genStmtDays = genCases.map(c => c.days_stmt_to_report).filter(d => d !== null);
+    renderHistogram(document.getElementById('histGenStmtReport'), genStmtDays, 3);
+    const gPct = CLIENT.sla_report_general_pct;
+    document.getElementById('kpiGenStmtSub').textContent = (gPct === null || gPct === undefined)
+      ? `${genStmtDays.length} measurable · target ≤3d`
+      : `${gPct}% within SLA · ${genStmtDays.length} measurable · target ≤3d`;
+  }
+
+  // Fee Breakdown by Work Type — overall card first, then one per work-type bucket
+  // (RTC-flagged cases are bucketed as "RTC" regardless of literal Case Type).
+  const fg = document.getElementById('feeGrid');
+  if (CLIENT.fees_by_type && CLIENT.fees_by_type.length) {
+    const overallTotal = (CLIENT.total_fees_rtc || 0) + (CLIENT.total_fees_general || 0);
+    const overallN     = (CLIENT.rtc_case_count || 0) + (CLIENT.general_case_count || 0);
+    const overallAvg   = overallN ? Math.round(overallTotal / overallN * 100) / 100 : 0;
+    const overallCard = `
+      <div class="fee-card overall">
+        <div class="fc-label">All Work Types</div>
+        <div class="fc-value">£${overallAvg.toLocaleString()}</div>
+        <div class="fc-sub">avg / case · ${overallN} case${overallN===1?'':'s'}</div>
+        <div class="fc-total">Total £${overallTotal.toLocaleString()}</div>
+      </div>`;
+    const typeCards = CLIENT.fees_by_type.map(b => `
+      <div class="fee-card ${b.is_rtc ? 'rtc' : ''}">
+        <div class="fc-label">${b.type}</div>
+        <div class="fc-value">£${(b.avg_fee || 0).toLocaleString()}</div>
+        <div class="fc-sub">avg / case · ${b.case_count} case${b.case_count===1?'':'s'}</div>
+        <div class="fc-total">Total £${(b.total_fees || 0).toLocaleString()}</div>
+      </div>`).join('');
+    fg.innerHTML = overallCard + typeCards;
+  } else {
+    fg.innerHTML = '<div class="fee-card"><div class="fc-label">No data</div></div>';
+  }
+
+  // Avg Fee KPI — RTC vs General split + fee distribution histogram (bucketed by £200)
+  const avgFeeRtc = CLIENT.avg_fee_rtc || 0;
+  const avgFeeGen = CLIENT.avg_fee_general || 0;
+  const rtcN  = CLIENT.rtc_case_count     || 0;
+  const genN  = CLIENT.general_case_count || 0;
+  const bd = [];
+  if (rtcN) bd.push(`<span style="color:#7c3aed">RTC £${avgFeeRtc.toLocaleString()}</span> <span style="color:var(--muted);font-size:10px">(${rtcN})</span>`);
+  if (genN) bd.push(`<span style="color:#5a9e7c">General £${avgFeeGen.toLocaleString()}</span> <span style="color:var(--muted);font-size:10px">(${genN})</span>`);
+  document.getElementById('kpiAvgFeeBreakdown').innerHTML = bd.join(' · ') || 'Period average';
+  // Fee histogram — bucketed in £200 bands, label first and last bucket only
+  const fees = CASES.map(c => c.invoice || 0).filter(v => v > 0);
+  const feeEl = document.getElementById('histAvgFee');
+  if (!fees.length) {
+    feeEl.innerHTML = '<div style="font-size:10px;color:var(--muted);align-self:center;margin:auto">No invoiced cases yet</div>';
+  } else {
+    const W = 200;
+    const maxFee = Math.max(...fees);
+    const nBuckets = Math.min(20, Math.ceil(maxFee / W) || 1);
+    const buckets = new Array(nBuckets).fill(0);
+    for (const f of fees) {
+      const i = Math.min(nBuckets - 1, Math.floor(f / W));
+      buckets[i]++;
+    }
+    const peak = Math.max(...buckets);
+    feeEl.innerHTML = buckets.map((cnt, i) => {
+      const h = peak ? Math.max(2, (cnt / peak) * 100) : 2;
+      const lo = i * W, hi = (i + 1) * W;
+      const lbl = (i === 0) ? '<span class="h-lbl">£0</span>'
+                : (i === buckets.length - 1) ? `<span class="h-lbl">£${(maxFee >= W * nBuckets ? `${(W*nBuckets/1000).toFixed(1)}k+` : `${(hi/1000).toFixed(1)}k`)}</span>`
+                : '';
+      return `<div class="h-bar" style="height:${h}%" title="${cnt} case${cnt===1?'':'s'} between £${lo}–£${hi}">${lbl}</div>`;
+    }).join('');
+  }
+  const overallPct = CLIENT.sla_compliance_pct;
+  document.getElementById('kpiSLA').textContent        = (overallPct ?? 0) + '%';
+  document.getElementById('kpiSLASub').textContent     = slaMet + ' report met, ' + slaNotMet + ' not met';
 
   // ── CHARTS ──
 
@@ -387,19 +591,6 @@ function renderDashboard(CLIENT) {
     options: { responsive:true, maintainAspectRatio:false,
       plugins:{ legend:{position:'top',labels:{boxWidth:10,padding:14}}, tooltip:{callbacks:{label:ctx=>' £'+(ctx.raw||0).toLocaleString()}} },
       scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(30,42,69,0.6)'}, ticks:{callback:v=>'£'+v.toLocaleString()}} }
-    }
-  });
-
-  new Chart(document.getElementById('chartTurnaround'), {
-    type: 'bar',
-    data: { labels: months, datasets: [
-      { label:'Create→Report', data:M.map(m=>m.ave_days_creation_to_report||null), backgroundColor:C.amberA, borderColor:C.amber, borderWidth:1.5, borderRadius:4, order:3 },
-      { label:'Create→Update', data:M.map(m=>m.ave_days_creation_to_update||null), backgroundColor:C.purpleA, borderColor:C.purple, borderWidth:1.5, borderRadius:4, order:2 },
-      { label:'Running Avg', data:runningAvg(M.map(m=>m.ave_days_creation_to_report)), type:'line', borderColor:C.blue, borderWidth:2, pointRadius:3, tension:0.4, fill:false, order:1 }
-    ]},
-    options: { responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{position:'top',labels:{boxWidth:10,padding:14}}, tooltip:{callbacks:{label:ctx=>' '+(ctx.raw||0)+'d'}} },
-      scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(30,42,69,0.6)'}, ticks:{callback:v=>v+'d'}} }
     }
   });
 
@@ -427,21 +618,36 @@ function renderDashboard(CLIENT) {
     }
   });
 
-  const typeMap={}, revMap={};
+  // Bucket revenue by the same logic used for fee cards: RTC-flagged cases collapse to "RTC"
+  const revMap = {};
   CASES.forEach(c => {
-    const t = c.type || 'Unknown';
-    if (t==='Unknown') return;
-    typeMap[t] = (typeMap[t]||0) + 1;
-    revMap[t]  = (revMap[t]||0) + (c.invoice||0);
+    const t = c.is_rtc_case ? 'RTC' : (c.type || 'Unknown');
+    if (t === 'Unknown') return;
+    revMap[t] = (revMap[t] || 0) + (c.invoice || 0);
   });
-  const pieColors = ['rgba(45,108,223,0.8)','rgba(155,93,229,0.8)','rgba(245,166,35,0.8)','rgba(31,212,160,0.8)','rgba(232,78,106,0.8)'];
+  // Unified color palette — keep RTC = purple to match the KPI/fee-card accents.
+  const TYPE_PALETTE = {
+    'RTC':                       'rgba(124,58,237,0.8)',  // purple — locked to RTC everywhere
+    'Motor Fraud':               'rgba(74,127,193,0.8)',  // blue
+    'Motor Theft':               'rgba(232,78,106,0.8)',  // red
+    'Large Loss':                'rgba(245,166,35,0.8)',  // amber
+    'Motor Liability':           'rgba(31,212,160,0.8)',  // teal
+    'Intelligence Report':       'rgba(125,143,168,0.8)', // slate
+    'Household fraud claim':     'rgba(217,119,87,0.8)',  // burnt-orange
+    'Gap Insurance investigation': 'rgba(155,93,229,0.6)',// lilac (rare; muted to avoid RTC clash)
+    'Surveillance':              'rgba(90,158,124,0.8)',  // green
+    'Trace and Locate only':     'rgba(184,134,11,0.8)',  // gold
+    'Fatality':                  'rgba(160,82,45,0.8)',   // sienna
+    'Employers Liability':       'rgba(70,130,180,0.6)',  // steel-blue
+    'Public Liability':          'rgba(106,90,205,0.6)',  // slate-blue
+    'Motor Fire':                'rgba(255,99,71,0.8)',   // tomato
+  };
+  const colorForType = t => TYPE_PALETTE[t] || 'rgba(138,149,163,0.7)';
+  const revLabels = Object.keys(revMap);
+  const revColors = revLabels.map(colorForType);
   const pieOpts = { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10,font:{size:11}}}} };
-  new Chart(document.getElementById('chartTypePie'), {
-    type:'doughnut', data:{labels:Object.keys(typeMap), datasets:[{data:Object.values(typeMap), backgroundColor:pieColors, borderColor:'rgba(10,13,20,0.8)', borderWidth:2}]},
-    options:{...pieOpts, plugins:{...pieOpts.plugins, tooltip:{callbacks:{label:ctx=>' '+ctx.label+': '+ctx.raw+' cases'}}}}
-  });
   new Chart(document.getElementById('chartRevPie'), {
-    type:'doughnut', data:{labels:Object.keys(revMap), datasets:[{data:Object.values(revMap), backgroundColor:pieColors, borderColor:'rgba(10,13,20,0.8)', borderWidth:2}]},
+    type:'doughnut', data:{labels:revLabels, datasets:[{data:Object.values(revMap), backgroundColor:revColors, borderColor:'rgba(10,13,20,0.8)', borderWidth:2}]},
     options:{...pieOpts, plugins:{...pieOpts.plugins, tooltip:{callbacks:{label:ctx=>' '+ctx.label+': £'+ctx.raw.toLocaleString()}}}}
   });
   new Chart(document.getElementById('chartAvgFee'), {
@@ -456,11 +662,17 @@ function renderDashboard(CLIENT) {
   });
 
   // ── MONTHLY TABLE ──
+  // Hide RTC column at clients with no RTC cases all year (also hide "Update" if no general cases).
+  if (!hasRTC)     document.querySelectorAll('.col-rep-rtc').forEach(el => el.style.display = 'none');
+  if (!hasGeneral) document.querySelectorAll('.col-rep-gen, .col-update').forEach(el => el.style.display = 'none');
   const tbody = document.getElementById('tableBody');
+  const slaCell = (pct, met, n, hide) => {
+    if (hide) return '';
+    if (pct === null || pct === undefined || !n) return '<td>—</td>';
+    const cls = pct >= 80 ? 'b-sla-met' : pct >= 50 ? 'b-mid' : 'b-sla-notmet';
+    return `<td><span class="badge ${cls}">${pct}%</span> <span class="sla-frac">(${met}/${n})</span></td>`;
+  };
   M.forEach(m => {
-    const sc = m.sla_compliance_pct || 0;
-    const slaColor = sc>=80?'#5a9e7c':sc>=50?'#b8860b':'#c0392b';
-    const slaBg    = sc>=80?'rgba(90,158,124,0.15)':sc>=50?'rgba(184,134,11,0.15)':'rgba(192,57,43,0.15)';
     const d = (v, suf='d') => v>0 ? v+suf : '—';
     tbody.innerHTML += `<tr>
       <td><strong>${m.month}</strong></td>
@@ -468,22 +680,27 @@ function renderDashboard(CLIENT) {
       <td>${m.total_fees>0?'£'+m.total_fees.toLocaleString():'—'}</td>
       <td>${m.ave_fees>0?'£'+m.ave_fees.toLocaleString():'—'}</td>
       <td style="color:${daysColor(m.ave_days_creation_to_update)}">${d(m.ave_days_creation_to_update)}</td>
-      <td style="color:${daysColor(m.ave_days_creation_to_report)}">${d(m.ave_days_creation_to_report)}</td>
       <td style="color:${daysColor(m.ave_days_stmt_to_report)}">${d(m.ave_days_stmt_to_report)}</td>
-      <td style="color:${daysColor(m.ave_days_creation_to_invoice)}">${d(m.ave_days_creation_to_invoice)}</td>
-      <td>${m.case_count>0&&isRTC?'<span class="badge b-sla-met">'+m.sla_met+'</span>':'—'}</td>
-      <td>${m.case_count>0&&isRTC?'<span class="badge '+(m.sla_not_met>0?'b-sla-notmet':'b-na')+'">'+m.sla_not_met+'</span>':'—'}</td>
+      ${slaCell(m.sla_ack_pct, m.sla_ack_met, m.sla_ack_n)}
+      ${slaCell(m.sla_contact_pct, m.sla_contact_met, m.sla_contact_n)}
+      ${slaCell(m.sla_update_pct, m.sla_update_met, m.sla_update_n, !hasGeneral)}
+      ${slaCell(m.sla_report_general_pct, m.sla_report_general_met, m.sla_report_general_n, !hasGeneral)}
+      ${slaCell(m.sla_report_rtc_pct, m.sla_report_rtc_met, m.sla_report_rtc_n, !hasRTC)}
     </tr>`;
   });
 
   // ── CASE TABLE ──
   const cbody = document.getElementById('caseTableBody');
   document.getElementById('caseCountBadge').textContent = CASES.length + ' Cases';
+  // Per-case SLA badge — true → ✓, false → ✗, null → —. RTC clients have no Update SLA.
+  const caseSla = (v, hide, proxy) => {
+    if (hide) return '';
+    if (v === true)  return `<td><span class="badge b-sla-met">✓</span>${proxy?' <span class="proxy-note" title="Report SLA measured from first-update date because statement date was not recorded">†</span>':''}</td>`;
+    if (v === false) return `<td><span class="badge b-sla-notmet">✗</span>${proxy?' <span class="proxy-note" title="Report SLA measured from first-update date because statement date was not recorded">†</span>':''}</td>`;
+    return '<td><span class="badge b-na">—</span></td>';
+  };
   CASES.forEach(c => {
     const tc = (c.type||'').includes('Fraud')?'b-mf':(c.type||'').includes('Theft')?'b-mt':(c.type||'').includes('Surv')?'b-sv':'b-ll';
-    const sla = c.sla_met===true ? '<span class="badge b-sla-met">✓ Met</span>'
-              : c.sla_met===false ? '<span class="badge b-sla-notmet">✗ Not met</span>'
-              : '<span class="badge b-na">—</span>';
     const statusBadge = (c.status||'').toLowerCase().includes('paid') ? '<span class="badge b-yes">Paid</span>'
       : (c.status||'').toLowerCase().includes('invoic') ? '<span class="badge" style="background:rgba(184,134,11,0.15);color:#b8860b">Invoiced</span>'
       : `<span class="badge b-na">${c.status||'—'}</span>`;
@@ -497,10 +714,11 @@ function renderDashboard(CLIENT) {
       <td>${c.report_sent||'—'}${c.report_proxy?' <span class="proxy-note">†</span>':''}</td>
       <td>${daysCell(c.days_creation_to_update, false)}</td>
       <td>${daysCell(c.days_stmt_to_report, c.report_proxy)}</td>
-      <td>${daysCell(c.days_creation_to_report, c.report_proxy)}</td>
-      <td>${daysCell(c.days_creation_to_invoice, false)}</td>
       <td>${c.invoice>0?'£'+c.invoice.toLocaleString():'—'}</td>
-      <td>${isRTC?sla:'—'}</td>
+      ${caseSla(c.sla_ack, false, false)}
+      ${caseSla(c.sla_contact, false, false)}
+      ${caseSla(c.sla_update, !hasGeneral, false)}
+      ${caseSla(c.sla_report, false, c.report_proxy)}
       <td>${statusBadge}</td>
     </tr>`;
   });

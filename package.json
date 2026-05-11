@@ -1,0 +1,14 @@
+{
+  "name": "mi-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DLB Investigations Ltd — MI Portal: static dashboard + monthly TrackOps CSV processor + automated client mailer",
+  "scripts": {
+    "process": "node scripts/process-csv.js",
+    "mail":    "node scripts/send-monthly-email.js",
+    "mail:dry": "DRY_RUN=1 node scripts/send-monthly-email.js"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}
