@@ -28,15 +28,14 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install --omit=dev
-
-      - name: Send monthly MI emails
+      - name: Send monthly MI emails via Microsoft Graph
         env:
-          SMTP_USER:      ${{ secrets.SMTP_USER }}
-          SMTP_PASS:      ${{ secrets.SMTP_PASS }}
-          SMTP_FROM_NAME: ${{ secrets.SMTP_FROM_NAME }}
-          PORTAL_URL:     ${{ vars.PORTAL_URL }}
-          DRY_RUN:        ${{ inputs.dry_run && '1' || '' }}
-          ONLY_TO:        ${{ inputs.only_to }}
+          GRAPH_TENANT_ID:     ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID:     ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_SECRET: ${{ secrets.GRAPH_CLIENT_SECRET }}
+          GRAPH_SENDER:        ${{ secrets.GRAPH_SENDER }}
+          GRAPH_FROM_NAME:     ${{ secrets.GRAPH_FROM_NAME }}
+          PORTAL_URL:          ${{ vars.PORTAL_URL }}
+          DRY_RUN:             ${{ inputs.dry_run && '1' || '' }}
+          ONLY_TO:             ${{ inputs.only_to }}
         run: npm run mail

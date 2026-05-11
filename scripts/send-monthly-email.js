@@ -2,31 +2,44 @@
 // Send the monthly MI release notification to every client in
 // scripts/client-recipients.json that has at least one address.
 //
+// Uses Microsoft Graph (POST /users/{sender}/sendMail) authenticated with the
+// OAuth2 client-credentials grant. The Azure AD app registration must have the
+// Microsoft Graph "Mail.Send" application permission with admin consent.
+//
 // Required env vars:
-//   SMTP_USER       full email of the sending mailbox (e.g. midata@dlbinvestigations.co.uk)
-//   SMTP_PASS       App Password for that mailbox (M365 SMTP AUTH)
-//   SMTP_FROM_NAME  display name shown in the From line (e.g. "DLB Investigations")
+//   GRAPH_TENANT_ID       Directory (tenant) ID of the Azure AD app
+//   GRAPH_CLIENT_ID       Application (client) ID
+//   GRAPH_CLIENT_SECRET   client secret value (NOT the secret ID)
+//   GRAPH_SENDER          full email of the sending mailbox (e.g. midata@dlbinvestigations.co.uk)
 // Optional env vars:
-//   PORTAL_URL      override the default https://dlbltd.github.io/MI-Portal/
-//   PERIOD_LABEL    override the auto "Jan–Dec 2026" period label
-//   DRY_RUN=1       log what would be sent but do not actually send
-//   ONLY_TO=email   restrict sending to a single email address (useful for testing)
+//   GRAPH_FROM_NAME       display name in the From line (default "DLB Investigations")
+//   PORTAL_URL            override default https://dlbltd.github.io/MI-Portal/
+//   PERIOD_LABEL          override the auto "Jan–Dec YYYY" period label
+//   DRY_RUN=1             log what would be sent but do not actually send
+//   ONLY_TO=email         restrict to a single recipient (testing)
+//   SAVE_TO_SENT=1        also save a copy in the sender's Sent Items folder
 
 const fs   = require('fs');
 const path = require('path');
-const nodemailer = require('nodemailer');
 
 const ROOT = path.resolve(__dirname, '..');
 const DEFAULT_PORTAL_URL = 'https://dlbltd.github.io/MI-Portal/';
 
-const user = process.env.SMTP_USER;
-const pass = process.env.SMTP_PASS;
-const fromName = process.env.SMTP_FROM_NAME || 'DLB Investigations';
+const tenantId = process.env.GRAPH_TENANT_ID;
+const clientId = process.env.GRAPH_CLIENT_ID;
+const clientSecret = process.env.GRAPH_CLIENT_SECRET;
+const sender = process.env.GRAPH_SENDER;
+const fromName = process.env.GRAPH_FROM_NAME || 'DLB Investigations';
 const portalUrl = process.env.PORTAL_URL || DEFAULT_PORTAL_URL;
 const dryRun = process.env.DRY_RUN === '1';
 const onlyTo = process.env.ONLY_TO;
+const saveToSent = process.env.SAVE_TO_SENT === '1';
 
-if (!user || !pass) { console.error('Missing SMTP_USER or SMTP_PASS env vars'); process.exit(1); }
+if (!dryRun) {
+  const missing = ['GRAPH_TENANT_ID','GRAPH_CLIENT_ID','GRAPH_CLIENT_SECRET','GRAPH_SENDER']
+    .filter(k => !process.env[k]);
+  if (missing.length) { console.error('Missing env vars:', missing.join(', ')); process.exit(1); }
+}
 
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const now = new Date();
@@ -81,21 +94,49 @@ ${fromName}
   return { subject, text, html };
 }
 
-// ── Transport ────────────────────────────────────────────────
-const transporter = nodemailer.createTransport({
-  host: 'smtp.office365.com',
-  port: 587,
-  secure: false,           // STARTTLS upgrade on 587
-  auth: { user, pass },
-  requireTLS: true,
-  tls: { ciphers: 'TLSv1.2' },
-});
+// ── Graph auth + send ────────────────────────────────────────
+async function getToken() {
+  const url = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
+  const body = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    scope: 'https://graph.microsoft.com/.default',
+    grant_type: 'client_credentials',
+  });
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+  const json = await res.json();
+  if (!res.ok) throw new Error(`Token request failed (${res.status}): ${json.error_description || JSON.stringify(json)}`);
+  return json.access_token;
+}
+
+async function sendOne(token, { to, toName, subject, text, html }) {
+  const url = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(sender)}/sendMail`;
+  const body = {
+    message: {
+      subject,
+      body: { contentType: 'HTML', content: html },
+      toRecipients: [{ emailAddress: { address: to, name: toName || to } }],
+      from: { emailAddress: { address: sender, name: fromName } },
+    },
+    saveToSentItems: saveToSent,
+  };
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (res.status === 202) return;
+  let detail = `HTTP ${res.status}`;
+  try { detail = JSON.stringify(await res.json()); } catch {}
+  throw new Error(`Graph sendMail failed: ${detail}`);
+}
 
 // ── Main ─────────────────────────────────────────────────────
 (async () => {
+  let token = null;
   if (!dryRun) {
-    try { await transporter.verify(); }
-    catch (e) { console.error('SMTP auth failed:', e.message); process.exit(1); }
+    try { token = await getToken(); console.log('✓ Graph auth OK'); }
+    catch (e) { console.error('✗ Graph auth failed:', e.message); process.exit(1); }
   }
 
   let sent = 0, skipped = 0, failed = 0;
@@ -113,13 +154,7 @@ const transporter = nodemailer.createTransport({
         continue;
       }
       try {
-        await transporter.sendMail({
-          from: `"${fromName}" <${user}>`,
-          to: `"${r.name}" <${r.email}>`,
-          subject: email.subject,
-          text: email.text,
-          html: email.html,
-        });
+        await sendOne(token, { to: r.email, toName: r.name, subject: email.subject, text: email.text, html: email.html });
         console.log(`  ✓ ${clientName.padEnd(28)} ${r.email}`);
         sent++;
       } catch (e) {
@@ -130,7 +165,6 @@ const transporter = nodemailer.createTransport({
     }
   }
 
-  if (!dryRun) transporter.close();
   console.log(`\nDone. Sent ${sent}, skipped ${skipped} client${skipped===1?'':'s'} with no recipients, failed ${failed}.`);
   if (failed) { console.error(JSON.stringify(fails, null, 2)); process.exit(1); }
 })();
