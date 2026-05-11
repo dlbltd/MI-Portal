@@ -1,12 +1,13 @@
-# Management Information (MI) Report Production & Distribution
+# AIrep001 — Management Information (MI) Report Writing Process
 
-**Document reference:** DLB-QMS-PROC-MI-01
+**Document reference:** AIrep001
 **Version:** 1.0
 **Issue date:** 11 May 2026
 **Owner:** Managing Director, DLB Investigations Ltd
 **Approved by:** Managing Director
 **Next review date:** 11 May 2027
 **Classification:** Internal
+**Related document:** AIarch001 (technical/security architecture — see `docs/AIarch001-MI-Architecture.md`)
 
 ---
 
