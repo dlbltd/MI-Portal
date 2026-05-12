@@ -218,10 +218,10 @@
       <div class="kpi-value" id="kpiRtcCases">—</div>
       <div class="kpi-sub" id="kpiRtcCasesSub">—</div>
     </div>
-    <div class="kpi-card rtc-perf">
-      <div class="kpi-label">RTC Avg Fee</div>
-      <div class="kpi-value" id="kpiRtcAvgFee">—</div>
-      <div class="kpi-sub" id="kpiRtcTotalFees">—</div>
+    <div class="kpi-card rtc-perf" title="Total revenue billed against RTC line items in the period (from the TrackOps invoice details export).">
+      <div class="kpi-label">RTC Revenue</div>
+      <div class="kpi-value" id="kpiRtcRevenue">—</div>
+      <div class="kpi-sub" id="kpiRtcRevenueSub">—</div>
     </div>
     <div class="kpi-card rtc-perf" title="Calendar days from Date Statement Obtained to Date Report Sent for RTC-type cases. Target ≤ 2 days (48 hrs).">
       <div class="kpi-label">RTC Stmt → Report</div>
@@ -244,10 +244,10 @@
       <div class="kpi-value" id="kpiGenCases">—</div>
       <div class="kpi-sub" id="kpiGenCasesSub">—</div>
     </div>
-    <div class="kpi-card c-amber">
-      <div class="kpi-label">General Avg Fee</div>
-      <div class="kpi-value" id="kpiGenAvgFee">—</div>
-      <div class="kpi-sub" id="kpiGenTotalFees">—</div>
+    <div class="kpi-card c-amber" title="Total revenue billed against all non-RTC line items (full investigations, ancillary services etc.) in the period.">
+      <div class="kpi-label">General Revenue</div>
+      <div class="kpi-value" id="kpiGenRevenue">—</div>
+      <div class="kpi-sub" id="kpiGenRevenueSub">—</div>
     </div>
     <div class="kpi-card c-purple" title="Calendar days from case creation to first client update for non-RTC cases. SLA target ≤ 5 days.">
       <div class="kpi-label">Creation → First Update</div>
@@ -482,8 +482,16 @@ function renderDashboard(CLIENT) {
     const totalN = CLIENT.total_cases || CASES.length;
     document.getElementById('kpiRtcCases').textContent     = rtcN;
     document.getElementById('kpiRtcCasesSub').textContent  = totalN ? `${Math.round(rtcN/totalN*100)}% of total cases` : '—';
-    document.getElementById('kpiRtcAvgFee').textContent    = '£' + (CLIENT.avg_fee_rtc || 0).toLocaleString();
-    document.getElementById('kpiRtcTotalFees').textContent = 'Total £' + (CLIENT.total_fees_rtc || 0).toLocaleString();
+    // Pull RTC revenue from invoice line items (the "RTC" item) — the case-CSV figures
+    // inflate the avg because cases with escalated work include non-RTC line items in their total.
+    const rtcItem = (CLIENT.fees_by_item || []).find(x => x.is_rtc);
+    if (rtcItem) {
+      document.getElementById('kpiRtcRevenue').textContent     = '£' + rtcItem.total.toLocaleString();
+      document.getElementById('kpiRtcRevenueSub').textContent  = `${rtcItem.count} line item${rtcItem.count===1?'':'s'} · avg £${rtcItem.avg.toLocaleString()} per line`;
+    } else {
+      document.getElementById('kpiRtcRevenue').textContent     = '£' + (CLIENT.total_fees_rtc || 0).toLocaleString();
+      document.getElementById('kpiRtcRevenueSub').textContent  = 'case-CSV view — invoice details not loaded';
+    }
     document.getElementById('kpiRtcStmtReport').textContent = avgStmtRtc ? avgStmtRtc + 'd' : '—';
     const rtcStmtDays = rtcCases.map(c => c.days_stmt_to_report).filter(d => d !== null);
     renderHistogram(document.getElementById('histRtcStmtReport'), rtcStmtDays, 2);
@@ -505,8 +513,17 @@ function renderDashboard(CLIENT) {
     const totalN = CLIENT.total_cases || CASES.length;
     document.getElementById('kpiGenCases').textContent     = genN;
     document.getElementById('kpiGenCasesSub').textContent  = totalN ? `${Math.round(genN/totalN*100)}% of total cases` : '—';
-    document.getElementById('kpiGenAvgFee').textContent    = '£' + (CLIENT.avg_fee_general || 0).toLocaleString();
-    document.getElementById('kpiGenTotalFees').textContent = 'Total £' + (CLIENT.total_fees_general || 0).toLocaleString();
+    // Sum all non-RTC line items as General revenue
+    const genItems = (CLIENT.fees_by_item || []).filter(x => !x.is_rtc);
+    if (genItems.length) {
+      const genTotal = genItems.reduce((s, x) => s + x.total, 0);
+      const genCount = genItems.reduce((s, x) => s + x.count, 0);
+      document.getElementById('kpiGenRevenue').textContent    = '£' + genTotal.toLocaleString();
+      document.getElementById('kpiGenRevenueSub').textContent = `${genCount} line item${genCount===1?'':'s'} · avg £${Math.round(genTotal/genCount).toLocaleString()} per line`;
+    } else {
+      document.getElementById('kpiGenRevenue').textContent    = '£' + (CLIENT.total_fees_general || 0).toLocaleString();
+      document.getElementById('kpiGenRevenueSub').textContent = 'case-CSV view — invoice details not loaded';
+    }
     document.getElementById('kpiGenUpdate').textContent    = avgUpdateGen ? avgUpdateGen + 'd' : '—';
     const genUpdateDays = genCases.map(c => c.days_creation_to_update).filter(d => d !== null);
     renderHistogram(document.getElementById('histGenUpdate'), genUpdateDays, 5);
