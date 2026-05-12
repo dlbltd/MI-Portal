@@ -33,17 +33,19 @@ const SLA_UPDATE_DAYS = 5;
 // ── CLI args ─────────────────────────────────────────────────
 const args = process.argv.slice(2);
 if (!args.length || args[0].startsWith('--')) {
-  console.error('Usage: node scripts/process-csv.js <csv-path> [--year YYYY] [--out clients]');
+  console.error('Usage: node scripts/process-csv.js <cases-csv> [--invoices <invoices-csv>] [--year YYYY] [--out clients]');
   process.exit(1);
 }
 const csvPath = args[0];
-const opts = { year: null, out: 'clients' };
+const opts = { year: null, out: 'clients', invoices: null };
 for (let i = 1; i < args.length; i++) {
-  if (args[i] === '--year') opts.year = parseInt(args[++i], 10);
-  else if (args[i] === '--out') opts.out = args[++i];
+  if      (args[i] === '--year')     opts.year = parseInt(args[++i], 10);
+  else if (args[i] === '--out')      opts.out  = args[++i];
+  else if (args[i] === '--invoices') opts.invoices = args[++i];
 }
 
-if (!fs.existsSync(csvPath)) { console.error(`CSV not found: ${csvPath}`); process.exit(1); }
+if (!fs.existsSync(csvPath)) { console.error(`Cases CSV not found: ${csvPath}`); process.exit(1); }
+if (opts.invoices && !fs.existsSync(opts.invoices)) { console.error(`Invoices CSV not found: ${opts.invoices}`); process.exit(1); }
 const clientMap = JSON.parse(fs.readFileSync(path.join(__dirname, 'client-map.json'), 'utf8')).clients;
 const outDir = path.resolve(ROOT, opts.out);
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
@@ -138,7 +140,56 @@ function emptyMonthly() {
 // ── Aggregate ────────────────────────────────────────────────
 const byFile = new Map();
 const unmatched = new Map();
+const invoiceUnmatched = new Map();
 let lastDate = null;
+
+// ── Parse invoices CSV (optional) ────────────────────────────
+// Produces, per client file: a Map of line-item → { count, total }, plus a
+// per-case lookup so the case-detail table can show the line-item split.
+function parseInvoices(invPath) {
+  const raw = fs.readFileSync(invPath, 'utf8');
+  const irows = parseCSV(raw);
+  if (!irows.length) return;
+  const ihdr = irows[0].map(h => h.trim());
+  const iidx = Object.fromEntries(ihdr.map((h, i) => [h, i]));
+  const need = ['Client','Case','Item','Total','Invoice'];
+  for (const h of need) if (iidx[h] === undefined) { console.error(`Invoices CSV missing column: ${h}`); process.exit(1); }
+  let totalLines = 0;
+  for (let i = 1; i < irows.length; i++) {
+    const r = irows[i];
+    if (!r || r.length < 5) continue;
+    const clientRaw = (r[iidx['Client']] || '').trim();
+    if (!clientRaw) continue;
+    const mapping = clientMap[clientRaw.toLowerCase()];
+    if (!mapping) { invoiceUnmatched.set(clientRaw, (invoiceUnmatched.get(clientRaw) || 0) + 1); continue; }
+    if (!byFile.has(mapping.file)) byFile.set(mapping.file, { mapping, cases: [], monthly: emptyMonthly() });
+    const bucket = byFile.get(mapping.file);
+    if (!bucket.feesByItem) bucket.feesByItem = new Map();
+    if (!bucket.invoicesByCase) bucket.invoicesByCase = new Map();
+
+    const item = ((r[iidx['Item']] || 'Unknown').trim()) || 'Unknown';
+    const tot  = parseFloat((r[iidx['Total']] || '0').replace(/[^0-9.\-]/g, '')) || 0;
+    const cn   = (r[iidx['Case']] || '').trim();
+    const inv  = (r[iidx['Invoice']] || '').trim();
+
+    if (!bucket.feesByItem.has(item)) bucket.feesByItem.set(item, { item, count: 0, total: 0 });
+    const it = bucket.feesByItem.get(item);
+    it.count++;
+    it.total += tot;
+
+    if (cn) {
+      if (!bucket.invoicesByCase.has(cn)) bucket.invoicesByCase.set(cn, []);
+      bucket.invoicesByCase.get(cn).push({ invoice: inv, item, total: tot });
+    }
+    totalLines++;
+  }
+  return totalLines;
+}
+
+let invoiceLineCount = 0;
+if (opts.invoices) {
+  invoiceLineCount = parseInvoices(opts.invoices);
+}
 
 for (let i = 1; i < rows.length; i++) {
   const r = rows[i];
@@ -347,6 +398,24 @@ function finalise(bucket) {
           .map(b => ({ type: b.type, is_rtc: !!b.is_rtc, case_count: b.case_count, total_fees: round2(b.total_fees), avg_fee: round2(b.total_fees / b.case_count) }))
           .sort((a, b) => b.total_fees - a.total_fees)
       : [],
+    // ── Line-item-driven revenue breakdown (from invoice details CSV) ──
+    fees_by_item: bucket.feesByItem
+      ? [...bucket.feesByItem.values()]
+          .map(b => ({
+            item:    b.item,
+            is_rtc:  /^rtc$/i.test(b.item),
+            count:   b.count,
+            total:   round2(b.total),
+            avg:     b.count ? round2(b.total / b.count) : 0,
+          }))
+          .sort((a, b) => b.total - a.total)
+      : [],
+    total_invoiced_lineitems: bucket.feesByItem
+      ? round2([...bucket.feesByItem.values()].reduce((s, b) => s + b.total, 0))
+      : 0,
+    total_lineitem_count: bucket.feesByItem
+      ? [...bucket.feesByItem.values()].reduce((s, b) => s + b.count, 0)
+      : 0,
   };
 }
 
@@ -414,6 +483,13 @@ var DLB_CLIENT_DATA = {
 ${top.fees_by_type.map(b => `    { type:${jsStr(b.type)}, is_rtc:${b.is_rtc ? 'true' : 'false'}, case_count:${b.case_count}, total_fees:${num(b.total_fees)}, avg_fee:${num(b.avg_fee)} }`).join(',\n')}
   ],
 
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     ${num(top.total_invoiced_lineitems)},
+  total_lineitem_count:         ${top.total_lineitem_count},
+  fees_by_item: [
+${top.fees_by_item.length ? top.fees_by_item.map(b => `    { item:${jsStr(b.item)}, is_rtc:${b.is_rtc ? 'true' : 'false'}, count:${b.count}, total:${num(b.total)}, avg:${num(b.avg)} }`).join(',\n') : '    // no invoice line items in period (run with --invoices to populate)'}
+  ],
+
   monthly: [
 ${monthlyStr}
   ],
@@ -434,7 +510,8 @@ ${casesStr}
     top.has_general_cases ? `rep-gen ${top.sla_report_general_pct ?? '–'}%` : null,
     top.has_rtc_cases     ? `rep-RTC ${top.sla_report_rtc_pct ?? '–'}%`     : null,
   ].filter(Boolean).join(' · ');
-  console.log(`  ✓ ${file.padEnd(22)} ${String(totalCases).padStart(3)} cases  (${rtcCases} RTC)  ${slaParts}`);
+  const invoicePart = top.total_lineitem_count ? `  invoices £${top.total_invoiced_lineitems.toLocaleString()} (${top.total_lineitem_count} lines)` : '';
+  console.log(`  ✓ ${file.padEnd(22)} ${String(totalCases).padStart(3)} cases  (${rtcCases} RTC)  ${slaParts}${invoicePart}`);
 }
 
 if (unmatched.size) {

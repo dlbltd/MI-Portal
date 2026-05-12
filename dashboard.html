@@ -263,8 +263,8 @@
     </div>
   </div>
 
-  <!-- FEES BY WORK TYPE -->
-  <div class="section-label">Fees by Work Type</div>
+  <!-- REVENUE BY SERVICE TYPE (from invoice line items) -->
+  <div class="section-label">Revenue by Service Type <span style="font-weight:400;color:var(--muted);font-size:11px;text-transform:none;margin-left:8px">From invoice line items — actual billed amounts</span></div>
   <div class="fee-grid" id="feeGrid"></div>
 
   <!-- MONTHLY PERFORMANCE -->
@@ -431,9 +431,13 @@ function renderDashboard(CLIENT) {
     'Accessed: ' + new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'});
 
   // KPIs
-  const totalRev   = M.reduce((a,m) => a + (m.total_fees||0), 0);
+  // Revenue: prefer invoice line-item total (more accurate — reflects actual billed value)
+  // and fall back to summing case-CSV monthly totals when invoice data isn't loaded.
+  const caseFeesTotal  = M.reduce((a,m) => a + (m.total_fees||0), 0);
+  const totalRev   = CLIENT.total_invoiced_lineitems || caseFeesTotal;
   const totalCases = M.reduce((a,m) => a + (m.case_count||0), 0);
   const avgFee     = totalCases ? Math.round(totalRev / totalCases) : 0;
+  const usingInvoiceData = (CLIENT.total_invoiced_lineitems || 0) > 0;
 
   // Overall + per-segment day averages
   const avgUpdate    = CLIENT.avg_days_creation_to_update          || 0;
@@ -447,7 +451,9 @@ function renderDashboard(CLIENT) {
   const slaPct     = slaTot ? Math.round(slaMet / slaTot * 100) : 0;
 
   document.getElementById('kpiRevenue').textContent    = '£' + totalRev.toLocaleString();
-  document.getElementById('kpiRevenueSub').textContent = CLIENT.report_period;
+  document.getElementById('kpiRevenueSub').textContent = usingInvoiceData
+    ? `${CLIENT.total_lineitem_count} invoiced line items · ${CLIENT.report_period}`
+    : CLIENT.report_period;
   document.getElementById('kpiCases').textContent      = totalCases;
   document.getElementById('kpiCasesSub').textContent   = M.filter(m => m.case_count > 0).length + ' active months';
   document.getElementById('kpiAvgFee').textContent     = '£' + avgFee.toLocaleString();
@@ -517,28 +523,48 @@ function renderDashboard(CLIENT) {
       : `${gPct}% within SLA · ${genStmtDays.length} measurable · target ≤3d`;
   }
 
-  // Fee Breakdown by Work Type — overall card first, then one per work-type bucket
-  // (RTC-flagged cases are bucketed as "RTC" regardless of literal Case Type).
+  // Revenue by Service Type — driven by invoice line items (one row per billed
+  // line in the TrackOps invoice details export). RTC line items get the purple
+  // accent. Falls back to the case-type-based view (fees_by_type) when no invoice
+  // data is available — useful for testing or partial deployments.
   const fg = document.getElementById('feeGrid');
-  if (CLIENT.fees_by_type && CLIENT.fees_by_type.length) {
-    const overallTotal = (CLIENT.total_fees_rtc || 0) + (CLIENT.total_fees_general || 0);
-    const overallN     = (CLIENT.rtc_case_count || 0) + (CLIENT.general_case_count || 0);
+  const items = CLIENT.fees_by_item || [];
+  if (items.length) {
+    const overallTotal = CLIENT.total_invoiced_lineitems || 0;
+    const overallN     = CLIENT.total_lineitem_count    || 0;
     const overallAvg   = overallN ? Math.round(overallTotal / overallN * 100) / 100 : 0;
     const overallCard = `
       <div class="fee-card overall">
+        <div class="fc-label">All Services</div>
+        <div class="fc-value">£${overallTotal.toLocaleString()}</div>
+        <div class="fc-sub">${overallN} line item${overallN===1?'':'s'} · avg £${overallAvg.toLocaleString()}</div>
+        <div class="fc-total">Total billed in period</div>
+      </div>`;
+    const itemCards = items.map(b => `
+      <div class="fee-card ${b.is_rtc ? 'rtc' : ''}">
+        <div class="fc-label">${b.item}</div>
+        <div class="fc-value">£${(b.total || 0).toLocaleString()}</div>
+        <div class="fc-sub">${b.count} line${b.count===1?'':'s'} · avg £${(b.avg || 0).toLocaleString()}</div>
+        <div class="fc-total">${b.is_rtc ? 'RTC service' : 'Other service'}</div>
+      </div>`).join('');
+    fg.innerHTML = overallCard + itemCards;
+  } else if (CLIENT.fees_by_type && CLIENT.fees_by_type.length) {
+    // Fallback: no invoice CSV was loaded — show case-type rollup so the dashboard isn't blank
+    const overallTotal = (CLIENT.total_fees_rtc || 0) + (CLIENT.total_fees_general || 0);
+    const overallN     = (CLIENT.rtc_case_count || 0) + (CLIENT.general_case_count || 0);
+    const overallAvg   = overallN ? Math.round(overallTotal / overallN * 100) / 100 : 0;
+    fg.innerHTML = `<div class="fee-card overall">
         <div class="fc-label">All Work Types</div>
         <div class="fc-value">£${overallAvg.toLocaleString()}</div>
         <div class="fc-sub">avg / case · ${overallN} case${overallN===1?'':'s'}</div>
-        <div class="fc-total">Total £${overallTotal.toLocaleString()}</div>
-      </div>`;
-    const typeCards = CLIENT.fees_by_type.map(b => `
+        <div class="fc-total">Total £${overallTotal.toLocaleString()} (case-CSV view — no invoice detail)</div>
+      </div>` + CLIENT.fees_by_type.map(b => `
       <div class="fee-card ${b.is_rtc ? 'rtc' : ''}">
         <div class="fc-label">${b.type}</div>
         <div class="fc-value">£${(b.avg_fee || 0).toLocaleString()}</div>
         <div class="fc-sub">avg / case · ${b.case_count} case${b.case_count===1?'':'s'}</div>
         <div class="fc-total">Total £${(b.total_fees || 0).toLocaleString()}</div>
       </div>`).join('');
-    fg.innerHTML = overallCard + typeCards;
   } else {
     fg.innerHTML = '<div class="fee-card"><div class="fc-label">No data</div></div>';
   }

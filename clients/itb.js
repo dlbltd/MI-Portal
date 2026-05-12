@@ -3,7 +3,7 @@
 // Client:  And-E
 // File:    itb.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "And-E",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  51,
 
@@ -44,6 +44,26 @@ var DLB_CLIENT_DATA = {
     { type:"Motor Theft", is_rtc:false, case_count:3, total_fees:2160, avg_fee:720 },
     { type:"Motor Liability", is_rtc:false, case_count:2, total_fees:600, avg_fee:300 },
     { type:"Intelligence Report", is_rtc:false, case_count:1, total_fees:144, avg_fee:144 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     26956.8,
+  total_lineitem_count:         85,
+  fees_by_item: [
+    { item:"Stage 1 Investigation", is_rtc:false, count:23, total:12850, avg:558.7 },
+    { item:"Large Loss Investigation", is_rtc:false, count:12, total:5300, avg:441.67 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:12, total:2200, avg:183.33 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:3, total:1400, avg:466.67 },
+    { item:"Cold Calls", is_rtc:false, count:12, total:1360, avg:113.33 },
+    { item:"Translation services", is_rtc:false, count:3, total:810.3, avg:270.1 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:3, total:750, avg:250 },
+    { item:"Interpreter (full day)", is_rtc:false, count:2, total:650, avg:325 },
+    { item:"Miscellanoeus", is_rtc:false, count:5, total:555, avg:111 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:3, total:555, avg:185 },
+    { item:"Failed Appointment", is_rtc:false, count:4, total:280, avg:70 },
+    { item:"Intelligence Report Only", is_rtc:false, count:1, total:120, avg:120 },
+    { item:"Helix  (Triage only)", is_rtc:false, count:1, total:80, avg:80 },
+    { item:"Police Report", is_rtc:false, count:1, total:46.5, avg:46.5 }
   ],
 
   monthly: [

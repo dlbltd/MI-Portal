@@ -3,7 +3,7 @@
 // Client:  Weightmans
 // File:    weightmans.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Weightmans",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  3,
 
@@ -41,6 +41,15 @@ var DLB_CLIENT_DATA = {
   fees_by_type: [
     { type:"Motor Fraud", is_rtc:false, case_count:2, total_fees:1272, avg_fee:636 },
     { type:"Motor Liability", is_rtc:false, case_count:1, total_fees:300, avg_fee:300 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     1810,
+  total_lineitem_count:         5,
+  fees_by_item: [
+    { item:"Stage 1 Investigation", is_rtc:false, count:3, total:1500, avg:500 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:1, total:250, avg:250 },
+    { item:"Cold Calls", is_rtc:false, count:1, total:60, avg:60 }
   ],
 
   monthly: [

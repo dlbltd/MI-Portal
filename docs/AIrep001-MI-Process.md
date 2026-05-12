@@ -1,8 +1,8 @@
 # AIrep001 — Management Information (MI) Report Writing Process
 
 **Document reference:** AIrep001
-**Version:** 1.1
-**Issue date:** 11 May 2026
+**Version:** 1.2
+**Issue date:** 12 May 2026
 **Owner:** Managing Director, DLB Investigations Ltd
 **Approved by:** Managing Director
 **Next review date:** 11 May 2027
@@ -112,7 +112,11 @@ The MI Analyst shall, two working days before each release:
 
 ### 7.2 Production day — export and process (Day 0, ~10 min)
 
-#### 7.2.1 Export the CSV from TrackOps
+#### 7.2.1 Export the CSVs from TrackOps
+
+**Two exports are required each month** — one for cases (activity / SLA data) and one for invoice line items (revenue breakdown). Both use the same date range and the same export workflow.
+
+**Step 1 — Set the date range and export the Case List**
 
 The MI Analyst shall:
 
@@ -130,7 +134,21 @@ The MI Analyst shall:
 7. At the **top right of the screen**, click **Export**. Select **CSV** if prompted for a format.
 8. Save the downloaded file. By default it lands in `~/Downloads/` with a name of the form `cases_YYYY-MM-DD_-_YYYY-MM-DD_<timestamp>.csv`. Do not rename it — the processor accepts the default name.
 
-#### 7.2.2 Process the CSV
+**Step 2 — Export the Invoice Details**
+
+9. In TrackOps, navigate to the **Invoices** view (Reports → Invoices, or top navigation).
+10. Apply the **same date range** as in step 5 (1 January [current year] to the last day of the last full calendar month).
+11. Choose the export format: **"Invoice Details"** (or equivalently named — one row per line item, not one row per invoice). This is critical — the case-level invoice totals on their own are not enough; we need the line-item breakdown to differentiate RTC services from Full Investigations, Cold Calls, Interpreters etc.
+12. Click **Export** and save. The default filename is of the form `invoice_details_YYYY-MM-DD_-_YYYY-MM-DD_<timestamp>.csv`. Save to `~/Downloads/`.
+
+You should now have **two files** in your Downloads folder, both for the same period:
+
+```
+~/Downloads/cases_2026-01-01_-_2026-04-30_<timestamp>.csv
+~/Downloads/invoice_details_2026-01-01_-_2026-04-30_<timestamp>.csv
+```
+
+#### 7.2.2 Process the CSVs
 
 The MI Analyst has two routes — either is acceptable, both produce identical output.
 
@@ -143,9 +161,11 @@ The MI Analyst has two routes — either is acceptable, both produce identical o
    ```
    *(or the equivalent path if the repository is cloned elsewhere on the analyst's machine)*
 3. Start a Claude Code session by typing `claude` and pressing **Return**. Claude Code is installed system-wide; if the command is not recognised, install it once per the instructions at https://docs.claude.com/claude-code.
-4. At the Claude Code prompt, paste the full path of the file saved in §7.2.1 step 8 and ask Claude to update the MI. A working prompt is:
+4. At the Claude Code prompt, paste the **full paths of both CSV files** saved in §7.2.1 and ask Claude to update the MI. A working prompt is:
 
-   > Please update the MI from this CSV: `/Users/daveb/Downloads/cases_2026-01-01_-_2026-04-30_<timestamp>.csv`
+   > Please update the MI from these CSVs:
+   > Cases: `/Users/daveb/Downloads/cases_2026-01-01_-_2026-04-30_<timestamp>.csv`
+   > Invoices: `/Users/daveb/Downloads/invoice_details_2026-01-01_-_2026-04-30_<timestamp>.csv`
 
 5. Claude will run the processor, summarise the per-client output, perform the verification checks listed in §7.2.3, and offer to commit and push the changes. Approve the commit when prompted.
 
@@ -154,8 +174,12 @@ The MI Analyst has two routes — either is acceptable, both produce identical o
 ```bash
 cd /Users/daveb/Desktop/MI-Portal
 git pull origin main
-node scripts/process-csv.js ~/Downloads/cases_*_<timestamp>.csv
+node scripts/process-csv.js \
+    ~/Downloads/cases_*_<timestamp>.csv \
+    --invoices ~/Downloads/invoice_details_*_<timestamp>.csv
 ```
+
+The `--invoices` flag is **strongly recommended** but technically optional. If omitted, the dashboard will fall back to a less-accurate case-level revenue view (no service-type breakdown).
 
 #### 7.2.3 Verify the output
 
@@ -313,3 +337,4 @@ Sign-off:               __________________________  Date: ______
 |---|---|---|---|
 | 1.0 | 11 May 2026 | David Booker | Initial issue. Establishes monthly release cadence on 5th of month with automated email distribution via Microsoft Graph. |
 | 1.1 | 11 May 2026 | David Booker | Expanded §7.2 with the specific TrackOps export click-path (Case List → Advanced → date-range filter at foot of right-hand sidebar) and an explicit rule for choosing the end date (last day of the last full calendar month preceding today). Added Route A (Claude Code) alongside Route B (direct terminal command) for running the processor. |
+| 1.2 | 12 May 2026 | David Booker | Added invoice-details CSV export as a required second monthly export (§7.2.1 Step 2). Updated Route A prompt and Route B command to take both CSVs. Driver: dashboard now uses invoice line items as the revenue source — actual billed amounts per service type — instead of inferring from case-level totals. |

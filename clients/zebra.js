@@ -3,7 +3,7 @@
 // Client:  Zebra
 // File:    zebra.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Zebra",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  4,
 
@@ -41,6 +41,13 @@ var DLB_CLIENT_DATA = {
   fees_by_type: [
     { type:"Intelligence Report", is_rtc:false, case_count:1, total_fees:144, avg_fee:144 },
     { type:"Motor Fraud", is_rtc:false, case_count:3, total_fees:0, avg_fee:0 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     120,
+  total_lineitem_count:         1,
+  fees_by_item: [
+    { item:"Intelligence Report Only", is_rtc:false, count:1, total:120, avg:120 }
   ],
 
   monthly: [

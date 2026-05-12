@@ -3,7 +3,7 @@
 // Client:  Keoghs LLP
 // File:    keoghs.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Keoghs LLP",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  2,
 
@@ -41,6 +41,15 @@ var DLB_CLIENT_DATA = {
   fees_by_type: [
     { type:"Large Loss", is_rtc:false, case_count:1, total_fees:360, avg_fee:360 },
     { type:"Fatality", is_rtc:false, case_count:1, total_fees:0, avg_fee:0 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     990,
+  total_lineitem_count:         4,
+  fees_by_item: [
+    { item:"Large Loss Investigation", is_rtc:false, count:2, total:750, avg:375 },
+    { item:"Miscellanoeus", is_rtc:false, count:1, total:160, avg:160 },
+    { item:"Failed Appointment", is_rtc:false, count:1, total:80, avg:80 }
   ],
 
   monthly: [

@@ -3,7 +3,7 @@
 // Client:  First Central Insurance
 // File:    firstcentral.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "First Central Insurance",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                true,
   total_cases:                  29,
 
@@ -42,6 +42,20 @@ var DLB_CLIENT_DATA = {
     { type:"Motor Fraud", is_rtc:false, case_count:10, total_fees:4080, avg_fee:408 },
     { type:"RTC", is_rtc:true, case_count:17, total_fees:2646, avg_fee:155.65 },
     { type:"Motor Theft", is_rtc:false, case_count:2, total_fees:1140, avg_fee:570 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     8125,
+  total_lineitem_count:         39,
+  fees_by_item: [
+    { item:"Stage 1 Investigation", is_rtc:false, count:7, total:3100, avg:442.86 },
+    { item:"RTC", is_rtc:true, count:15, total:2205, avg:147 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:2, total:950, avg:475 },
+    { item:"Cold Calls", is_rtc:false, count:7, total:780, avg:111.43 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:3, total:460, avg:153.33 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:2, total:400, avg:200 },
+    { item:"Failed Appointment", is_rtc:false, count:2, total:170, avg:85 },
+    { item:"Miscellanoeus", is_rtc:false, count:1, total:60, avg:60 }
   ],
 
   monthly: [

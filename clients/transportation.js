@@ -3,7 +3,7 @@
 // Client:  Transportation Claims Ltd
 // File:    transportation.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Transportation Claims Ltd",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  28,
 
@@ -42,6 +42,14 @@ var DLB_CLIENT_DATA = {
     { type:"Intelligence Report", is_rtc:false, case_count:21, total_fees:1824, avg_fee:86.86 },
     { type:"Trace and Locate only", is_rtc:false, case_count:6, total_fees:1464, avg_fee:244 },
     { type:"Employers Liability", is_rtc:false, case_count:1, total_fees:96, avg_fee:96 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     2820,
+  total_lineitem_count:         25,
+  fees_by_item: [
+    { item:"Intelligence Report Only", is_rtc:false, count:20, total:1600, avg:80 },
+    { item:"Address checks & validation", is_rtc:false, count:5, total:1220, avg:244 }
   ],
 
   monthly: [

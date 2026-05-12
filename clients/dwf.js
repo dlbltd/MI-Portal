@@ -3,7 +3,7 @@
 // Client:  DWF Law
 // File:    dwf.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "DWF Law",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  28,
 
@@ -42,6 +42,21 @@ var DLB_CLIENT_DATA = {
     { type:"Motor Liability", is_rtc:false, case_count:18, total_fees:5699.02, avg_fee:316.61 },
     { type:"Motor Fraud", is_rtc:false, case_count:9, total_fees:3945.86, avg_fee:438.43 },
     { type:"Fatality", is_rtc:false, case_count:1, total_fees:0, avg_fee:0 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     11247.67,
+  total_lineitem_count:         36,
+  fees_by_item: [
+    { item:"Motor Liability Investigation", is_rtc:false, count:15, total:4500, avg:300 },
+    { item:"Stage 1 Investigation", is_rtc:false, count:8, total:4000, avg:500 },
+    { item:"Translation services", is_rtc:false, count:4, total:967.67, avg:241.92 },
+    { item:"Interpreter (full day)", is_rtc:false, count:2, total:700, avg:350 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:2, total:400, avg:200 },
+    { item:"Cold Calls", is_rtc:false, count:2, total:240, avg:120 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:1, total:200, avg:200 },
+    { item:"Miscellanoeus", is_rtc:false, count:1, total:160, avg:160 },
+    { item:"Investigator Defence Statement", is_rtc:false, count:1, total:80, avg:80 }
   ],
 
   monthly: [

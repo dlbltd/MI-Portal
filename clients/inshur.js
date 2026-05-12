@@ -3,7 +3,7 @@
 // Client:  Inshur
 // File:    inshur.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Inshur",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  56,
 
@@ -44,6 +44,26 @@ var DLB_CLIENT_DATA = {
     { type:"Motor Fraud", is_rtc:false, case_count:8, total_fees:3960, avg_fee:495 },
     { type:"Motor Liability", is_rtc:false, case_count:5, total_fees:1294.3, avg_fee:258.86 },
     { type:"Motor Fire", is_rtc:false, case_count:1, total_fees:480, avg_fee:480 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     24859.1,
+  total_lineitem_count:         106,
+  fees_by_item: [
+    { item:"Large Loss Investigation", is_rtc:false, count:26, total:9100, avg:350 },
+    { item:"Stage 1 Investigation", is_rtc:false, count:8, total:3600, avg:450 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:8, total:3200, avg:400 },
+    { item:"Cold Calls", is_rtc:false, count:18, total:2040, avg:113.33 },
+    { item:"Police Report", is_rtc:false, count:10, total:1615.3, avg:161.53 },
+    { item:"Interpreter (full day)", is_rtc:false, count:4, total:1200, avg:300 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:4, total:835, avg:208.75 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:4, total:740, avg:185 },
+    { item:"Miscellanoeus", is_rtc:false, count:8, total:670, avg:83.75 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:4, total:550, avg:137.5 },
+    { item:"Failed Appointment", is_rtc:false, count:5, total:400, avg:80 },
+    { item:"Motor Fire Investigation", is_rtc:false, count:1, total:400, avg:400 },
+    { item:"SVA Investigation", is_rtc:false, count:1, total:350, avg:350 },
+    { item:"Police reference request", is_rtc:false, count:5, total:158.8, avg:31.76 }
   ],
 
   monthly: [

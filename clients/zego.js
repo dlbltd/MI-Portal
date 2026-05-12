@@ -3,7 +3,7 @@
 // Client:  Zego Insurance
 // File:    zego.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Zego Insurance",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                true,
   total_cases:                  58,
 
@@ -42,6 +42,23 @@ var DLB_CLIENT_DATA = {
     { type:"Motor Fraud", is_rtc:false, case_count:15, total_fees:6672, avg_fee:444.8 },
     { type:"RTC", is_rtc:true, case_count:36, total_fees:6240, avg_fee:173.33 },
     { type:"Motor Theft", is_rtc:false, case_count:7, total_fees:5595.12, avg_fee:799.3 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     18312.6,
+  total_lineitem_count:         77,
+  fees_by_item: [
+    { item:"Stage 1 Investigation", is_rtc:false, count:12, total:5700, avg:475 },
+    { item:"RTC", is_rtc:true, count:25, total:4000, avg:160 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:9, total:3650, avg:405.56 },
+    { item:"Cold Calls", is_rtc:false, count:11, total:1080, avg:98.18 },
+    { item:"Interpreter (full day)", is_rtc:false, count:3, total:900, avg:300 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:4, total:900, avg:225 },
+    { item:"Translation services", is_rtc:false, count:2, total:762.6, avg:381.3 },
+    { item:"Failed Appointment", is_rtc:false, count:5, total:760, avg:152 },
+    { item:"Miscellanoeus", is_rtc:false, count:4, total:360, avg:90 },
+    { item:"Investigator Defence Statement", is_rtc:false, count:1, total:120, avg:120 },
+    { item:"Helix  (Triage only)", is_rtc:false, count:1, total:80, avg:80 }
   ],
 
   monthly: [

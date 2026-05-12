@@ -3,7 +3,7 @@
 // Client:  Trinity
 // File:    trinity.js
 // Period:  Jan–Dec 2026
-// Updated: 11 May 2026
+// Updated: 12 May 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Trinity",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "11 May 2026",
+  last_updated:                 "12 May 2026",
   is_rtc_client:                false,
   total_cases:                  42,
 
@@ -46,6 +46,25 @@ var DLB_CLIENT_DATA = {
     { type:"Intelligence Report", is_rtc:false, case_count:1, total_fees:96, avg_fee:96 },
     { type:"Surveillance", is_rtc:false, case_count:2, total_fees:0, avg_fee:0 },
     { type:"Public Liability", is_rtc:false, case_count:1, total_fees:0, avg_fee:0 }
+  ],
+
+  // Line-item-driven revenue (from TrackOps invoice details export)
+  total_invoiced_lineitems:     16521.88,
+  total_lineitem_count:         62,
+  fees_by_item: [
+    { item:"Stage 1 Investigation", is_rtc:false, count:21, total:9980, avg:475.24 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:11, total:2475, avg:225 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:4, total:925, avg:231.25 },
+    { item:"Cold Calls", is_rtc:false, count:8, total:720, avg:90 },
+    { item:"Miscellanoeus", is_rtc:false, count:8, total:720, avg:90 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:1, total:400, avg:400 },
+    { item:"Police Report", is_rtc:false, count:2, total:362.88, avg:181.44 },
+    { item:"Interpreter (full day)", is_rtc:false, count:1, total:300, avg:300 },
+    { item:"Intelligence Report Only", is_rtc:false, count:2, total:200, avg:100 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:1, total:185, avg:185 },
+    { item:"Translation services", is_rtc:false, count:1, total:114, avg:114 },
+    { item:"Locus Report", is_rtc:false, count:1, total:100, avg:100 },
+    { item:"Failed Appointment", is_rtc:false, count:1, total:40, avg:40 }
   ],
 
   monthly: [
