@@ -13,7 +13,7 @@
 //   GRAPH_SENDER          full email of the sending mailbox (e.g. midata@dlbinvestigations.co.uk)
 // Optional env vars:
 //   GRAPH_FROM_NAME       display name in the From line (default "DLB Investigations")
-//   PORTAL_URL            override default https://dlbltd.github.io/MI-Portal/
+//   PORTAL_URL            override default https://mi.dlbinvestigations.co.uk/
 //   PERIOD_LABEL          override the auto "Jan–Dec YYYY" period label
 //   DRY_RUN=1             log what would be sent but do not actually send
 //   ONLY_TO=email         restrict to a single recipient (testing)
@@ -23,7 +23,7 @@ const fs   = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const DEFAULT_PORTAL_URL = 'https://dlbltd.github.io/MI-Portal/';
+const DEFAULT_PORTAL_URL = 'https://mi.dlbinvestigations.co.uk/';
 
 const tenantId = process.env.GRAPH_TENANT_ID;
 const clientId = process.env.GRAPH_CLIENT_ID;

@@ -47,7 +47,7 @@ Out of scope: production of bespoke ad-hoc MI for individual client requests; re
 |---|---|
 | **MI** | Management Information — the monthly performance report produced for each insurer/legal client |
 | **TrackOps** | Case management system used by DLB at `https://dlbinvestigations.viewcases.com`. Source of truth for case data. |
-| **MI Portal** | Static website at `https://dlbltd.github.io/MI-Portal/`. Per-client dashboard rendered from generated JS data files. |
+| **MI Portal** | Static website at `https://mi.dlbinvestigations.co.uk/` (custom domain CNAME'd to GitHub Pages at `dlbltd.github.io`). Per-client dashboard rendered from generated JS data files. |
 | **SLA** | Service Level Agreement. See `scripts/process-csv.js` header comments for the precise thresholds applied per case type. |
 | **RTC case** | A case whose Case Type is "RTC" or whose Services/Flags contain the term "RTC". Subject to the 48-hour report SLA. |
 | **General case** | Any case that is not RTC. Subject to the 5-day update and 72-hour report SLAs. |
@@ -188,7 +188,7 @@ Open `clients/zego.js` in a text editor and confirm the header reads `Period: Ja
    git push origin main
    ```
 
-3. **Verification** — wait ~90 seconds, then in a browser open `https://dlbltd.github.io/MI-Portal/`. Enter the access code `ZEGO26` (a known RTC client). Confirm:
+3. **Verification** — wait ~90 seconds, then in a browser open `https://mi.dlbinvestigations.co.uk/`. Enter the access code `ZEGO26` (a known RTC client). Confirm:
    - [ ] Dashboard loads without an error banner at the top of the page
    - [ ] Header shows the current period (e.g. "Jan–Dec 2026") and today's date
    - [ ] At least one Case Detail Log row matches a case verified in §7.1 against the same TrackOps record

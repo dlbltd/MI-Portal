@@ -28,7 +28,7 @@ This document is **not** part of the DLB ISO 9001 quality management system; tha
 In scope:
 
 - The `dlbltd/MI-Portal` GitHub repository
-- The `https://dlbltd.github.io/MI-Portal/` GitHub Pages deployment
+- The `https://mi.dlbinvestigations.co.uk/` deployment (custom domain CNAME'd to GitHub Pages at `dlbltd.github.io`)
 - The GitHub Actions workflow `Monthly MI release email` and its scheduled execution
 - The Azure AD app registration `DLB MI Mailer` and its association with the `midata@dlbinvestigations.co.uk` mailbox
 - Local CSV processing on the MI Analyst's workstation
