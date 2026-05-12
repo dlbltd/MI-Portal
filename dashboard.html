@@ -222,6 +222,7 @@
           <div class="afp-sub" id="kpiAvgFeeGenSub">—</div>
         </div>
       </div>
+      <div class="histogram" id="histAvgFee"></div>
       <div class="kpi-sub"><span id="kpiAvgFeeBreakdown">—</span></div>
     </div>
     <div class="kpi-card c-rtc">
@@ -639,7 +640,9 @@ function renderDashboard(CLIENT) {
   // Fee histogram — bucketed in £200 bands, label first and last bucket only
   const fees = CASES.map(c => c.invoice || 0).filter(v => v > 0);
   const feeEl = document.getElementById('histAvgFee');
-  if (!fees.length) {
+  if (!feeEl) {
+    // Element optional — skip if not in the DOM
+  } else if (!fees.length) {
     feeEl.innerHTML = '<div style="font-size:10px;color:var(--muted);align-self:center;margin:auto">No invoiced cases yet</div>';
   } else {
     const W = 200;
