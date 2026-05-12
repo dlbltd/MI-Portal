@@ -92,6 +92,17 @@
   .b-sla-notmet { background: rgba(192,57,43,0.2); color: #e05252; }
   .b-mid { background: rgba(184,134,11,0.15); color: #b8860b; }
   .sla-frac { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-left: 4px; }
+  .avgfee-split { display: flex; gap: 14px; margin: 6px 0 4px; }
+  .avgfee-pill  { flex: 1; padding: 8px 10px; border-radius: 6px; background: rgba(255,255,255,0.025); border: 1px solid var(--border); }
+  .avgfee-pill.rtc   { border-color: rgba(124,58,237,0.35); background: rgba(124,58,237,0.06); }
+  .avgfee-pill.other { border-color: rgba(90,158,124,0.35); background: rgba(90,158,124,0.06); }
+  .avgfee-pill .afp-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .avgfee-pill.rtc   .afp-label { color: #a78bfa; }
+  .avgfee-pill.other .afp-label { color: #7eb097; }
+  .avgfee-pill .afp-value { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; line-height: 1.1; margin-top: 2px; }
+  .avgfee-pill.rtc   .afp-value { color: #a78bfa; }
+  .avgfee-pill.other .afp-value { color: #7eb097; }
+  .avgfee-pill .afp-sub  { font-size: 10px; color: var(--muted); margin-top: 3px; }
 
   .histogram { display: flex; align-items: flex-end; gap: 2px; height: 32px; margin: 6px 0 4px; }
   .histogram .h-bar { flex: 1; background: rgba(74,127,193,0.5); border-radius: 2px 2px 0 0; position: relative; min-height: 2px; transition: background 0.15s; }
@@ -197,16 +208,55 @@
       <div class="kpi-value" id="kpiCases">—</div>
       <div class="kpi-sub" id="kpiCasesSub">All months</div>
     </div>
-    <div class="kpi-card c-amber" title="Average invoice fee per case across the period.">
-      <div class="kpi-label">Avg Fee / Case</div>
-      <div class="kpi-value" id="kpiAvgFee">—</div>
-      <div class="histogram" id="histAvgFee"></div>
-      <div class="kpi-sub"><span id="kpiAvgFeeBreakdown">Period average</span></div>
+    <div class="kpi-card c-amber" title="Average fee per invoice line item, split by service category. RTC = RTC line items only. Other = all other services combined (full investigations, ancillary work, etc.).">
+      <div class="kpi-label">Avg Fee per Line · By Service</div>
+      <div class="avgfee-split">
+        <div class="avgfee-pill rtc">
+          <div class="afp-label">RTC</div>
+          <div class="afp-value" id="kpiAvgFeeRtc">—</div>
+          <div class="afp-sub" id="kpiAvgFeeRtcSub">—</div>
+        </div>
+        <div class="avgfee-pill other">
+          <div class="afp-label">Other Services</div>
+          <div class="afp-value" id="kpiAvgFeeGen">—</div>
+          <div class="afp-sub" id="kpiAvgFeeGenSub">—</div>
+        </div>
+      </div>
+      <div class="kpi-sub"><span id="kpiAvgFeeBreakdown">—</span></div>
     </div>
     <div class="kpi-card c-rtc">
       <div class="kpi-label">Overall SLA Compliance</div>
       <div class="kpi-value" id="kpiSLA">—</div>
       <div class="kpi-sub" id="kpiSLASub">Across all measurable SLAs</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY PERFORMANCE — charts placed high up for at-a-glance visual context -->
+  <div class="section-label">Monthly Performance</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Revenue by Month</span></div>
+      <div style="height:180px"><canvas id="chartRevenue"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Avg Fee per Case / Month</span></div>
+      <div style="height:180px"><canvas id="chartAvgFee"></canvas></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">SLA Compliance by Month</span></div>
+      <div style="height:180px"><canvas id="chartSLA"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Case Volume by Month</span></div>
+      <div style="height:180px"><canvas id="chartCaseCount"></canvas></div>
+    </div>
+  </div>
+  <div class="grid-full">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Revenue by Service Type</span></div>
+      <div style="height:200px"><canvas id="chartRevPie"></canvas></div>
     </div>
   </div>
 
@@ -266,35 +316,6 @@
   <!-- REVENUE BY SERVICE TYPE (from invoice line items) -->
   <div class="section-label">Revenue by Service Type <span style="font-weight:400;color:var(--muted);font-size:11px;text-transform:none;margin-left:8px">From invoice line items — actual billed amounts</span></div>
   <div class="fee-grid" id="feeGrid"></div>
-
-  <!-- MONTHLY PERFORMANCE -->
-  <div class="section-label">Monthly Performance</div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-header"><span class="card-title">Revenue by Month</span></div>
-      <div style="height:180px"><canvas id="chartRevenue"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">Avg Fee per Case / Month</span></div>
-      <div style="height:180px"><canvas id="chartAvgFee"></canvas></div>
-    </div>
-  </div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-header"><span class="card-title">SLA Compliance by Month</span></div>
-      <div style="height:180px"><canvas id="chartSLA"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">Case Volume by Month</span></div>
-      <div style="height:180px"><canvas id="chartCaseCount"></canvas></div>
-    </div>
-  </div>
-  <div class="grid-full">
-    <div class="card">
-      <div class="card-header"><span class="card-title">Revenue by Work Type</span></div>
-      <div style="height:200px"><canvas id="chartRevPie"></canvas></div>
-    </div>
-  </div>
 
   <!-- MONTHLY SUMMARY TABLE -->
   <div class="section-label">Monthly Summary</div>
@@ -456,7 +477,7 @@ function renderDashboard(CLIENT) {
     : CLIENT.report_period;
   document.getElementById('kpiCases').textContent      = totalCases;
   document.getElementById('kpiCasesSub').textContent   = M.filter(m => m.case_count > 0).length + ' active months';
-  document.getElementById('kpiAvgFee').textContent     = '£' + avgFee.toLocaleString();
+  // (Avg fee is now shown as two pills — RTC and Other — populated below)
   // Histogram helper — bars in red when over SLA threshold (or null for no threshold)
   function renderHistogram(el, days, threshold) {
     if (!el) return;
@@ -586,15 +607,35 @@ function renderDashboard(CLIENT) {
     fg.innerHTML = '<div class="fee-card"><div class="fc-label">No data</div></div>';
   }
 
-  // Avg Fee KPI — RTC vs General split + fee distribution histogram (bucketed by £200)
-  const avgFeeRtc = CLIENT.avg_fee_rtc || 0;
-  const avgFeeGen = CLIENT.avg_fee_general || 0;
-  const rtcN  = CLIENT.rtc_case_count     || 0;
-  const genN  = CLIENT.general_case_count || 0;
-  const bd = [];
-  if (rtcN) bd.push(`<span style="color:#7c3aed">RTC £${avgFeeRtc.toLocaleString()}</span> <span style="color:var(--muted);font-size:10px">(${rtcN})</span>`);
-  if (genN) bd.push(`<span style="color:#5a9e7c">General £${avgFeeGen.toLocaleString()}</span> <span style="color:var(--muted);font-size:10px">(${genN})</span>`);
-  document.getElementById('kpiAvgFeeBreakdown').innerHTML = bd.join(' · ') || 'Period average';
+  // Avg Fee KPI — RTC vs Other split, driven by invoice line items (not case CSV).
+  // The case-CSV "avg fee per case" lumps escalated work into the RTC bucket and
+  // includes £0 stood-down cases — it gave £173 for Zego which was misleading.
+  // Using line items directly: RTC avg = total of "RTC" item / count of those lines.
+  const fbItems = CLIENT.fees_by_item || [];
+  const rtcItem = fbItems.find(x => x.is_rtc);
+  const genLines = fbItems.filter(x => !x.is_rtc);
+  const genTotal = genLines.reduce((s, x) => s + x.total, 0);
+  const genCount = genLines.reduce((s, x) => s + x.count, 0);
+  const genAvg   = genCount ? Math.round(genTotal / genCount) : 0;
+  if (rtcItem) {
+    document.getElementById('kpiAvgFeeRtc').textContent    = '£' + Math.round(rtcItem.avg).toLocaleString();
+    document.getElementById('kpiAvgFeeRtcSub').textContent = `${rtcItem.count} lines · total £${rtcItem.total.toLocaleString()}`;
+  } else {
+    document.getElementById('kpiAvgFeeRtc').textContent    = '—';
+    document.getElementById('kpiAvgFeeRtcSub').textContent = 'No RTC line items';
+  }
+  if (genCount) {
+    document.getElementById('kpiAvgFeeGen').textContent    = '£' + genAvg.toLocaleString();
+    document.getElementById('kpiAvgFeeGenSub').textContent = `${genCount} lines · total £${genTotal.toLocaleString()}`;
+  } else {
+    document.getElementById('kpiAvgFeeGen').textContent    = '—';
+    document.getElementById('kpiAvgFeeGenSub').textContent = 'No other line items';
+  }
+  const totLines = (rtcItem ? rtcItem.count : 0) + genCount;
+  const totRev   = (rtcItem ? rtcItem.total : 0) + genTotal;
+  document.getElementById('kpiAvgFeeBreakdown').textContent = totLines
+    ? `Overall avg £${Math.round(totRev/totLines).toLocaleString()} across ${totLines} line items`
+    : 'No invoice data loaded';
   // Fee histogram — bucketed in £200 bands, label first and last bucket only
   const fees = CASES.map(c => c.invoice || 0).filter(v => v > 0);
   const feeEl = document.getElementById('histAvgFee');
