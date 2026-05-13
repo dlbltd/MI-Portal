@@ -1,8 +1,8 @@
 # AIrep001 — Management Information (MI) Report Writing Process
 
 **Document reference:** AIrep001
-**Version:** 1.2
-**Issue date:** 12 May 2026
+**Version:** 1.3
+**Issue date:** 13 May 2026
 **Owner:** Managing Director, DLB Investigations Ltd
 **Approved by:** Managing Director
 **Next review date:** 11 May 2027
@@ -150,26 +150,121 @@ You should now have **two files** in your Downloads folder, both for the same pe
 
 #### 7.2.2 Process the CSVs
 
-The MI Analyst has two routes — either is acceptable, both produce identical output.
+Two routes are available — they produce identical output. **Route A is designed for someone who has never used a command line before** and is the recommended path.
 
-**Route A — via Claude Code** (recommended for non-technical users)
+---
 
-1. Open **Terminal.app** on the workstation.
-2. Change into the MI Portal project directory:
-   ```bash
-   cd /Users/daveb/Desktop/MI-Portal
-   ```
-   *(or the equivalent path if the repository is cloned elsewhere on the analyst's machine)*
-3. Start a Claude Code session by typing `claude` and pressing **Return**. Claude Code is installed system-wide; if the command is not recognised, install it once per the instructions at https://docs.claude.com/claude-code.
-4. At the Claude Code prompt, paste the **full paths of both CSV files** saved in §7.2.1 and ask Claude to update the MI. A working prompt is:
+##### Route A — via Claude Code (recommended)
 
-   > Please update the MI from these CSVs:
-   > Cases: `/Users/daveb/Downloads/cases_2026-01-01_-_2026-04-30_<timestamp>.csv`
-   > Invoices: `/Users/daveb/Downloads/invoice_details_2026-01-01_-_2026-04-30_<timestamp>.csv`
+You only need to do **six small steps**. Each is described in full below.
 
-5. Claude will run the processor, summarise the per-client output, perform the verification checks listed in §7.2.3, and offer to commit and push the changes. Approve the commit when prompted.
+**Step 1 — Open the Terminal app**
 
-**Route B — direct terminal command** (for technical users)
+Terminal is a built-in Mac application. It looks like a black or dark grey window with text inside. You don't need any prior knowledge — you'll just paste/type a few things.
+
+The quickest way to open it:
+
+1. Press **Cmd + Space** on the keyboard. This opens **Spotlight Search** (a small search bar appears in the middle of the screen).
+2. Type the word **Terminal**.
+3. Press **Return**. The Terminal app opens.
+
+*(Alternative path if Spotlight is disabled: open **Finder** → **Applications** → **Utilities** → double-click **Terminal**.)*
+
+**Step 2 — Go to the MI Portal folder**
+
+Click anywhere inside the Terminal window so it accepts typing, then type exactly:
+
+```
+cd ~/Desktop/MI-Portal
+```
+
+Press **Return** after typing. You're now "inside" the MI Portal folder. The Terminal prompt will change to show `MI-Portal` somewhere in it — that confirms you're in the right place.
+
+*(The `cd` command stands for "change directory". The `~/` symbol means "the home folder of the currently logged-in user".)*
+
+**Step 3 — Start Claude Code**
+
+Type:
+
+```
+claude
+```
+
+Press **Return**. After a couple of seconds, a chat-style prompt appears. This is Claude Code — you can now type messages to Claude in plain English, the same as in the web chat.
+
+*(If you see "command not found: claude" instead, Claude Code is not installed on this machine. Install it once by following the instructions at https://docs.claude.com/claude-code — it's a one-time setup that takes a few minutes — then return to Step 3.)*
+
+**Step 4 — Find the two CSV files in Finder**
+
+Open **Finder** (smiling-face icon in the Dock) and click **Downloads** in the left sidebar. You should see the two files you exported earlier:
+
+```
+cases_2026-01-01_-_2026-04-30_<long-number>.csv
+invoice_details_2026-01-01_-_2026-04-30_<long-number>.csv
+```
+
+Keep the Finder window open alongside the Terminal window.
+
+**Step 5 — Ask Claude to update the MI**
+
+In the Terminal window (which now shows the Claude Code prompt), type or copy-paste:
+
+> Please update the MI from these two CSV files:
+> Cases:
+> Invoices:
+
+**Don't press Return yet.** Now, for each file:
+
+1. Click on the file in Finder, **hold the mouse button down**, and **drag** it onto the Terminal window — drop it directly after the word "Cases:" (and again after "Invoices:" for the second file).
+2. macOS automatically pastes the full file path. Your message should now look like:
+
+   > Please update the MI from these two CSV files:
+   > Cases: /Users/daveb/Downloads/cases_2026-01-01_-_2026-04-30_1234567890.csv
+   > Invoices: /Users/daveb/Downloads/invoice_details_2026-01-01_-_2026-04-30_1234567890.csv
+
+3. Now press **Return** to send the message.
+
+**Step 6 — Review and approve**
+
+Claude will run the processor and show a summary like:
+
+```
+  ✓ zego.js              58 cases  (36 RTC)  invoices £18,313 (77 lines)
+  ✓ inshur.js            56 cases  (0 RTC)   invoices £24,859 (106 lines)
+  ✓ trinity.js           42 cases  (0 RTC)   invoices £16,522 (62 lines)
+  ✓ ...
+
+Done. Wrote 13 file(s) to clients/
+```
+
+Quickly check:
+- Every client you'd expect to see is listed (Zego, Inshur, Trinity, And-E/ITB, DWF, Trinity, First Central, etc.).
+- The case counts look broadly normal — no client suddenly losing 80% of cases.
+- No "✗" failure marks.
+
+Claude will then offer to **commit and push** the new figures to the live site. When asked, reply with one word: **yes** (or **push**).
+
+You're done. The new MI is live at https://mi.dlbinvestigations.co.uk/ within about 60 seconds.
+
+You can close the Terminal window — type `exit` and press Return, or just close the window.
+
+---
+
+##### If something goes wrong
+
+| What you see | What to do |
+|---|---|
+| "command not found: claude" | Install Claude Code (one-off setup). See https://docs.claude.com/claude-code, then go back to Step 3. |
+| "Cases CSV not found" or "Invoices CSV not found" | The file path is wrong. Repeat Step 5 — drag the file from Finder again to make sure the path is correct. |
+| Claude reports "Unmatched client names" | Some TrackOps client name didn't match our list. Ask Claude to add the unmatched name to `scripts/client-map.json` and re-run. |
+| A `✗` failure mark next to a client | Show the full message to your DLB account manager. Don't approve the commit. |
+| Anything else unexpected | Don't approve any commit. Screenshot the Terminal window and forward it to your DLB account manager. |
+
+---
+
+##### Route B — direct terminal command (for technical users only)
+
+For users comfortable with the command line:
 
 ```bash
 cd /Users/daveb/Desktop/MI-Portal
@@ -180,6 +275,14 @@ node scripts/process-csv.js \
 ```
 
 The `--invoices` flag is **strongly recommended** but technically optional. If omitted, the dashboard will fall back to a less-accurate case-level revenue view (no service-type breakdown).
+
+To publish the changes after the processor finishes:
+
+```bash
+git add clients/
+git commit -m "MI update: [Month] [Year]"
+git push origin main
+```
 
 #### 7.2.3 Verify the output
 
@@ -338,3 +441,4 @@ Sign-off:               __________________________  Date: ______
 | 1.0 | 11 May 2026 | David Booker | Initial issue. Establishes monthly release cadence on 5th of month with automated email distribution via Microsoft Graph. |
 | 1.1 | 11 May 2026 | David Booker | Expanded §7.2 with the specific TrackOps export click-path (Case List → Advanced → date-range filter at foot of right-hand sidebar) and an explicit rule for choosing the end date (last day of the last full calendar month preceding today). Added Route A (Claude Code) alongside Route B (direct terminal command) for running the processor. |
 | 1.2 | 12 May 2026 | David Booker | Added invoice-details CSV export as a required second monthly export (§7.2.1 Step 2). Updated Route A prompt and Route B command to take both CSVs. Driver: dashboard now uses invoice line items as the revenue source — actual billed amounts per service type — instead of inferring from case-level totals. |
+| 1.3 | 13 May 2026 | David Booker | Rewrote §7.2.2 Route A as a true beginner's step-by-step. Explicit instructions on how to open Terminal (Cmd-Space → "Terminal"), how to navigate to the MI Portal folder, how to start Claude Code, how to drag the two CSV files from Finder into the Terminal prompt (auto-pastes full paths), what to expect in the output, and how to approve the commit. Added a troubleshooting matrix for the most common errors. The doc can now be handed to a non-technical operator with no prior context. |
