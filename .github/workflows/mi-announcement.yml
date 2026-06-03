@@ -1,0 +1,39 @@
+name: MI release announcement (BCC blast)
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (log recipients but do not send)'
+        type: boolean
+        default: false
+      period_label:
+        description: 'Period label shown in the body (e.g. "Jan–May 2026")'
+        type: string
+        default: 'Jan–May 2026'
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Send MI announcement (BCC blast) via Microsoft Graph
+        env:
+          GRAPH_TENANT_ID:     ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID:     ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_SECRET: ${{ secrets.GRAPH_CLIENT_SECRET }}
+          GRAPH_SENDER:        ${{ secrets.GRAPH_SENDER }}
+          GRAPH_FROM_NAME:     ${{ secrets.GRAPH_FROM_NAME }}
+          PORTAL_URL:          ${{ vars.PORTAL_URL }}
+          PERIOD_LABEL:        ${{ inputs.period_label }}
+          DRY_RUN:             ${{ inputs.dry_run && '1' || '' }}
+          SAVE_TO_SENT:        '1'
+        run: node scripts/send-mi-announcement.js
