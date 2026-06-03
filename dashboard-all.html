@@ -193,7 +193,7 @@ function login(){
   const v = document.getElementById('pw').value.trim().toUpperCase();
   if (v === ADMIN_CODE){
     sessionStorage.setItem('dlb_admin_all','1');
-    open();
+    showOverview();
   } else {
     document.getElementById('err').style.display = 'block';
   }
@@ -202,13 +202,13 @@ function logout(){
   sessionStorage.removeItem('dlb_admin_all');
   location.reload();
 }
-function open(){
+function showOverview(){
   document.getElementById('loginGate').style.display = 'none';
   document.getElementById('content').style.display = 'block';
   loadAll();
 }
 document.getElementById('pw').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
-if (sessionStorage.getItem('dlb_admin_all') === '1') open();
+if (sessionStorage.getItem('dlb_admin_all') === '1') showOverview();
 
 async function loadAll(){
   const clients = [];
