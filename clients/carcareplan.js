@@ -3,14 +3,14 @@
 // Client:  Car Care Plan
 // File:    carcareplan.js
 // Period:  Jan–May 2026
-// Updated: 31 May 2026
+// Updated: 3 Jun 2026
 // GENERATED AUTOMATICALLY FROM TrackOps CSV — DO NOT EDIT MANUALLY
 // ============================================================
 
 var DLB_CLIENT_DATA = {
   "client_name": "Car Care Plan",
   "report_period": "Jan–May 2026",
-  "last_updated": "31 May 2026",
+  "last_updated": "3 Jun 2026",
   "is_rtc_client": true,
   "total_cases": 5,
   "avg_days_creation_to_update": 0,
@@ -29,9 +29,9 @@ var DLB_CLIENT_DATA = {
   "sla_met": 1,
   "sla_not_met": 2,
   "avg_fee_rtc": 0,
-  "avg_fee_general": 237.5,
+  "avg_fee_general": 427.5,
   "total_fees_rtc": 0,
-  "total_fees_general": 950,
+  "total_fees_general": 1710,
   "rtc_case_count": 1,
   "general_case_count": 4,
   "fees_by_type": [
@@ -39,8 +39,8 @@ var DLB_CLIENT_DATA = {
       "type": "Gap Insurance investigation",
       "is_rtc": false,
       "case_count": 4,
-      "total_fees": 950,
-      "avg_fee": 237.5
+      "total_fees": 1710,
+      "avg_fee": 427.5
     },
     {
       "type": "RTC",
@@ -109,10 +109,10 @@ var DLB_CLIENT_DATA = {
       "case_count": 1,
       "case_count_rtc": 0,
       "case_count_general": 1,
-      "total_fees": 450,
-      "ave_fees": 450,
+      "total_fees": 540,
+      "ave_fees": 540,
       "total_fees_rtc": 0,
-      "total_fees_general": 0,
+      "total_fees_general": 540,
       "ave_days_creation_to_update": 0,
       "ave_days_creation_to_update_general": 0,
       "ave_days_stmt_to_report": 4,
@@ -211,10 +211,10 @@ var DLB_CLIENT_DATA = {
       "case_count": 3,
       "case_count_rtc": 1,
       "case_count_general": 2,
-      "total_fees": 500,
-      "ave_fees": 167,
+      "total_fees": 1170,
+      "ave_fees": 390,
       "total_fees_rtc": 0,
-      "total_fees_general": 0,
+      "total_fees_general": 1170,
       "ave_days_creation_to_update": 0,
       "ave_days_creation_to_update_general": 0,
       "ave_days_stmt_to_report": 7.5,
@@ -510,7 +510,7 @@ var DLB_CLIENT_DATA = {
       "report_sent": "21 May 2026",
       "days_creation_to_update": null,
       "days_stmt_to_report": 2,
-      "invoice": 500,
+      "invoice": 600,
       "is_rtc_case": false,
       "sla_ack": true,
       "sla_contact": true,
@@ -530,7 +530,7 @@ var DLB_CLIENT_DATA = {
       "report_sent": "28 May 2026",
       "days_creation_to_update": null,
       "days_stmt_to_report": 13,
-      "invoice": 0,
+      "invoice": 570,
       "is_rtc_case": false,
       "sla_ack": true,
       "sla_contact": true,
@@ -570,7 +570,7 @@ var DLB_CLIENT_DATA = {
       "report_sent": "24 Feb 2026",
       "days_creation_to_update": null,
       "days_stmt_to_report": 4,
-      "invoice": 450,
+      "invoice": 540,
       "is_rtc_case": false,
       "sla_ack": true,
       "sla_contact": true,
