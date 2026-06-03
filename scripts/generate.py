@@ -48,15 +48,11 @@ def build_client(name, cases_df, inv_df):
     cdf = cases_df[cases_df['Client']==name].copy()
     idf = inv_df[inv_df['Client']==name].copy()
 
-    # OPTION 2: per-case basis. Restrict invoice rows to those linked to a case
-    # that exists in the cases export, so every revenue figure reconciles to the
-    # sum of per-case invoices shown on the dashboard. (Under-reports vs the raw
-    # invoice file by the value of invoices on cases outside this export.)
-    case_numbers = set(cdf['Case Number'].astype(str))
-    idf_all = idf.copy()
-    idf = idf[idf['Case'].astype(str).isin(case_numbers)].copy()
-
-    # Per-case invoiced total from linked invoice items (reconciles to per-case sum)
+    # OPTION 1: raw invoice file. Line-item totals include ALL client invoices in
+    # the period (incl. invoices linked to cases created outside this export window
+    # — e.g. cases opened in 2025 but invoiced in Jan–May 2026). Per-case revenue
+    # comes from the cases CSV 'Invoice Total' column (legacy parity).
+    # Per-case invoice sum kept for cross-check / fallback only.
     percase_total = idf.groupby('Case')['Total'].sum().to_dict()
     # Item-level breakdown (case-linked only)
     item_group = idf.groupby('Item').agg(count=('Total','size'), total=('Total','sum')).reset_index()
@@ -70,6 +66,12 @@ def build_client(name, cases_df, inv_df):
     total_invoiced_lineitems = round(float(idf['Total'].sum()),2)
     total_lineitem_count = int(len(idf))
 
+    def parse_money(v):
+        if v is None or (isinstance(v,float) and np.isnan(v)): return 0.0
+        s = re.sub(r'[^0-9.\-]', '', str(v))
+        try: return float(s) if s else 0.0
+        except ValueError: return 0.0
+
     cases_out=[]
     rtc_n=gen_n=0
     rtc_fees=gen_fees=0.0
@@ -77,7 +79,8 @@ def build_client(name, cases_df, inv_df):
     sla_report_rtc_met=sla_report_rtc_n=0
     sla_report_gen_met=sla_report_gen_n=0
     sla_update_met=sla_update_n=0
-    monthly = {m:dict(case_count=0,case_count_rtc=0,case_count_general=0,total_fees=0.0,
+    monthly = {m:dict(case_count=0,case_count_rtc=0,case_count_general=0,
+                      total_fees=0.0,total_fees_rtc=0.0,total_fees_general=0.0,
                       cu_days=[],sr_days=[],sr_rtc_days=[],sr_gen_days=[],
                       rep_rtc_met=0,rep_rtc_n=0,rep_gen_met=0,rep_gen_n=0,upd_met=0,upd_n=0)
                for m in MONTHS}
@@ -88,15 +91,16 @@ def build_client(name, cases_df, inv_df):
         rtc=is_rtc(ctype)
         created=r['Date Created']; first_upd=r['Date client first updated?']
         stmt=r['Date statement obtained']; report=r['Date Report sent to client?']
-        # per-case fee = sum of linked invoice items only (option 2: reconciles).
-        # Cases with no linked invoice show £0 (e.g. ongoing/stood-down).
-        case_key = ref
-        inv_amt = percase_total.get(case_key, None)
-        if inv_amt is None and ref.isdigit():
-            inv_amt = percase_total.get(int(ref), None)
-        if inv_amt is None:
-            inv_amt = 0.0
-        inv_amt=round(float(inv_amt),2)
+        # per-case fee = cases CSV 'Invoice Total' column (legacy parity).
+        # Falls back to line-item sum if column missing/blank.
+        inv_amt = parse_money(r.get('Invoice Total'))
+        if inv_amt == 0.0:
+            fallback = percase_total.get(ref, None)
+            if fallback is None and ref.isdigit():
+                fallback = percase_total.get(int(ref), None)
+            if fallback is not None:
+                inv_amt = float(fallback)
+        inv_amt = round(inv_amt, 2)
 
         d_cu = days_between(created, first_upd)
         d_sr = days_between(stmt, report)
@@ -141,6 +145,8 @@ def build_client(name, cases_df, inv_df):
             mm=monthly[mon]; mm['case_count']+=1
             mm['case_count_rtc']+= int(rtc); mm['case_count_general']+= int(not rtc)
             mm['total_fees']+=inv_amt
+            if rtc: mm['total_fees_rtc']+=inv_amt
+            else:   mm['total_fees_general']+=inv_amt
             if d_cu is not None: mm['cu_days'].append(d_cu)
             if d_sr_eff is not None:
                 mm['sr_days'].append(d_sr_eff)
@@ -161,14 +167,17 @@ def build_client(name, cases_df, inv_df):
         rep_gen_pct = safe_pct(mm['rep_gen_met'],mm['rep_gen_n'])
         upd_pct     = safe_pct(mm['upd_met'],mm['upd_n'])
         ack_pct = 100 if cc else None
-        # overall monthly compliance = mean of available report SLAs (matches spirit of old file)
-        comp_parts=[p for p in [rep_rtc_pct,rep_gen_pct] if p is not None]
+        # overall monthly compliance = mean of all SLA components (ack, contact, update,
+        # report-rtc, report-general) — matches legacy process-csv.js which averaged
+        # every available pct, not just the report SLA.
+        comp_parts=[p for p in [ack_pct,ack_pct,upd_pct,rep_rtc_pct,rep_gen_pct] if p is not None]
         comp = round(sum(comp_parts)/len(comp_parts)) if comp_parts else 0
         monthly_out.append(dict(
             month=m, month_num=i+1, case_count=cc,
             case_count_rtc=mm['case_count_rtc'], case_count_general=mm['case_count_general'],
             total_fees=round(mm['total_fees'],2), ave_fees=round(mm['total_fees']/cc) if cc else 0,
-            total_fees_rtc=0, total_fees_general=0,
+            total_fees_rtc=round(mm['total_fees_rtc'],2),
+            total_fees_general=round(mm['total_fees_general'],2),
             ave_days_creation_to_update=avg(mm['cu_days']),
             ave_days_creation_to_update_general=avg(mm['cu_days']),
             ave_days_stmt_to_report=avg(mm['sr_days']),
@@ -186,7 +195,13 @@ def build_client(name, cases_df, inv_df):
     total_cases=len(cases_out)
     sla_report_met = sla_report_rtc_met+sla_report_gen_met
     sla_report_n   = sla_report_rtc_n+sla_report_gen_n
-    overall_pct = safe_pct(sla_report_met, sla_report_n) or 0
+    # Overall compliance = mean of all available SLA-component pcts (legacy parity).
+    _ack    = 100 if total_cases else None
+    _upd    = safe_pct(sla_update_met, sla_update_n)
+    _rrtc   = safe_pct(sla_report_rtc_met, sla_report_rtc_n)
+    _rgen   = safe_pct(sla_report_gen_met, sla_report_gen_n)
+    _parts  = [p for p in [_ack, _ack, _upd, _rrtc, _rgen] if p is not None]
+    overall_pct = round(sum(_parts)/len(_parts)) if _parts else 0
 
     # fees_by_type (per-case, RTC collapsed)
     bytype={}
