@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>DLB MI — All Clients Overview (Admin)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#1e2128; --surface:#252931; --surface2:#2d323c;
+      --border:#3a404d; --accent:#4a7fc1; --accent2:#6b9fd4;
+      --text:#e8ecf0; --muted:#8a95a3; --rtc:#7c3aed; --rtc2:#a78bfa;
+      --green:#5a9e7c; --amber:#b8860b; --red:#c0392b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;min-height:100vh}
+
+    /* Login */
+    #loginGate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:10}
+    .login-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:36px 44px;max-width:380px;width:90%}
+    .login-card h1{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 6px;color:#fff}
+    .login-card .sub{color:var(--muted);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:24px}
+    .login-card label{display:block;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    .login-card input{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;letter-spacing:2px}
+    .login-card input:focus{outline:none;border-color:var(--accent)}
+    .login-card button{margin-top:18px;width:100%;padding:11px;background:var(--accent);border:none;border-radius:6px;color:#fff;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;letter-spacing:1px;cursor:pointer;text-transform:uppercase}
+    .login-card button:hover{background:var(--accent2)}
+    .login-card .err{display:none;color:var(--red);font-size:12px;margin-top:12px}
+
+    /* Layout */
+    .wrap{max-width:1400px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .logo{display:flex;align-items:center;gap:14px}
+    .logo-mark{width:42px;height:42px;background:linear-gradient(135deg,#2c3e6b,var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:17px;color:#fff}
+    .title h1{font-family:'Rajdhani',sans-serif;font-size:20px;letter-spacing:2px;margin:0;text-transform:uppercase}
+    .title p{margin:2px 0 0;color:var(--muted);font-size:11px;letter-spacing:1.4px;text-transform:uppercase}
+    .pill{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;padding:5px 11px;border-radius:6px;border:1px solid var(--border);color:var(--muted)}
+    .pill.admin{background:rgba(184,134,11,0.12);color:var(--amber);border-color:rgba(184,134,11,0.35)}
+
+    /* KPIs */
+    .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
+    .kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden}
+    .kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+    .kpi.rtc::before{background:var(--rtc)}
+    .kpi.green::before{background:var(--green)}
+    .kpi.amber::before{background:var(--amber)}
+    .kpi .label{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:9px}
+    .kpi .value{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;line-height:1;color:var(--text)}
+    .kpi .sub{font-size:11px;color:var(--muted);margin-top:5px}
+
+    /* Card */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:22px}
+    .card h2{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+
+    /* Table */
+    table.summary{width:100%;border-collapse:collapse;font-size:12px}
+    table.summary th{text-align:left;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+    table.summary th:hover{color:var(--text)}
+    table.summary th.r{text-align:right}
+    table.summary td{padding:10px;border-bottom:1px solid rgba(60,72,99,0.3);white-space:nowrap}
+    table.summary td.r{text-align:right;font-variant-numeric:tabular-nums}
+    table.summary tbody tr:hover{background:rgba(74,127,193,0.06)}
+    table.summary tfoot td{font-weight:600;border-top:2px solid var(--border);border-bottom:none;padding-top:14px}
+    .badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px}
+    .b-green{background:rgba(90,158,124,0.18);color:#7bcc9a}
+    .b-amber{background:rgba(184,134,11,0.18);color:#e2a93a}
+    .b-red{background:rgba(192,57,43,0.18);color:#e57165}
+    .b-grey{background:var(--surface2);color:var(--muted)}
+    .b-rtc{background:rgba(124,58,237,0.18);color:var(--rtc2)}
+
+    /* Chart */
+    .chart-wrap{position:relative;height:280px}
+
+    /* Two-col grid for some sections */
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
+    @media(max-width:980px){.grid-2{grid-template-columns:1fr}}
+
+    .footer{color:var(--muted);font-size:11px;text-align:center;margin:18px 0 30px;letter-spacing:1px}
+    a.ext{color:var(--accent2);text-decoration:none}
+    a.ext:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+
+<div id="loginGate">
+  <div class="login-card">
+    <h1>DLB MI · Admin</h1>
+    <p class="sub">All-clients consolidated view</p>
+    <label for="pw">Admin Code</label>
+    <input type="password" id="pw" autocomplete="off" />
+    <button onclick="login()">Open Overview →</button>
+    <div class="err" id="err">Invalid code.</div>
+  </div>
+</div>
+
+<div id="content" style="display:none">
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <div class="logo-mark">DLB</div>
+        <div class="title">
+          <h1>DLB MI — All Clients Overview</h1>
+          <p id="periodLine">Consolidated · Jan–May 2026</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span class="pill admin">Admin · internal</span>
+        <span class="pill" id="updatedPill">Updated —</span>
+        <button class="pill" style="background:none;cursor:pointer" onclick="logout()">Sign out</button>
+      </div>
+    </header>
+
+    <!-- KPI strip -->
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <!-- Per-client summary -->
+    <div class="card">
+      <h2>Per-Client Summary <span style="font-weight:400;font-size:11px;color:var(--muted);margin-left:8px">(click any column header to sort)</span></h2>
+      <div style="overflow-x:auto">
+        <table class="summary" id="clientTable">
+          <thead>
+            <tr>
+              <th data-sort="name">Client</th>
+              <th data-sort="cases" class="r">Cases</th>
+              <th data-sort="rtc" class="r">RTC</th>
+              <th data-sort="general" class="r">General</th>
+              <th data-sort="rev" class="r">Per-case Revenue</th>
+              <th data-sort="lineitems" class="r">Line-item Revenue</th>
+              <th data-sort="avgfee" class="r">Avg Fee</th>
+              <th data-sort="sla" class="r">SLA %</th>
+              <th data-sort="updated">Updated</th>
+            </tr>
+          </thead>
+          <tbody id="clientRows"></tbody>
+          <tfoot id="clientFoot"></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Monthly trend -->
+      <div class="card">
+        <h2>Monthly Trend (all clients combined)</h2>
+        <div class="chart-wrap"><canvas id="monthChart"></canvas></div>
+      </div>
+
+      <!-- SLA leaderboard -->
+      <div class="card">
+        <h2>SLA Leaderboard</h2>
+        <div class="chart-wrap"><canvas id="slaChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Revenue split -->
+    <div class="card">
+      <h2>Top Revenue (per-case basis)</h2>
+      <div class="chart-wrap" style="height:260px"><canvas id="revChart"></canvas></div>
+    </div>
+
+    <div class="footer">DLB Investigations Ltd · Internal · <a class="ext" href="index.html">Client portal</a></div>
+  </div>
+</div>
+
+<script>
+const ADMIN_CODE = 'DLBADMIN26';
+
+const CLIENT_FILES = [
+  'clients/zego.js',
+  'clients/inshur.js',
+  'clients/firstcentral.js',
+  'clients/trinity.js',
+  'clients/dwf.js',
+  'clients/carcareplan.js',
+  'clients/itb.js',
+  'clients/transportation.js',
+  'clients/collingwood.js',
+  'clients/action365.js',
+  'clients/jpsolicitors.js',
+  'clients/keoghs.js',
+  'clients/weightmans.js',
+  'clients/zebra.js',
+  'clients/directcommercial.js',
+  'clients/keyclaims.js',
+  'clients/msg.js',
+  'clients/mulsanne.js',
+  'clients/rostella.js',
+  'clients/xsd.js',
+];
+
+function login(){
+  const v = document.getElementById('pw').value.trim().toUpperCase();
+  if (v === ADMIN_CODE){
+    sessionStorage.setItem('dlb_admin_all','1');
+    open();
+  } else {
+    document.getElementById('err').style.display = 'block';
+  }
+}
+function logout(){
+  sessionStorage.removeItem('dlb_admin_all');
+  location.reload();
+}
+function open(){
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  loadAll();
+}
+document.getElementById('pw').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+if (sessionStorage.getItem('dlb_admin_all') === '1') open();
+
+async function loadAll(){
+  const clients = [];
+  for (const f of CLIENT_FILES){
+    try{
+      const r = await fetch(f + '?cb=' + Date.now());
+      if (!r.ok) continue;
+      const txt = await r.text();
+      const m = txt.match(/var\s+DLB_CLIENT_DATA\s*=\s*([\s\S]+?);\s*$/);
+      if (!m) continue;
+      const data = JSON.parse(m[1]);
+      data.__file = f.replace('clients/','');
+      clients.push(data);
+    } catch(e){ console.warn('skip',f,e.message); }
+  }
+  render(clients);
+}
+
+const fmtMoney = v => '£' + (v||0).toLocaleString('en-GB', {maximumFractionDigits:0});
+const slaBadge = pct => {
+  if (pct === null || pct === undefined) return '<span class="badge b-grey">—</span>';
+  const cls = pct >= 80 ? 'b-green' : pct >= 50 ? 'b-amber' : 'b-red';
+  return `<span class="badge ${cls}">${pct}%</span>`;
+};
+
+let _sortKey = 'rev';
+let _sortDir = -1; // -1 desc
+let _clientsCache = [];
+
+function render(clients){
+  _clientsCache = clients.filter(c => (c.total_cases||0) > 0);
+  // Pull period/last-updated from the first client with data
+  if (_clientsCache.length){
+    document.getElementById('periodLine').textContent = 'Consolidated · ' + (_clientsCache[0].report_period || 'Jan–May 2026');
+    document.getElementById('updatedPill').textContent = 'Updated ' + (_clientsCache[0].last_updated || '—');
+  }
+  buildKpis(_clientsCache);
+  renderTable();
+  renderMonthly(_clientsCache);
+  renderSlaChart(_clientsCache);
+  renderRevChart(_clientsCache);
+}
+
+function buildKpis(clients){
+  const totalCases = clients.reduce((s,c)=>s+(c.total_cases||0),0);
+  const totalRtcCases = clients.reduce((s,c)=>s+(c.rtc_case_count||0),0);
+  const totalGenCases = clients.reduce((s,c)=>s+(c.general_case_count||0),0);
+  const perCaseRev = clients.reduce((s,c)=>s+((c.total_fees_rtc||0)+(c.total_fees_general||0)),0);
+  const lineRev = clients.reduce((s,c)=>s+(c.total_invoiced_lineitems||0),0);
+  // Weighted SLA by case count
+  let slaW = 0, slaN = 0;
+  for (const c of clients){
+    if (c.sla_compliance_pct !== null && c.sla_compliance_pct !== undefined){
+      slaW += (c.sla_compliance_pct||0) * (c.total_cases||0);
+      slaN += (c.total_cases||0);
+    }
+  }
+  const wSla = slaN ? Math.round(slaW/slaN) : 0;
+  const activeClients = clients.length;
+
+  const slaCls = wSla >= 80 ? 'green' : wSla >= 50 ? 'amber' : '';
+  const html = `
+    <div class="kpi"><div class="label">Active Clients</div><div class="value">${activeClients}</div><div class="sub">with cases in period</div></div>
+    <div class="kpi"><div class="label">Total Cases</div><div class="value">${totalCases.toLocaleString()}</div><div class="sub">${totalGenCases} General · ${totalRtcCases} RTC</div></div>
+    <div class="kpi rtc"><div class="label">RTC Cases</div><div class="value">${totalRtcCases.toLocaleString()}</div><div class="sub">${totalCases? Math.round(totalRtcCases/totalCases*100):0}% of total</div></div>
+    <div class="kpi"><div class="label">Per-case Revenue</div><div class="value">${fmtMoney(perCaseRev)}</div><div class="sub">from cases CSV</div></div>
+    <div class="kpi"><div class="label">Line-item Revenue</div><div class="value">${fmtMoney(lineRev)}</div><div class="sub">from invoice details</div></div>
+    <div class="kpi ${slaCls}"><div class="label">Weighted SLA %</div><div class="value">${wSla}%</div><div class="sub">case-count weighted</div></div>
+  `;
+  document.getElementById('kpiRow').innerHTML = html;
+}
+
+function renderTable(){
+  const rows = _clientsCache.map(c => {
+    const perCase = (c.total_fees_rtc||0)+(c.total_fees_general||0);
+    const avgFee = c.total_cases ? perCase/c.total_cases : 0;
+    return {
+      raw: c,
+      name: c.client_name || c.__file,
+      cases: c.total_cases || 0,
+      rtc: c.rtc_case_count || 0,
+      general: c.general_case_count || 0,
+      rev: perCase,
+      lineitems: c.total_invoiced_lineitems || 0,
+      avgfee: avgFee,
+      sla: c.sla_compliance_pct ?? null,
+      updated: c.last_updated || '',
+    };
+  });
+  rows.sort((a,b) => {
+    const av = a[_sortKey], bv = b[_sortKey];
+    if (typeof av === 'string') return _sortDir * av.localeCompare(bv);
+    if (av === null) return 1; if (bv === null) return -1;
+    return _sortDir * (av - bv);
+  });
+
+  const body = rows.map(r => `
+    <tr>
+      <td>${r.name}</td>
+      <td class="r">${r.cases.toLocaleString()}</td>
+      <td class="r">${r.rtc ? `<span class="badge b-rtc">${r.rtc}</span>` : '—'}</td>
+      <td class="r">${r.general || '—'}</td>
+      <td class="r">${fmtMoney(r.rev)}</td>
+      <td class="r">${fmtMoney(r.lineitems)}</td>
+      <td class="r">${fmtMoney(r.avgfee)}</td>
+      <td class="r">${slaBadge(r.sla)}</td>
+      <td>${r.updated}</td>
+    </tr>
+  `).join('');
+  document.getElementById('clientRows').innerHTML = body;
+
+  // Totals row
+  const T = rows.reduce((a,r)=>({cases:a.cases+r.cases, rtc:a.rtc+r.rtc, general:a.general+r.general, rev:a.rev+r.rev, lineitems:a.lineitems+r.lineitems}),
+                       {cases:0,rtc:0,general:0,rev:0,lineitems:0});
+  const slaW = rows.reduce((s,r)=> r.sla!==null ? s+r.sla*r.cases : s, 0);
+  const slaN = rows.reduce((s,r)=> r.sla!==null ? s+r.cases : s, 0);
+  const wSla = slaN ? Math.round(slaW/slaN) : 0;
+  document.getElementById('clientFoot').innerHTML = `
+    <tr>
+      <td>Total (${rows.length} clients)</td>
+      <td class="r">${T.cases.toLocaleString()}</td>
+      <td class="r">${T.rtc}</td>
+      <td class="r">${T.general}</td>
+      <td class="r">${fmtMoney(T.rev)}</td>
+      <td class="r">${fmtMoney(T.lineitems)}</td>
+      <td class="r">${fmtMoney(T.cases ? T.rev/T.cases : 0)}</td>
+      <td class="r">${slaBadge(wSla)} <span style="color:var(--muted);font-size:10px;margin-left:4px">weighted</span></td>
+      <td></td>
+    </tr>
+  `;
+}
+
+document.querySelectorAll('#clientTable thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const k = th.dataset.sort;
+    if (_sortKey === k) _sortDir = -_sortDir;
+    else { _sortKey = k; _sortDir = (k === 'name' || k === 'updated') ? 1 : -1; }
+    renderTable();
+  });
+});
+
+let _charts = {};
+function destroyChart(id){ if (_charts[id]) { _charts[id].destroy(); _charts[id] = null; } }
+
+function renderMonthly(clients){
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const sums = months.map(() => ({cases:0, rev:0, slaW:0, slaN:0}));
+  for (const c of clients){
+    for (const m of (c.monthly || [])){
+      const i = months.indexOf(m.month);
+      if (i < 0) continue;
+      sums[i].cases += m.case_count || 0;
+      sums[i].rev += m.total_fees || 0;
+      if (m.sla_compliance_pct !== null && m.sla_compliance_pct !== undefined && m.case_count){
+        sums[i].slaW += (m.sla_compliance_pct||0) * (m.case_count||0);
+        sums[i].slaN += (m.case_count||0);
+      }
+    }
+  }
+  // Trim to first non-zero through last non-zero
+  let first=0,last=11;
+  while (first < 12 && !sums[first].cases) first++;
+  while (last > first && !sums[last].cases) last--;
+  const labels = months.slice(first, last+1);
+  const cases  = sums.slice(first, last+1).map(s=>s.cases);
+  const rev    = sums.slice(first, last+1).map(s=>Math.round(s.rev));
+  const sla    = sums.slice(first, last+1).map(s=>s.slaN ? Math.round(s.slaW/s.slaN) : null);
+
+  destroyChart('monthChart');
+  _charts.monthChart = new Chart(document.getElementById('monthChart'), {
+    data: {
+      labels,
+      datasets: [
+        { type:'bar', label:'Cases', data:cases, backgroundColor:'rgba(74,127,193,0.5)', borderColor:'#4a7fc1', borderWidth:1, yAxisID:'y' },
+        { type:'line', label:'Weighted SLA %', data:sla, borderColor:'#5a9e7c', backgroundColor:'#5a9e7c', tension:0.3, yAxisID:'y1', borderWidth:2, pointRadius:3 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{labels:{color:'#8a95a3'}} },
+      scales:{
+        x:{ ticks:{color:'#8a95a3'}, grid:{color:'rgba(255,255,255,0.04)'} },
+        y:{ ticks:{color:'#8a95a3'}, grid:{color:'rgba(255,255,255,0.04)'}, title:{display:true,text:'Cases',color:'#8a95a3'} },
+        y1:{ position:'right', min:0, max:100, ticks:{color:'#5a9e7c', callback:v=>v+'%'}, grid:{drawOnChartArea:false}, title:{display:true,text:'SLA %',color:'#5a9e7c'} },
+      }
+    }
+  });
+}
+
+function renderSlaChart(clients){
+  const sorted = clients.filter(c=> (c.total_cases||0)>0 && c.sla_compliance_pct !== null && c.sla_compliance_pct !== undefined)
+                        .sort((a,b)=> (b.sla_compliance_pct||0) - (a.sla_compliance_pct||0));
+  const labels = sorted.map(c=>c.client_name);
+  const data = sorted.map(c=>c.sla_compliance_pct||0);
+  const colors = data.map(v => v>=80 ? '#5a9e7c' : v>=50 ? '#b8860b' : '#c0392b');
+  destroyChart('slaChart');
+  _charts.slaChart = new Chart(document.getElementById('slaChart'), {
+    type:'bar',
+    data:{ labels, datasets:[{ data, backgroundColor:colors }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>ctx.parsed.x+'%'}} },
+      scales:{ x:{ min:0, max:100, ticks:{color:'#8a95a3',callback:v=>v+'%'}, grid:{color:'rgba(255,255,255,0.04)'} }, y:{ ticks:{color:'#e8ecf0'}, grid:{display:false} } }
+    }
+  });
+}
+
+function renderRevChart(clients){
+  const sorted = clients.map(c => ({
+    name: c.client_name,
+    rtc: c.total_fees_rtc || 0,
+    gen: c.total_fees_general || 0,
+    total: (c.total_fees_rtc||0)+(c.total_fees_general||0)
+  })).sort((a,b)=> b.total - a.total).slice(0, 12);
+
+  destroyChart('revChart');
+  _charts.revChart = new Chart(document.getElementById('revChart'), {
+    type:'bar',
+    data:{
+      labels: sorted.map(s=>s.name),
+      datasets: [
+        { label:'General', data: sorted.map(s=>s.gen), backgroundColor:'#4a7fc1' },
+        { label:'RTC',     data: sorted.map(s=>s.rtc), backgroundColor:'#7c3aed' },
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{labels:{color:'#8a95a3'}}, tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': £'+ctx.parsed.y.toLocaleString()}} },
+      scales:{
+        x:{ stacked:true, ticks:{color:'#8a95a3'}, grid:{display:false} },
+        y:{ stacked:true, ticks:{color:'#8a95a3',callback:v=>'£'+v.toLocaleString()}, grid:{color:'rgba(255,255,255,0.04)'} }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
