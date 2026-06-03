@@ -3,7 +3,7 @@
 // Client:  J&P Solicitors
 // File:    jpsolicitors.js
 // Period:  Jan–Dec 2026
-// Updated: 12 May 2026
+// Updated: 3 Jun 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "J&P Solicitors",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "12 May 2026",
+  last_updated:                 "3 Jun 2026",
   is_rtc_client:                false,
   total_cases:                  5,
 
@@ -43,11 +43,11 @@ var DLB_CLIENT_DATA = {
   ],
 
   // Line-item-driven revenue (from TrackOps invoice details export)
-  total_invoiced_lineitems:     1392.68,
-  total_lineitem_count:         8,
+  total_invoiced_lineitems:     1642.68,
+  total_lineitem_count:         9,
   fees_by_item: [
+    { item:"Motor Liability Investigation", is_rtc:false, count:3, total:700, avg:233.33 },
     { item:"Translation services", is_rtc:false, count:4, total:697.68, avg:174.42 },
-    { item:"Motor Liability Investigation", is_rtc:false, count:2, total:450, avg:225 },
     { item:"Interpreter (1/2 day)", is_rtc:false, count:1, total:185, avg:185 },
     { item:"Miscellanoeus", is_rtc:false, count:1, total:60, avg:60 }
   ],

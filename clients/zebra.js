@@ -3,7 +3,7 @@
 // Client:  Zebra
 // File:    zebra.js
 // Period:  Jan–Dec 2026
-// Updated: 12 May 2026
+// Updated: 3 Jun 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Zebra",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "12 May 2026",
+  last_updated:                 "3 Jun 2026",
   is_rtc_client:                false,
   total_cases:                  4,
 
@@ -68,7 +68,7 @@ var DLB_CLIENT_DATA = {
   cases: [
     { ref:"1133601", client_ref:"CB2500881ZUR", type:"Intelligence Report", status:"Invoice Paid", created:"26 Jan 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:144, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
     { ref:"1140702", client_ref:"CBK2500955ZUR", type:"Motor Fraud", status:"Awaiting further advises", created:"23 Feb 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
-    { ref:"1141803", client_ref:"SN23037MUL", type:"Motor Fraud", status:"Reviewed, signed off & sent", created:"2 Mar 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1141803", client_ref:"SN23037MUL", type:"Motor Fraud", status:"Awaiting further advises", created:"2 Mar 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
     { ref:"1143703", client_ref:"CB23099MUL", type:"Motor Fraud", status:"Enquiries ongoing", created:"10 Mar 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 }
   ]
 

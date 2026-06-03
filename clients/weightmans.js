@@ -3,7 +3,7 @@
 // Client:  Weightmans
 // File:    weightmans.js
 // Period:  Jan–Dec 2026
-// Updated: 12 May 2026
+// Updated: 3 Jun 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Weightmans",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "12 May 2026",
+  last_updated:                 "3 Jun 2026",
   is_rtc_client:                false,
   total_cases:                  3,
 
@@ -69,7 +69,7 @@ var DLB_CLIENT_DATA = {
 
   cases: [
     { ref:"1138202", client_ref:"W29055-889", type:"Motor Fraud", status:"Invoiced", created:"16 Feb 2026", first_updated:"16 Feb 2026", stmt_date:"10 Mar 2026", report_sent:"12 Mar 2026", days_creation_to_update:0, days_stmt_to_report:2, invoice:672, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:3 },
-    { ref:"1140802", client_ref:"W29055-938", type:"Motor Liability", status:"Invoiced", created:"23 Feb 2026", first_updated:"24 Feb 2026", stmt_date:"27 Feb 2026", report_sent:"2 Mar 2026", days_creation_to_update:1, days_stmt_to_report:3, invoice:300, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1140802", client_ref:"W29055-938", type:"Motor Liability", status:"Invoice Paid", created:"23 Feb 2026", first_updated:"24 Feb 2026", stmt_date:"27 Feb 2026", report_sent:"2 Mar 2026", days_creation_to_update:1, days_stmt_to_report:3, invoice:300, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:3 },
     { ref:"1146403", client_ref:"W29055-886", type:"Motor Fraud", status:"Invoiced", created:"23 Mar 2026", first_updated:"23 Mar 2026", stmt_date:"1 Apr 2026", report_sent:"10 Apr 2026", days_creation_to_update:0, days_stmt_to_report:9, invoice:600, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:3 }
   ]
 

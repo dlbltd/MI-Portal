@@ -3,7 +3,7 @@
 // Client:  Action 365
 // File:    action365.js
 // Period:  Jan–Dec 2026
-// Updated: 12 May 2026
+// Updated: 3 Jun 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Action 365",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "12 May 2026",
+  last_updated:                 "3 Jun 2026",
   is_rtc_client:                false,
   total_cases:                  0,
 
