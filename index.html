@@ -185,6 +185,12 @@ const CLIENT_REGISTRY = {
 
 function handleLogin() {
   const code = document.getElementById('accessCode').value.trim().toUpperCase();
+  // Internal admin code → all-clients overview
+  if (code === 'DLBVIP26') {
+    sessionStorage.setItem('dlb_admin_all', '1');
+    window.location.href = 'dashboard-all.html';
+    return;
+  }
   const target = CLIENT_REGISTRY[code];
   if (target) {
     // Store in session and redirect
