@@ -6,6 +6,7 @@
 <title>DLB Investigations Ltd — Management Information</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="auth-shim.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -412,9 +413,31 @@ window.addEventListener('error', e => {
   document.body && document.body.appendChild(el);
 });
 
-const authCode  = sessionStorage.getItem('dlb_auth');
-const clientFile = sessionStorage.getItem('dlb_client');
-if (!authCode || !clientFile) { window.location.href = 'index.html'; }
+// Dual-mode auth resolution:
+//   • Azure SWA: /.auth/me returns the signed-in user + their roles. Roles like
+//     "client-inshur" or "dlb-admin" map to which clients/*.js file to load.
+//   • GitHub Pages (legacy): sessionStorage was populated by index.html with the
+//     access code → client file mapping.
+let authCode  = sessionStorage.getItem('dlb_auth');
+let clientFile = sessionStorage.getItem('dlb_client');
+
+async function _resolveAuth(){
+  // If SWA identity is present, prefer it (it's authoritative)
+  if (window.DLB_AUTH) {
+    const principal = await window.DLB_AUTH.getPrincipal();
+    if (principal) {
+      const resolved = await window.DLB_AUTH.resolveClient();
+      if (!resolved) { window.location.href = 'index.html?denied=1'; return false; }
+      if (resolved.adminAll) { window.location.href = 'dashboard-all.html'; return false; }
+      authCode  = principal.userId || principal.userDetails;
+      clientFile = resolved.file;
+      return true;
+    }
+  }
+  // Fall back to session-based access code (GitHub Pages legacy path)
+  if (!authCode || !clientFile) { window.location.href = 'index.html'; return false; }
+  return true;
+}
 
 Chart.defaults.color = '#6b7a99';
 Chart.defaults.borderColor = 'rgba(30,42,69,0.6)';
@@ -981,14 +1004,18 @@ async function downloadExcel(){
 
 function downloadPDF(){ window.print(); }
 
-const script = document.createElement('script');
-script.src = clientFile + '?v=' + Date.now();
-script.onload = () => {
-  if (typeof DLB_CLIENT_DATA !== 'undefined') renderDashboard(DLB_CLIENT_DATA);
-  else alert('Error loading client data. Please contact your account manager.');
-};
-script.onerror = () => { alert('Unable to load data. Please try again.'); sessionStorage.clear(); window.location.href = 'index.html'; };
-document.head.appendChild(script);
+(async () => {
+  const ok = await _resolveAuth();
+  if (!ok) return;
+  const script = document.createElement('script');
+  script.src = clientFile + '?v=' + Date.now();
+  script.onload = () => {
+    if (typeof DLB_CLIENT_DATA !== 'undefined') renderDashboard(DLB_CLIENT_DATA);
+    else alert('Error loading client data. Please contact your account manager.');
+  };
+  script.onerror = () => { alert('Unable to load data. Please try again.'); sessionStorage.clear(); window.location.href = 'index.html'; };
+  document.head.appendChild(script);
+})();
 </script>
 </body>
 </html>

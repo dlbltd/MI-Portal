@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json.schemastore.org/staticwebapp.config.json",
+
+  "routes": [
+    { "route": "/.auth/login/aad", "allowedRoles": ["anonymous", "authenticated"] },
+    { "route": "/.auth/logout",    "allowedRoles": ["anonymous", "authenticated"] },
+    { "route": "/.auth/me",        "allowedRoles": ["anonymous", "authenticated"] },
+
+    { "route": "/",                "rewrite": "/index.html",         "allowedRoles": ["anonymous", "authenticated"] },
+    { "route": "/index.html",      "allowedRoles": ["anonymous", "authenticated"] },
+
+    { "route": "/dashboard-all.html", "allowedRoles": ["dlb-admin"] },
+
+    { "route": "/dashboard.html",   "allowedRoles": ["authenticated"] },
+    { "route": "/clients/*",        "allowedRoles": ["authenticated"] },
+
+    { "route": "/clients/inshur.js",          "allowedRoles": ["client-inshur",          "dlb-admin"] },
+    { "route": "/clients/zego.js",            "allowedRoles": ["client-zego",            "dlb-admin"] },
+    { "route": "/clients/firstcentral.js",    "allowedRoles": ["client-firstcentral",    "dlb-admin"] },
+    { "route": "/clients/trinity.js",         "allowedRoles": ["client-trinity",         "dlb-admin"] },
+    { "route": "/clients/dwf.js",             "allowedRoles": ["client-dwf",             "dlb-admin"] },
+    { "route": "/clients/carcareplan.js",     "allowedRoles": ["client-carcareplan",     "dlb-admin"] },
+    { "route": "/clients/itb.js",             "allowedRoles": ["client-ande",            "dlb-admin"] },
+    { "route": "/clients/transportation.js",  "allowedRoles": ["client-transport",       "dlb-admin"] },
+    { "route": "/clients/collingwood.js",     "allowedRoles": ["client-collingwood",     "dlb-admin"] },
+    { "route": "/clients/zebra.js",           "allowedRoles": ["client-zebra",           "dlb-admin"] },
+    { "route": "/clients/jpsolicitors.js",    "allowedRoles": ["client-jpsolicitors",    "dlb-admin"] },
+    { "route": "/clients/keoghs.js",          "allowedRoles": ["client-keoghs",          "dlb-admin"] },
+    { "route": "/clients/weightmans.js",      "allowedRoles": ["client-weightmans",      "dlb-admin"] },
+    { "route": "/clients/action365.js",       "allowedRoles": ["client-action365",       "dlb-admin"] },
+    { "route": "/clients/rostella.js",        "allowedRoles": ["client-rostella",        "dlb-admin"] }
+  ],
+
+  "responseOverrides": {
+    "401": { "redirect": "/index.html", "statusCode": 302 },
+    "403": { "redirect": "/index.html?denied=1", "statusCode": 302 },
+    "404": { "rewrite": "/index.html",  "statusCode": 200 }
+  },
+
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/clients/*", "/scripts/*", "/.auth/*", "/*.js", "/*.css", "/*.png", "/*.svg", "/*.json"]
+  },
+
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/common/v2.0",
+          "clientIdSettingName": "AAD_CLIENT_ID",
+          "clientSecretSettingName": "AAD_CLIENT_SECRET"
+        }
+      }
+    }
+  },
+
+  "globalHeaders": {
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Frame-Options": "SAMEORIGIN"
+  }
+}
