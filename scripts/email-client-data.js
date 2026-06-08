@@ -114,16 +114,9 @@ function buildCsv(client) {
   }
   lines.push('');
 
-  lines.push('--- Case detail ---');
-  lines.push('Case ref,Client ref,Type,Status,RTC,Created,First updated,Stmt date,Report sent,Days creation→update,Days stmt→report,Update SLA met,Report SLA met,Invoice');
-  for (const c of (client.cases || [])) {
-    lines.push([c.ref, c.client_ref || '', c.type, c.status, c.is_rtc_case ? 'Yes' : 'No',
-      c.created, c.first_updated, c.stmt_date, c.report_sent,
-      c.days_creation_to_update ?? '', c.days_stmt_to_report ?? '',
-      c.sla_update === null ? '' : (c.sla_update ? 'Yes' : 'No'),
-      c.sla_report === null ? '' : (c.sla_report ? 'Yes' : 'No'),
-      c.invoice ?? 0].map(csvEscape).join(','));
-  }
+  // Case-level detail is intentionally EXCLUDED from email attachments — too
+  // sensitive to send by plain email. Case refs / client refs / per-case dates
+  // remain accessible only via the access-code-gated portal.
   return lines.join('\n');
 }
 
