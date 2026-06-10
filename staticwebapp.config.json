@@ -10,9 +10,7 @@
     { "route": "/index.html",      "allowedRoles": ["anonymous", "authenticated"] },
 
     { "route": "/dashboard-all.html", "allowedRoles": ["dlb-admin"] },
-
-    { "route": "/dashboard.html",   "allowedRoles": ["authenticated"] },
-    { "route": "/clients/*",        "allowedRoles": ["authenticated"] },
+    { "route": "/dashboard.html",     "allowedRoles": ["authenticated"] },
 
     { "route": "/clients/inshur.js",          "allowedRoles": ["client-inshur",          "dlb-admin"] },
     { "route": "/clients/zego.js",            "allowedRoles": ["client-zego",            "dlb-admin"] },
@@ -28,7 +26,9 @@
     { "route": "/clients/keoghs.js",          "allowedRoles": ["client-keoghs",          "dlb-admin"] },
     { "route": "/clients/weightmans.js",      "allowedRoles": ["client-weightmans",      "dlb-admin"] },
     { "route": "/clients/action365.js",       "allowedRoles": ["client-action365",       "dlb-admin"] },
-    { "route": "/clients/rostella.js",        "allowedRoles": ["client-rostella",        "dlb-admin"] }
+    { "route": "/clients/rostella.js",        "allowedRoles": ["client-rostella",        "dlb-admin"] },
+
+    { "route": "/clients/*",        "allowedRoles": ["dlb-admin"] }
   ],
 
   "responseOverrides": {

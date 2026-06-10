@@ -38,27 +38,66 @@ Azure will commit a new workflow file to the repo automatically (we already have
    - **Name:** `AZURE_STATIC_WEB_APPS_API_TOKEN`
    - **Value:** *paste token*
 
-### 1.3 Verify first deploy
+### 1.3 Enable the deploy workflow
 
-Push any commit (or trigger the workflow manually) — within ~2 min, Azure will deploy. The Overview page shows the default URL, e.g. `https://<random-name>.azurestaticapps.net`.
+The Azure deploy workflow is gated by a repo **variable** so it doesn't fail on every push before Azure is set up. Turn it on:
+
+- GitHub → repo → **Settings → Secrets and variables → Actions → Variables tab → New repository variable**:
+  - **Name:** `AZURE_SWA_ENABLED`
+  - **Value:** `true`
+
+### 1.4 Verify first deploy
+
+Push any commit (or trigger the workflow manually from the Actions tab) — within ~2 min, Azure will deploy. The Overview page shows the default URL, e.g. `https://<random-name>.azurestaticapps.net`.
 
 Open it. You should see the same login screen as GitHub Pages, plus a new **"Sign in with your work email"** button below the access code.
 
 ---
 
-## 2. Configure custom domain (optional but recommended)
+## 2. Custom domain — parallel run, then flip
 
-Use `mi.dlbinvestigations.co.uk` for Azure SWA instead of GitHub Pages.
+Cutover is staged: stand Azure up on a **new** subdomain first, pilot SSO with one client, then DNS-flip `mi.dlbinvestigations.co.uk` to Azure. GitHub Pages keeps serving the production URL during the pilot, so a broken Azure setup never takes the dashboard down.
+
+### 2.1 Stand Azure up on `mi-new.dlbinvestigations.co.uk`
 
 1. SWA resource → **Custom domains** → **+ Add**.
 2. **Domain type:** **Custom domain on other DNS**.
-3. Enter `mi.dlbinvestigations.co.uk` → **Next**.
-4. Azure shows a CNAME or TXT validation record. Add it at your DNS provider for `dlbinvestigations.co.uk`.
-5. Click **Validate**.
-6. Once validated, Azure issues a free SSL certificate.
-7. **Switch over** by updating the existing `mi` CNAME to point at the Azure SWA hostname instead of GitHub Pages.
+3. Enter `mi-new.dlbinvestigations.co.uk` → **Next**.
+4. Azure shows a CNAME validation record. Add it at your DNS provider:
+   - **Host:** `mi-new`
+   - **Type:** `CNAME`
+   - **Value:** *(the `<random-name>.azurestaticapps.net` hostname Azure gave you)*
+5. Click **Validate**. Once validated, Azure issues a free SSL certificate (≈ 5–10 min).
 
-(Plan a brief downtime — usually under 10 minutes for DNS propagation. Or keep GitHub Pages on a temporary subdomain like `mi-legacy.dlbinvestigations.co.uk` for a few weeks during cutover.)
+Now `mi.dlbinvestigations.co.uk` still resolves to GitHub Pages (legacy access-code portal) and `mi-new.dlbinvestigations.co.uk` resolves to Azure (SSO portal). Both are live.
+
+### 2.2 Pilot with one client
+
+Invite a single contact at one client (Inshur or And-E recommended — both are heavy users and have nominated technical contacts already) using the role-invite flow in §3. Send them the `mi-new` URL and confirm:
+
+- They can sign in with their work email.
+- They land on **their** dashboard, not anyone else's.
+- Their IT firewall doesn't block `*.azurestaticapps.net` or `mi-new.dlbinvestigations.co.uk`.
+
+Leave the pilot in place for ~2 weeks. Watch for sign-in failures via SWA → **Insights**.
+
+### 2.3 Flip `mi.dlbinvestigations.co.uk` to Azure
+
+Once the pilot is green:
+
+1. SWA resource → **Custom domains** → **+ Add** → `mi.dlbinvestigations.co.uk`. Validate the CNAME at your DNS provider (replace the existing GitHub Pages CNAME with the Azure hostname). DNS propagation is usually under 10 min.
+2. Azure issues a second SSL cert.
+3. GitHub Pages keeps serving until DNS fully propagates — there is no downtime window.
+4. **Keep `mi-new` alive** as a permanent alias. It costs nothing and is handy for diagnostics.
+
+### 2.4 Decommission GitHub Pages (optional)
+
+Once `mi.` is on Azure, the GitHub Pages site is no longer reachable via the custom domain. You can either:
+
+- Leave the GitHub Pages site enabled at `dlbltd.github.io/MI-Portal` as a no-DNS fallback (rolling back means changing one CNAME), **or**
+- Disable GitHub Pages in repo Settings → Pages.
+
+Leaving it enabled is recommended for the first month post-cutover.
 
 ---
 
@@ -103,18 +142,35 @@ A user can hold multiple roles (e.g. an internal DLB account manager with `dlb-a
 
 ## 4. Verify the role-based access
 
-1. Send yourself an invite as `client-inshur`.
+Test on `mi-new.dlbinvestigations.co.uk` before flipping `mi.` in §2.3:
+
+1. Send yourself an invite as `client-inshur`. Accept it.
 2. Sign in. You should land on the dashboard with Inshur's data, **without** ever entering an access code.
-3. Try to navigate directly to `/clients/zego.js` — Azure should return 403 (your role doesn't include `client-zego`).
+3. **Cross-tenant test:** try to fetch `https://mi-new.dlbinvestigations.co.uk/clients/zego.js` directly in the browser. Azure should return 403 (redirected to `/index.html?denied=1`). If it returns 200 with Zego data, the `staticwebapp.config.json` route ordering is wrong — see §4.1.
 4. Sign yourself out (`/.auth/logout`) and confirm you're sent back to the login page.
+5. Re-sign in as `dlb-admin` (re-invite yourself with that role added). You should land on `/dashboard-all.html`.
+
+### 4.1 Route-ordering pre-flight
+
+SWA matches `routes` top-down, first match wins. If `/clients/*` appears before the specific per-file routes, role checks are silently bypassed. A verification script ships in the repo — run it locally before pushing any change to `staticwebapp.config.json`, `auth-shim.js`, or `clients/`:
+
+```sh
+python3 scripts/verify-swa-config.py
+```
+
+It also fails the build if a new `clients/<name>.js` is added without a matching role-gated route.
 
 ---
 
-## 5. What happens to the existing access codes?
+## 5. Access codes after migration — keep as permanent fallback
 
-- They keep working on **GitHub Pages** indefinitely (the code in `index.html` falls back to the access-code flow when `/.auth/me` returns 404, which is what GitHub Pages does).
-- On **Azure SWA**, the access code box still works as a backup, *but* the SSO button is shown above it as the recommended path. Once all clients are migrated, you can remove the access-code form entirely.
-- You can keep both deployments live for a transition period, or DNS-switch the production URL to Azure once you're satisfied.
+Access codes stay live on Azure SWA as a **permanent secondary path**, not a transitional one. SSO is the default for ongoing client users; access codes cover everything SSO doesn't fit:
+
+- **One-off external recipients** — loss adjusters, panel solicitors, brokers given temporary visibility on a specific client. Provisioning an Entra guest invite for a single look-up is overkill; hand them a code instead.
+- **Break-glass** — if Entra ID has an outage or a customer's tenant federation breaks, the code path is unaffected. The SSO button stays visible but clients can still get in.
+- **Pre-SSO clients** — until every client contact has been invited and accepted their Entra invitation, the code is their route in.
+
+In `index.html` the access-code form is always visible. The **"Sign in with your work email"** button is additionally shown on Azure SWA (detected by probing `/.auth/me`); on plain GitHub Pages only the code form appears. Both paths converge on the same `dashboard.html`, which resolves which client's data to load via the auth-shim — SSO roles take precedence over the session-stored code when both are present.
 
 ---
 
