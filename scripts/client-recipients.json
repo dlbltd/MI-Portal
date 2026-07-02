@@ -44,6 +44,7 @@
     "MSG26":          [],
     "MULSANNE26":     [],
     "ROSTELLA26":     [],
-    "XSD26":          []
+    "XSD26":          [],
+    "MXONECLAIM26":   [{ "name": "Nicola Bugbee", "email": "Nicola.Bugbee@oneclaim.co.uk" }]
   }
 }
