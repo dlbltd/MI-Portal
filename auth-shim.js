@@ -13,7 +13,7 @@ window.DLB_AUTH = (function () {
     'client-trinity':       'clients/trinity.js',
     'client-dwf':           'clients/dwf.js',
     'client-carcareplan':   'clients/carcareplan.js',
-    'client-ande':          'clients/itb.js',
+    'client-ande':          'clients/ande.js',
     'client-transport':     'clients/transportation.js',
     'client-collingwood':   'clients/collingwood.js',
     'client-zebra':         'clients/zebra.js',

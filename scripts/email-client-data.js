@@ -42,7 +42,7 @@ const REGISTRY = {
   CARCAREPLAN26:  'clients/carcareplan.js',
   ACTION36526:    'clients/action365.js',
   COLLINGWOOD26:  'clients/collingwood.js',
-  ANDE26:         'clients/itb.js',
+  ANDE26:         'clients/ande.js',
   JPSOLICITORS26: 'clients/jpsolicitors.js',
   KEOGHS26:       'clients/keoghs.js',
   WEIGHTMANS26:   'clients/weightmans.js',
