@@ -42,6 +42,10 @@
     "weightmans llp":                             { "file": "weightmans.js",   "code": "WEIGHTMANS26",   "name": "Weightmans",              "is_rtc": false },
     "keoghs llp":                                 { "file": "keoghs.js",       "code": "KEOGHS26",       "name": "Keoghs LLP",              "is_rtc": false },
     "keoghs":                                     { "file": "keoghs.js",       "code": "KEOGHS26",       "name": "Keoghs LLP",              "is_rtc": false },
-    "transportation claims ltd":                  { "file": "transportation.js", "code": "TRANSPORT26",  "name": "Transportation Claims Ltd", "is_rtc": false }
+    "transportation claims ltd":                  { "file": "transportation.js", "code": "TRANSPORT26",  "name": "Transportation Claims Ltd", "is_rtc": false },
+    "mx oneclaim":                                { "file": "mxoneclaim.js",   "code": "MXONECLAIM26",   "name": "MX Oneclaim",             "is_rtc": false },
+    "mx one claim":                               { "file": "mxoneclaim.js",   "code": "MXONECLAIM26",   "name": "MX Oneclaim",             "is_rtc": false },
+    "mxoneclaim":                                 { "file": "mxoneclaim.js",   "code": "MXONECLAIM26",   "name": "MX Oneclaim",             "is_rtc": false },
+    "mx-oneclaim":                                { "file": "mxoneclaim.js",   "code": "MXONECLAIM26",   "name": "MX Oneclaim",             "is_rtc": false }
   }
 }

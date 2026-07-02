@@ -22,6 +22,7 @@ window.DLB_AUTH = (function () {
     'client-weightmans':    'clients/weightmans.js',
     'client-action365':     'clients/action365.js',
     'client-rostella':      'clients/rostella.js',
+    'client-mxoneclaim':    'clients/mxoneclaim.js',
   };
 
   let _cache = undefined;
