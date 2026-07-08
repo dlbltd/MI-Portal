@@ -53,7 +53,12 @@ const REGISTRY = {
 const recipientsByCode = JSON.parse(fs.readFileSync(path.join(__dirname, 'client-recipients.json'), 'utf8')).recipients;
 
 function loadClient(file) {
-  const src = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const target = path.resolve(ROOT, file);
+  const relative = path.relative(ROOT, target);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`Invalid file path`);
+  }
+  const src = fs.readFileSync(target, 'utf8');
   const m = src.match(/var\s+DLB_CLIENT_DATA\s*=\s*([\s\S]+?);\s*$/);
   if (!m) throw new Error(`Cannot parse ${file}`);
   return JSON.parse(m[1]);
