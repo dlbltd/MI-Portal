@@ -281,6 +281,11 @@ let parsedClients = {}; // { clientKey: { meta, cases[] } }
 let syncedCount = 0;
 let errorCount  = 0;
 
+const escH = s => String(s == null ? '' : s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const escJs = s => escH(JSON.stringify(String(s == null ? '' : s)));
+
 // ── INIT ────────────────────────────────────────────────────
 window.addEventListener('load', () => { loadSettings(); setupDragDrop(); });
 
@@ -429,7 +434,7 @@ function renderPreview() {
     const sla2Pct  = sla2Tot ? Math.round(sla2Pass/sla2Tot*100) : '—';
 
     grid.innerHTML += `<div class="preview-card">
-      <div class="pc-name">${cl.rawName} ${mapped}</div>
+      <div class="pc-name">${escH(cl.rawName)} ${mapped}</div>
       <div class="pc-stat"><span>Cases</span><span>${cases.length}</span></div>
       <div class="pc-stat"><span>Total Fees</span><span>£${totalFee.toLocaleString()}</span></div>
       <div class="pc-stat"><span>Avg Fee</span><span>£${parseInt(avgFee).toLocaleString()}</span></div>
@@ -461,14 +466,14 @@ function renderTable() {
 
     tbody.innerHTML += `<tr id="row-${idx}">
       <td style="color:var(--muted)">${idx+1}</td>
-      <td style="font-weight:500">${cl.rawName}</td>
-      <td style="font-family:'JetBrains Mono',monospace; font-size:11px; color:${canSync?'var(--muted)':'var(--accent4)'}">${file}</td>
+      <td style="font-weight:500">${escH(cl.rawName)}</td>
+      <td style="font-family:'JetBrains Mono',monospace; font-size:11px; color:${canSync?'var(--muted)':'var(--accent4)'}">${escH(file)}</td>
       <td style="color:var(--accent2); font-family:'JetBrains Mono',monospace">${cases.length}</td>
       <td id="sla1-${idx}" style="color:var(--accent2)">${sla1Pct}</td>
       <td id="sla2-${idx}" style="color:var(--accent2)">${sla2Pct}</td>
       <td style="color:var(--accent3)">£${parseInt(avgFee).toLocaleString()}</td>
       <td id="status-${idx}"><span class="badge badge-idle">Idle</span></td>
-      <td><button class="btn btn-ghost btn-sm" onclick="showComplaintsModal(null,'${key}')" ${canSync?'':'disabled'}>↑ Push</button></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="showComplaintsModal(null,${escJs(key)})" ${canSync?'':'disabled'}>↑ Push</button></td>
     </tr>`;
   });
 }
@@ -521,17 +526,17 @@ function showComplaintsModal(clientKeys, singleKey) {
     cl.cases.forEach((cas, ci) => {
       total++;
       rows += `<tr>
-        <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${cas.caseNum || '—'}</td>
-        <td style="font-size:11px;color:var(--muted)">${cas.reference || '—'}</td>
-        <td style="font-size:11px">${cl.mapping?.name || cl.rawName}</td>
-        <td style="font-size:11px">${cas.month}</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${escH(cas.caseNum || '—')}</td>
+        <td style="font-size:11px;color:var(--muted)">${escH(cas.reference || '—')}</td>
+        <td style="font-size:11px">${escH(cl.mapping?.name || cl.rawName)}</td>
+        <td style="font-size:11px">${escH(cas.month)}</td>
         <td style="text-align:center">
-          <input type="checkbox" id="comp_${key}_${ci}" onchange="toggleComplaintDetail('${key}',${ci},this.checked)" ${cas.complaint?'checked':''} style="width:16px;height:16px;cursor:pointer;accent-color:var(--accent)">
+          <input type="checkbox" id="comp_${escH(key)}_${ci}" onchange="toggleComplaintDetail(${escJs(key)},${ci},this.checked)" ${cas.complaint?'checked':''} style="width:16px;height:16px;cursor:pointer;accent-color:var(--accent)">
         </td>
         <td>
-          <input type="text" id="compdetail_${key}_${ci}" placeholder="Brief details of complaint…" value="${cas.complaintDetails||''}"
+          <input type="text" id="compdetail_${escH(key)}_${ci}" placeholder="Brief details of complaint…" value="${escH(cas.complaintDetails||'')}"
             style="background:#1a1e25;border:1px solid var(--border);border-radius:5px;padding:5px 8px;color:var(--text);font-size:11px;width:100%;display:${cas.complaint?'block':'none'}"
-            oninput="parsedClients['${key}'].cases[${ci}].complaintDetails=this.value">
+            oninput="parsedClients[${escJs(key)}].cases[${ci}].complaintDetails=this.value">
         </td>
       </tr>`;
     });
@@ -566,7 +571,7 @@ function showComplaintsModal(clientKeys, singleKey) {
       </div>
       <div style="padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end">
         <button class="btn btn-ghost" onclick="document.getElementById('complaintsModal').remove()">✕ Cancel</button>
-        <button class="btn btn-primary" onclick="document.getElementById('complaintsModal').remove(); ${singleKey ? `pushClientConfirmed('${singleKey}')` : 'pushAllConfirmed()'}">
+        <button class="btn btn-primary" onclick="document.getElementById('complaintsModal').remove(); ${singleKey ? `pushClientConfirmed(${escJs(singleKey)})` : 'pushAllConfirmed()'}">
           ✓ Confirm & Push to GitHub
         </button>
       </div>
@@ -794,7 +799,7 @@ function log(type, msg) {
   const box = document.getElementById('logBox');
   const line = document.createElement('div');
   line.className = 'log-line';
-  line.innerHTML = `<span class="log-time">${now}</span><span class="log-${type}">${msg}</span>`;
+  line.innerHTML = `<span class="log-time">${escH(now)}</span><span class="log-${escH(type)}">${escH(msg)}</span>`;
   if (logMessages.length === 0) box.innerHTML = '';
   logMessages.push(1);
   box.appendChild(line);

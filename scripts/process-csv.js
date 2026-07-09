@@ -44,8 +44,14 @@ for (let i = 1; i < args.length; i++) {
   else if (args[i] === '--invoices') opts.invoices = args[++i];
 }
 
-if (!fs.existsSync(csvPath)) { console.error(`Cases CSV not found: ${csvPath}`); process.exit(1); }
-if (opts.invoices && !fs.existsSync(opts.invoices)) { console.error(`Invoices CSV not found: ${opts.invoices}`); process.exit(1); }
+function assertCsvPath(p) {
+  if (!p.toLowerCase().endsWith('.csv')) { console.error(`Not a .csv file: ${p}`); process.exit(1); }
+  if (!fs.existsSync(p)) { console.error(`CSV not found: ${p}`); process.exit(1); }
+  const st = fs.statSync(p);
+  if (!st.isFile()) { console.error(`Not a regular file: ${p}`); process.exit(1); }
+}
+assertCsvPath(csvPath);
+if (opts.invoices) assertCsvPath(opts.invoices);
 const clientMap = JSON.parse(fs.readFileSync(path.join(__dirname, 'client-map.json'), 'utf8')).clients;
 const outDir = path.resolve(ROOT, opts.out);
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });

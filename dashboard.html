@@ -1007,6 +1007,10 @@ function downloadPDF(){ window.print(); }
 (async () => {
   const ok = await _resolveAuth();
   if (!ok) return;
+  if (!/^clients\/[a-z0-9]+\.js$/.test(clientFile)) {
+    alert('Unable to load data. Please try again.'); sessionStorage.clear();
+    window.location.href = 'index.html'; return;
+  }
   const script = document.createElement('script');
   script.src = clientFile + '?v=' + Date.now();
   script.onload = () => {
