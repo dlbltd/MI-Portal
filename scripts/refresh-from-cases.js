@@ -287,7 +287,13 @@ function buildClientData(mapping, csvRows, existing) {
 }
 
 function readExisting(file) {
-  const src = fs.readFileSync(path.join(CLIENT_DIR, file), 'utf8');
+  const base = path.resolve(CLIENT_DIR);
+  const target = path.resolve(base, file);
+  const rel = path.relative(base, target);
+  if (rel.startsWith('..') || path.isAbsolute(rel)) {
+    return {};
+  }
+  const src = fs.readFileSync(target, 'utf8');
   const m = src.match(/var\s+DLB_CLIENT_DATA\s*=\s*([\s\S]+?);\s*$/);
   if (!m) return {};
   try { return JSON.parse(m[1]); } catch { return {}; }
@@ -305,7 +311,13 @@ function writeFile(file, data) {
 
 `;
   const body = `var DLB_CLIENT_DATA = ${JSON.stringify(data, null, 2)};\n`;
-  fs.writeFileSync(path.join(CLIENT_DIR, file), header + body);
+  const base = path.resolve(CLIENT_DIR);
+  const target = path.resolve(base, file);
+  const relative = path.relative(base, target);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error('Invalid file path');
+  }
+  fs.writeFileSync(target, header + body);
 }
 
 let touched = 0;
