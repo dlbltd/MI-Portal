@@ -27,6 +27,7 @@
     { "route": "/clients/weightmans.js",      "allowedRoles": ["client-weightmans",      "dlb-admin"] },
     { "route": "/clients/action365.js",       "allowedRoles": ["client-action365",       "dlb-admin"] },
     { "route": "/clients/rostella.js",        "allowedRoles": ["client-rostella",        "dlb-admin"] },
+    { "route": "/clients/mxoneclaim.js",      "allowedRoles": ["client-mxoneclaim",      "dlb-admin"] },
 
     { "route": "/clients/*",        "allowedRoles": ["dlb-admin"] }
   ],
