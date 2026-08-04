@@ -3,7 +3,7 @@
 // Client:  J&P Solicitors
 // File:    jpsolicitors.js
 // Period:  Jan–Dec 2026
-// Updated: 2 Jul 2026
+// Updated: 4 Aug 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "J&P Solicitors",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "2 Jul 2026",
+  last_updated:                 "4 Aug 2026",
   is_rtc_client:                false,
   total_cases:                  5,
 

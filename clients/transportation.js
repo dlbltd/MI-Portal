@@ -3,7 +3,7 @@
 // Client:  Transportation Claims Ltd
 // File:    transportation.js
 // Period:  Jan–Dec 2026
-// Updated: 2 Jul 2026
+// Updated: 4 Aug 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,9 +11,9 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Transportation Claims Ltd",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "2 Jul 2026",
+  last_updated:                 "4 Aug 2026",
   is_rtc_client:                false,
-  total_cases:                  37,
+  total_cases:                  42,
 
   avg_days_creation_to_update:         0,
   avg_days_creation_to_update_general: 0,
@@ -33,24 +33,24 @@ var DLB_CLIENT_DATA = {
   sla_not_met:                  0,
 
   avg_fee_rtc:                  0,
-  avg_fee_general:              127.46,
+  avg_fee_general:              134.57,
   total_fees_rtc:               0,
-  total_fees_general:           4716,
+  total_fees_general:           5652,
   rtc_case_count:               0,
-  general_case_count:           37,
+  general_case_count:           42,
   fees_by_type: [
-    { type:"Intelligence Report", is_rtc:false, case_count:27, total_fees:2496, avg_fee:92.44 },
-    { type:"Trace and Locate only", is_rtc:false, case_count:7, total_fees:2028, avg_fee:289.71 },
+    { type:"Intelligence Report", is_rtc:false, case_count:31, total_fees:2880, avg_fee:92.9 },
+    { type:"Trace and Locate only", is_rtc:false, case_count:8, total_fees:2580, avg_fee:322.5 },
     { type:"Surveillance", is_rtc:false, case_count:1, total_fees:96, avg_fee:96 },
     { type:"Employers Liability", is_rtc:false, case_count:1, total_fees:96, avg_fee:96 },
     { type:"Motor Fraud", is_rtc:false, case_count:1, total_fees:0, avg_fee:0 }
   ],
 
   // Line-item-driven revenue (from TrackOps invoice details export)
-  total_invoiced_lineitems:     4010,
-  total_lineitem_count:         35,
+  total_invoiced_lineitems:     4330,
+  total_lineitem_count:         39,
   fees_by_item: [
-    { item:"Intelligence Report Only", is_rtc:false, count:28, total:2240, avg:80 },
+    { item:"Intelligence Report Only", is_rtc:false, count:32, total:2560, avg:80 },
     { item:"Address checks & validation", is_rtc:false, count:6, total:1690, avg:281.67 },
     { item:"Desktop Intelligence Enquiries", is_rtc:false, count:1, total:80, avg:80 }
   ],
@@ -62,7 +62,7 @@ var DLB_CLIENT_DATA = {
     { month:"Apr", month_num:4, case_count:5, case_count_rtc:0, case_count_general:5, total_fees:1176, ave_fees:235.2, total_fees_rtc:0, total_fees_general:1176, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"May", month_num:5, case_count:8, case_count_rtc:0, case_count_general:8, total_fees:672, ave_fees:84, total_fees_rtc:0, total_fees_general:672, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Jun", month_num:6, case_count:1, case_count_rtc:0, case_count_general:1, total_fees:564, ave_fees:564, total_fees_rtc:0, total_fees_general:564, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
-    { month:"Jul", month_num:7, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
+    { month:"Jul", month_num:7, case_count:5, case_count_rtc:0, case_count_general:5, total_fees:936, ave_fees:187.2, total_fees_rtc:0, total_fees_general:936, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Aug", month_num:8, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Sep", month_num:9, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Oct", month_num:10, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
@@ -107,7 +107,12 @@ var DLB_CLIENT_DATA = {
     { ref:"1167805", client_ref:"1069356", type:"Intelligence Report", status:"Invoiced", created:"28 May 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:96, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
     { ref:"1167905", client_ref:"1069356", type:"Motor Fraud", status:"Closed", created:"28 May 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
     { ref:"1168005", client_ref:"B1124018/002/MSS", type:"Intelligence Report", status:"Invoiced", created:"29 May 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:96, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
-    { ref:"1169106", client_ref:"", type:"Trace and Locate only", status:"Invoiced", created:"3 Jun 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:564, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 }
+    { ref:"1169106", client_ref:"", type:"Trace and Locate only", status:"Invoiced", created:"3 Jun 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:564, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1179407", client_ref:"B1129212", type:"Intelligence Report", status:"Invoiced", created:"10 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:96, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1179507", client_ref:"B1082868", type:"Intelligence Report", status:"Invoiced", created:"10 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:96, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1181107", client_ref:"", type:"Trace and Locate only", status:"Invoiced", created:"15 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:552, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1182007", client_ref:"B1088148/MSS", type:"Intelligence Report", status:"Invoiced", created:"16 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:96, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1185907", client_ref:"A1129081", type:"Intelligence Report", status:"Invoiced", created:"23 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:96, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 }
   ]
 
 };

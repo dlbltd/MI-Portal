@@ -3,7 +3,7 @@
 // Client:  DWF Law
 // File:    dwf.js
 // Period:  Jan–Dec 2026
-// Updated: 2 Jul 2026
+// Updated: 4 Aug 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,44 +11,44 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "DWF Law",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "2 Jul 2026",
+  last_updated:                 "4 Aug 2026",
   is_rtc_client:                false,
-  total_cases:                  38,
+  total_cases:                  42,
 
-  avg_days_creation_to_update:         1.6,
-  avg_days_creation_to_update_general: 1.6,
+  avg_days_creation_to_update:         1.5,
+  avg_days_creation_to_update_general: 1.5,
   avg_days_stmt_to_report:             3.9,
   avg_days_stmt_to_report_rtc:         0,
   avg_days_stmt_to_report_general:     3.9,
 
   sla_ack_pct:                  100,
   sla_contact_pct:              100,
-  sla_update_pct:               89,
-  sla_report_general_pct:       44,
+  sla_update_pct:               91,
+  sla_report_general_pct:       48,
   sla_report_rtc_pct:           null,
   has_rtc_cases:                false,
   has_general_cases:            true,
-  sla_compliance_pct:           84,
-  sla_met:                      11,
-  sla_not_met:                  14,
+  sla_compliance_pct:           86,
+  sla_met:                      14,
+  sla_not_met:                  15,
 
   avg_fee_rtc:                  0,
-  avg_fee_general:              366.71,
+  avg_fee_general:              366.07,
   total_fees_rtc:               0,
-  total_fees_general:           13934.88,
+  total_fees_general:           15374.88,
   rtc_case_count:               0,
-  general_case_count:           38,
+  general_case_count:           42,
   fees_by_type: [
-    { type:"Motor Liability", is_rtc:false, case_count:27, total_fees:8459.02, avg_fee:313.3 },
+    { type:"Motor Liability", is_rtc:false, case_count:31, total_fees:9899.02, avg_fee:319.32 },
     { type:"Motor Fraud", is_rtc:false, case_count:10, total_fees:5355.86, avg_fee:535.59 },
     { type:"Fatality", is_rtc:false, case_count:1, total_fees:120, avg_fee:120 }
   ],
 
   // Line-item-driven revenue (from TrackOps invoice details export)
-  total_invoiced_lineitems:     16152.67,
-  total_lineitem_count:         53,
+  total_invoiced_lineitems:     17352.67,
+  total_lineitem_count:         57,
   fees_by_item: [
-    { item:"Motor Liability Investigation", is_rtc:false, count:23, total:6900, avg:300 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:27, total:8100, avg:300 },
     { item:"Stage 1 Investigation", is_rtc:false, count:12, total:5950, avg:495.83 },
     { item:"Translation services", is_rtc:false, count:4, total:967.67, avg:241.92 },
     { item:"Interpreter (full day)", is_rtc:false, count:2, total:700, avg:350 },
@@ -67,8 +67,8 @@ var DLB_CLIENT_DATA = {
     { month:"Mar", month_num:3, case_count:12, case_count_rtc:0, case_count_general:12, total_fees:3066, ave_fees:255.5, total_fees_rtc:0, total_fees_general:3066, ave_days_creation_to_update:2.8, ave_days_creation_to_update_general:2.8, ave_days_stmt_to_report:3, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:3, sla_ack_pct:100, sla_ack_met:8, sla_ack_n:8, sla_contact_pct:100, sla_contact_met:8, sla_contact_n:8, sla_update_pct:75, sla_update_met:6, sla_update_n:8, sla_report_general_pct:67, sla_report_general_met:4, sla_report_general_n:6, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:87, sla_met:4, sla_not_met:2 },
     { month:"Apr", month_num:4, case_count:7, case_count_rtc:0, case_count_general:7, total_fees:3420, ave_fees:488.57, total_fees_rtc:0, total_fees_general:3420, ave_days_creation_to_update:1, ave_days_creation_to_update_general:1, ave_days_stmt_to_report:6, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:6, sla_ack_pct:100, sla_ack_met:5, sla_ack_n:5, sla_contact_pct:100, sla_contact_met:5, sla_contact_n:5, sla_update_pct:100, sla_update_met:5, sla_update_n:5, sla_report_general_pct:20, sla_report_general_met:1, sla_report_general_n:5, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:80, sla_met:1, sla_not_met:4 },
     { month:"May", month_num:5, case_count:4, case_count_rtc:0, case_count_general:4, total_fees:1320, ave_fees:330, total_fees_rtc:0, total_fees_general:1320, ave_days_creation_to_update:2.3, ave_days_creation_to_update_general:2.3, ave_days_stmt_to_report:2.7, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:2.7, sla_ack_pct:100, sla_ack_met:4, sla_ack_n:4, sla_contact_pct:100, sla_contact_met:4, sla_contact_n:4, sla_update_pct:75, sla_update_met:3, sla_update_n:4, sla_report_general_pct:67, sla_report_general_met:2, sla_report_general_n:3, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:87, sla_met:2, sla_not_met:1 },
-    { month:"Jun", month_num:6, case_count:6, case_count_rtc:0, case_count_general:6, total_fees:1080, ave_fees:180, total_fees_rtc:0, total_fees_general:1080, ave_days_creation_to_update:1, ave_days_creation_to_update_general:1, ave_days_stmt_to_report:5, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:5, sla_ack_pct:100, sla_ack_met:3, sla_ack_n:3, sla_contact_pct:100, sla_contact_met:3, sla_contact_n:3, sla_update_pct:100, sla_update_met:3, sla_update_n:3, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:3, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:75, sla_met:0, sla_not_met:3 },
-    { month:"Jul", month_num:7, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
+    { month:"Jun", month_num:6, case_count:6, case_count_rtc:0, case_count_general:6, total_fees:1800, ave_fees:300, total_fees_rtc:0, total_fees_general:1800, ave_days_creation_to_update:1, ave_days_creation_to_update_general:1, ave_days_stmt_to_report:5.2, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:5.2, sla_ack_pct:100, sla_ack_met:5, sla_ack_n:5, sla_contact_pct:100, sla_contact_met:5, sla_contact_n:5, sla_update_pct:100, sla_update_met:5, sla_update_n:5, sla_report_general_pct:20, sla_report_general_met:1, sla_report_general_n:5, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:80, sla_met:1, sla_not_met:4 },
+    { month:"Jul", month_num:7, case_count:4, case_count_rtc:0, case_count_general:4, total_fees:720, ave_fees:180, total_fees_rtc:0, total_fees_general:720, ave_days_creation_to_update:0.5, ave_days_creation_to_update_general:0.5, ave_days_stmt_to_report:2, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:2, sla_ack_pct:100, sla_ack_met:2, sla_ack_n:2, sla_contact_pct:100, sla_contact_met:2, sla_contact_n:2, sla_update_pct:100, sla_update_met:2, sla_update_n:2, sla_report_general_pct:100, sla_report_general_met:2, sla_report_general_n:2, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:100, sla_met:2, sla_not_met:0 },
     { month:"Aug", month_num:8, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Sep", month_num:9, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Oct", month_num:10, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
@@ -113,8 +113,12 @@ var DLB_CLIENT_DATA = {
     { ref:"1169806", client_ref:"2031402-894/7703519(99050883)", type:"Motor Liability", status:"Invoiced", created:"4 Jun 2026", first_updated:"5 Jun 2026", stmt_date:"9 Jun 2026", report_sent:"16 Jun 2026", days_creation_to_update:1, days_stmt_to_report:7, invoice:360, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:3 },
     { ref:"1172006", client_ref:"2042977-1479", type:"Motor Liability", status:"Awaiting further advises", created:"12 Jun 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
     { ref:"1172806", client_ref:"2024187-2200", type:"Motor Liability", status:"Invoiced", created:"16 Jun 2026", first_updated:"17 Jun 2026", stmt_date:"19 Jun 2026", report_sent:"23 Jun 2026", days_creation_to_update:1, days_stmt_to_report:4, invoice:360, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:3 },
-    { ref:"1174006", client_ref:"2042977-1457/7703519(99050883)", type:"Motor Liability", status:"Await PH response / HUB done", created:"23 Jun 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
-    { ref:"1175306", client_ref:"2018197-3315", type:"Motor Liability", status:"Await PH response / HUB done", created:"29 Jun 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 }
+    { ref:"1174006", client_ref:"2042977-1457/7703519(99050883)", type:"Motor Liability", status:"Invoiced", created:"23 Jun 2026", first_updated:"24 Jun 2026", stmt_date:"10 Jul 2026", report_sent:"21 Jul 2026", days_creation_to_update:1, days_stmt_to_report:11, invoice:360, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1175306", client_ref:"2018197-3315", type:"Motor Liability", status:"Invoiced", created:"29 Jun 2026", first_updated:"30 Jun 2026", stmt_date:"7 Jul 2026", report_sent:"7 Jul 2026", days_creation_to_update:1, days_stmt_to_report:0, invoice:360, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1178107", client_ref:"2039273-6093", type:"Motor Liability", status:"Invoiced", created:"7 Jul 2026", first_updated:"8 Jul 2026", stmt_date:"11 Jul 2026", report_sent:"14 Jul 2026", days_creation_to_update:1, days_stmt_to_report:3, invoice:360, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1182207", client_ref:"2042068-448/7703519(99050883)", type:"Motor Liability", status:"Documents Submitted", created:"16 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1185007", client_ref:"2026514-2906/17700(10045)", type:"Motor Liability", status:"Invoiced", created:"22 Jul 2026", first_updated:"22 Jul 2026", stmt_date:"28 Jul 2026", report_sent:"29 Jul 2026", days_creation_to_update:0, days_stmt_to_report:1, invoice:360, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:3 },
+    { ref:"1189607", client_ref:"2024187-2489", type:"Motor Liability", status:"PH unresponsive", created:"31 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:3 }
   ]
 
 };
