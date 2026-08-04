@@ -27,7 +27,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const SLA_REPORT_DAYS = { rtc: 2, std: 3 };   // 48h / 72h, daily precision
+const SLA_REPORT_DAYS = { rtc: 2, std: 5 };   // 48h / 120h, daily precision
 const SLA_UPDATE_DAYS = 5;
 
 // ── CLI args ─────────────────────────────────────────────────
@@ -246,7 +246,7 @@ for (let i = 1; i < rows.length; i++) {
     sla_report = dStmtRep <= target;
   } else if (dFirst && dReport) {
     days_for_report_sla = daysBetween(dFirst, dReport);
-    sla_report = days_for_report_sla <= target;
+    sla_report = days_for_report_sla !== null ? days_for_report_sla <= target : null;
     sla_report_proxy = true;
   }
 
