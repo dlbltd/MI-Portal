@@ -15,15 +15,36 @@
 const fs   = require('fs');
 const path = require('path');
 
+// Load .env from project root if present
+const envPath = path.resolve(__dirname, '..', '.env');
+if (fs.existsSync(envPath)) {
+  for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
+    const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2];
+  }
+}
+
+// Auto-calculate period label and subject from today's date if not overridden.
+// Run in August → period "Jan–Jul 2026", subject "August 2026 update".
+const MONTHS_LONG  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const now          = new Date();
+const runMonth     = now.getMonth();   // 0-based
+const runYear      = now.getFullYear();
+const prevMonth    = runMonth === 0 ? 11 : runMonth - 1;
+const prevYear     = runMonth === 0 ? runYear - 1 : runYear;
+const defaultPeriod  = `Jan–${MONTHS_SHORT[prevMonth]} ${prevYear}`;
+const defaultSubject = `DLB MI Portal — ${MONTHS_LONG[runMonth]} ${runYear} update`;
+
 const tenantId     = process.env.GRAPH_TENANT_ID;
 const clientId     = process.env.GRAPH_CLIENT_ID;
 const clientSecret = process.env.GRAPH_CLIENT_SECRET;
 const sender       = process.env.GRAPH_SENDER;
 const fromName     = process.env.GRAPH_FROM_NAME || 'DLB Investigations';
 const portalUrl    = process.env.PORTAL_URL || 'https://mi.dlbinvestigations.co.uk/';
-const periodLabel  = process.env.PERIOD_LABEL || 'Jan–May 2026';
+const periodLabel  = process.env.PERIOD_LABEL || defaultPeriod;
 const dryRun       = process.env.DRY_RUN === '1';
-const saveToSent   = process.env.SAVE_TO_SENT === '1';
+const saveToSent   = process.env.SAVE_TO_SENT !== '0';  // default ON
 
 if (!dryRun) {
   const missing = ['GRAPH_TENANT_ID','GRAPH_CLIENT_ID','GRAPH_CLIENT_SECRET','GRAPH_SENDER']
@@ -52,7 +73,7 @@ for (const [code, list] of Object.entries(recipientsByCode)) {
 
 if (!bccList.length) { console.error('No recipients found.'); process.exit(1); }
 
-const subject = `DLB MI Portal — June 2026 update`;
+const subject = process.env.SUBJECT || defaultSubject;
 
 const text = `Hello,
 
