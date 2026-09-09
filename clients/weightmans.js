@@ -3,7 +3,7 @@
 // Client:  Weightmans
 // File:    weightmans.js
 // Period:  Jan–Dec 2026
-// Updated: 4 Aug 2026
+// Updated: 9 Sep 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Weightmans",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "4 Aug 2026",
+  last_updated:                 "9 Sep 2026",
   is_rtc_client:                false,
   total_cases:                  3,
 

@@ -3,7 +3,7 @@
 // Client:  First Central Insurance
 // File:    firstcentral.js
 // Period:  Jan–Dec 2026
-// Updated: 4 Aug 2026
+// Updated: 9 Sep 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,49 +11,49 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "First Central Insurance",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "4 Aug 2026",
+  last_updated:                 "9 Sep 2026",
   is_rtc_client:                true,
-  total_cases:                  53,
+  total_cases:                  65,
 
-  avg_days_creation_to_update:         1,
-  avg_days_creation_to_update_general: 1.5,
-  avg_days_stmt_to_report:             6.5,
+  avg_days_creation_to_update:         1.1,
+  avg_days_creation_to_update_general: 1.7,
+  avg_days_stmt_to_report:             6.3,
   avg_days_stmt_to_report_rtc:         0.9,
-  avg_days_stmt_to_report_general:     18.9,
+  avg_days_stmt_to_report_general:     17.1,
 
   sla_ack_pct:                  100,
   sla_contact_pct:              100,
-  sla_update_pct:               100,
-  sla_report_general_pct:       17,
-  sla_report_rtc_pct:           91,
+  sla_update_pct:               94,
+  sla_report_general_pct:       13,
+  sla_report_rtc_pct:           88,
   has_rtc_cases:                true,
   has_general_cases:            true,
-  sla_compliance_pct:           91,
-  sla_met:                      22,
-  sla_not_met:                  12,
+  sla_compliance_pct:           89,
+  sla_met:                      25,
+  sla_not_met:                  16,
 
-  avg_fee_rtc:                  158.76,
-  avg_fee_general:              456,
-  total_fees_rtc:               4762.8,
-  total_fees_general:           10488,
-  rtc_case_count:               30,
-  general_case_count:           23,
+  avg_fee_rtc:                  169.69,
+  avg_fee_general:              457.85,
+  total_fees_rtc:               6618,
+  total_fees_general:           11904,
+  rtc_case_count:               39,
+  general_case_count:           26,
   fees_by_type: [
-    { type:"Motor Fraud", is_rtc:false, case_count:19, total_fees:9276, avg_fee:488.21 },
-    { type:"RTC", is_rtc:true, case_count:30, total_fees:4762.8, avg_fee:158.76 },
+    { type:"Motor Fraud", is_rtc:false, case_count:22, total_fees:10692, avg_fee:486 },
+    { type:"RTC", is_rtc:true, case_count:39, total_fees:6618, avg_fee:169.69 },
     { type:"Motor Theft", is_rtc:false, case_count:4, total_fees:1212, avg_fee:303 }
   ],
 
   // Line-item-driven revenue (from TrackOps invoice details export)
-  total_invoiced_lineitems:     14279,
-  total_lineitem_count:         64,
+  total_invoiced_lineitems:     15678,
+  total_lineitem_count:         73,
   fees_by_item: [
     { item:"Stage 1 Investigation", is_rtc:false, count:13, total:6100, avg:469.23 },
-    { item:"RTC", is_rtc:true, count:27, total:3969, avg:147 },
+    { item:"RTC", is_rtc:true, count:34, total:4998, avg:147 },
     { item:"Cold Calls", is_rtc:false, count:12, total:1620, avg:135 },
     { item:"Motor Theft Investigation", is_rtc:false, count:2, total:950, avg:475 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:5, total:830, avg:166 },
     { item:"Stage 2 Investigation", is_rtc:false, count:3, total:600, avg:200 },
-    { item:"Interpreter (1/2 day)", is_rtc:false, count:3, total:460, avg:153.33 },
     { item:"Interpreter (full day)", is_rtc:false, count:1, total:350, avg:350 },
     { item:"Failed Appointment", is_rtc:false, count:2, total:170, avg:85 },
     { item:"Miscellanoeus", is_rtc:false, count:1, total:60, avg:60 }
@@ -66,8 +66,8 @@ var DLB_CLIENT_DATA = {
     { month:"Apr", month_num:4, case_count:20, case_count_rtc:17, case_count_general:3, total_fees:3786, ave_fees:189.3, total_fees_rtc:2646, total_fees_general:1140, ave_days_creation_to_update:0.7, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:2.1, ave_days_stmt_to_report_rtc:1, ave_days_stmt_to_report_general:9.5, sla_ack_pct:100, sla_ack_met:19, sla_ack_n:19, sla_contact_pct:100, sla_contact_met:19, sla_contact_n:19, sla_update_pct:100, sla_update_met:2, sla_update_n:2, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:2, sla_report_rtc_pct:86, sla_report_rtc_met:12, sla_report_rtc_n:14, sla_compliance_pct:93, sla_met:12, sla_not_met:4 },
     { month:"May", month_num:5, case_count:6, case_count_rtc:2, case_count_general:4, total_fees:2056.8, ave_fees:342.8, total_fees_rtc:352.8, total_fees_general:1704, ave_days_creation_to_update:2, ave_days_creation_to_update_general:2.7, ave_days_stmt_to_report:14.7, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:44, sla_ack_pct:100, sla_ack_met:5, sla_ack_n:5, sla_contact_pct:100, sla_contact_met:5, sla_contact_n:5, sla_update_pct:100, sla_update_met:3, sla_update_n:3, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:3, sla_report_rtc_pct:100, sla_report_rtc_met:2, sla_report_rtc_n:2, sla_compliance_pct:83, sla_met:2, sla_not_met:3 },
     { month:"Jun", month_num:6, case_count:8, case_count_rtc:4, case_count_general:4, total_fees:3249.6, ave_fees:406.2, total_fees_rtc:705.6, total_fees_general:2544, ave_days_creation_to_update:0.6, ave_days_creation_to_update_general:0.7, ave_days_stmt_to_report:12.2, ave_days_stmt_to_report_rtc:1.3, ave_days_stmt_to_report_general:28.5, sla_ack_pct:100, sla_ack_met:6, sla_ack_n:6, sla_contact_pct:100, sla_contact_met:6, sla_contact_n:6, sla_update_pct:100, sla_update_met:3, sla_update_n:3, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:2, sla_report_rtc_pct:100, sla_report_rtc_met:3, sla_report_rtc_n:3, sla_compliance_pct:90, sla_met:3, sla_not_met:2 },
-    { month:"Jul", month_num:7, case_count:10, case_count_rtc:7, case_count_general:3, total_fees:2078.4, ave_fees:207.84, total_fees_rtc:1058.4, total_fees_general:1020, ave_days_creation_to_update:1.3, ave_days_creation_to_update_general:5, ave_days_stmt_to_report:2.5, ave_days_stmt_to_report_rtc:0.3, ave_days_stmt_to_report_general:9, sla_ack_pct:100, sla_ack_met:5, sla_ack_n:5, sla_contact_pct:100, sla_contact_met:5, sla_contact_n:5, sla_update_pct:100, sla_update_met:1, sla_update_n:1, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:1, sla_report_rtc_pct:100, sla_report_rtc_met:3, sla_report_rtc_n:3, sla_compliance_pct:93, sla_met:3, sla_not_met:1 },
-    { month:"Aug", month_num:8, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
+    { month:"Jul", month_num:7, case_count:10, case_count_rtc:7, case_count_general:3, total_fees:2254.8, ave_fees:225.48, total_fees_rtc:1234.8, total_fees_general:1020, ave_days_creation_to_update:1.3, ave_days_creation_to_update_general:5, ave_days_stmt_to_report:2.5, ave_days_stmt_to_report_rtc:0.3, ave_days_stmt_to_report_general:9, sla_ack_pct:100, sla_ack_met:5, sla_ack_n:5, sla_contact_pct:100, sla_contact_met:5, sla_contact_n:5, sla_update_pct:100, sla_update_met:1, sla_update_n:1, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:1, sla_report_rtc_pct:100, sla_report_rtc_met:3, sla_report_rtc_n:3, sla_compliance_pct:93, sla_met:3, sla_not_met:1 },
+    { month:"Aug", month_num:8, case_count:12, case_count_rtc:9, case_count_general:3, total_fees:3094.8, ave_fees:257.9, total_fees_rtc:1678.8, total_fees_general:1416, ave_days_creation_to_update:1.4, ave_days_creation_to_update_general:2.7, ave_days_stmt_to_report:5.4, ave_days_stmt_to_report_rtc:1.3, ave_days_stmt_to_report_general:11, sla_ack_pct:100, sla_ack_met:8, sla_ack_n:8, sla_contact_pct:100, sla_contact_met:8, sla_contact_n:8, sla_update_pct:67, sla_update_met:2, sla_update_n:3, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:3, sla_report_rtc_pct:75, sla_report_rtc_met:3, sla_report_rtc_n:4, sla_compliance_pct:81, sla_met:3, sla_not_met:4 },
     { month:"Sep", month_num:9, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Oct", month_num:10, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Nov", month_num:11, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
@@ -77,7 +77,7 @@ var DLB_CLIENT_DATA = {
   cases: [
     { ref:"1132601", client_ref:"FC/901468570", type:"Motor Fraud", status:"Invoice Paid", created:"21 Jan 2026", first_updated:"1 Sep 2025", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:144, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
     { ref:"1136602", client_ref:"FC/901514109", type:"Motor Fraud", status:"Invoice Paid", created:"10 Feb 2026", first_updated:"10 Feb 2026", stmt_date:"15 Feb 2026", report_sent:"19 Feb 2026", days_creation_to_update:0, days_stmt_to_report:4, invoice:1056, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:5 },
-    { ref:"1137202", client_ref:"FC/901500992", type:"Motor Fraud", status:"Awaiting further advises", created:"11 Feb 2026", first_updated:"15 Feb 2026", stmt_date:"", report_sent:"", days_creation_to_update:4, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:null, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1137202", client_ref:"FC/901500992", type:"Motor Fraud", status:"Reviewed, signed off & sent", created:"11 Feb 2026", first_updated:"15 Feb 2026", stmt_date:"", report_sent:"", days_creation_to_update:4, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:null, report_proxy:false, sla_report_target_days:5 },
     { ref:"1137402", client_ref:"FC/901474836", type:"Motor Fraud", status:"Invoice Paid", created:"12 Feb 2026", first_updated:"15 Feb 2026", stmt_date:"24 Feb 2026", report_sent:"25 Mar 2026", days_creation_to_update:3, days_stmt_to_report:29, invoice:912, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
     { ref:"1137502", client_ref:"FC/901486653", type:"Motor Fraud", status:"Invoice Paid", created:"12 Feb 2026", first_updated:"12 Feb 2026", stmt_date:"", report_sent:"", days_creation_to_update:0, days_stmt_to_report:null, invoice:672, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:null, report_proxy:false, sla_report_target_days:5 },
     { ref:"1139602", client_ref:"FC/901522926", type:"Motor Fraud", status:"Invoice Paid", created:"19 Feb 2026", first_updated:"20 Feb 2026", stmt_date:"6 Mar 2026", report_sent:"11 Mar 2026", days_creation_to_update:1, days_stmt_to_report:5, invoice:408, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:true, report_proxy:false, sla_report_target_days:5 },
@@ -106,17 +106,17 @@ var DLB_CLIENT_DATA = {
     { ref:"1157904", client_ref:"FC/901573865", type:"RTC", status:"Invoice Paid", created:"21 Apr 2026", first_updated:"23 Apr 2026", stmt_date:"27 Apr 2026", report_sent:"27 Apr 2026", days_creation_to_update:2, days_stmt_to_report:0, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
     { ref:"1161905", client_ref:"FC/901454318", type:"Motor Fraud", status:"Awaiting further advises", created:"8 May 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
     { ref:"1162005", client_ref:"FC/901352162", type:"Motor Fraud", status:"Invoiced", created:"8 May 2026", first_updated:"12 May 2026", stmt_date:"", report_sent:"29 May 2026", days_creation_to_update:4, days_stmt_to_report:null, invoice:576, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:true, sla_report_target_days:5 },
-    { ref:"1162205", client_ref:"FC/901460466", type:"Motor Fraud", status:"Invoiced", created:"8 May 2026", first_updated:"12 May 2026", stmt_date:"3 Jun 2026", report_sent:"17 Jul 2026", days_creation_to_update:4, days_stmt_to_report:44, invoice:1056, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1162205", client_ref:"FC/901460466", type:"Motor Fraud", status:"Invoice Paid", created:"8 May 2026", first_updated:"12 May 2026", stmt_date:"3 Jun 2026", report_sent:"17 Jul 2026", days_creation_to_update:4, days_stmt_to_report:44, invoice:1056, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
     { ref:"1164905", client_ref:"FC/901364796", type:"Motor Theft", status:"Invoice Paid", created:"19 May 2026", first_updated:"19 May 2026", stmt_date:"", report_sent:"2 Jun 2026", days_creation_to_update:0, days_stmt_to_report:null, invoice:72, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:true, sla_report_target_days:5 },
     { ref:"1165705", client_ref:"FC/901542337", type:"RTC", status:"Invoice Paid", created:"20 May 2026", first_updated:"20 May 2026", stmt_date:"26 May 2026", report_sent:"26 May 2026", days_creation_to_update:0, days_stmt_to_report:0, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
     { ref:"1166105", client_ref:"FC/901557080", type:"RTC", status:"Invoice Paid", created:"21 May 2026", first_updated:"20 May 2026", stmt_date:"21 May 2026", report_sent:"21 May 2026", days_creation_to_update:null, days_stmt_to_report:0, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
     { ref:"1170406", client_ref:"FC/901595823", type:"Motor Fraud", status:"Invoice Paid", created:"8 Jun 2026", first_updated:"27 May 2026", stmt_date:"23 Jun 2026", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:600, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
-    { ref:"1172306", client_ref:"FC/901591677", type:"Motor Fraud", status:"Invoiced", created:"15 Jun 2026", first_updated:"16 Jun 2026", stmt_date:"26 Jun 2026", report_sent:"23 Jul 2026", days_creation_to_update:1, days_stmt_to_report:27, invoice:744, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1172306", client_ref:"FC/901591677", type:"Motor Fraud", status:"Invoice Paid", created:"15 Jun 2026", first_updated:"16 Jun 2026", stmt_date:"26 Jun 2026", report_sent:"23 Jul 2026", days_creation_to_update:1, days_stmt_to_report:27, invoice:744, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
     { ref:"1172506", client_ref:"FC/901594008", type:"Motor Fraud", status:"Invoice Paid", created:"16 Jun 2026", first_updated:"17 Jun 2026", stmt_date:"23 Jun 2026", report_sent:"", days_creation_to_update:1, days_stmt_to_report:null, invoice:600, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:null, report_proxy:false, sla_report_target_days:5 },
     { ref:"1173106", client_ref:"FC/901551653", type:"Motor Fraud", status:"Invoice Paid", created:"18 Jun 2026", first_updated:"18 Jun 2026", stmt_date:"22 Jun 2026", report_sent:"22 Jul 2026", days_creation_to_update:0, days_stmt_to_report:30, invoice:600, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
     { ref:"1173206", client_ref:"FC/901598570", type:"RTC", status:"Invoiced", created:"18 Jun 2026", first_updated:"18 Jun 2026", stmt_date:"24 Jun 2026", report_sent:"25 Jun 2026", days_creation_to_update:0, days_stmt_to_report:1, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
     { ref:"1173906", client_ref:"FC/901608693", type:"RTC", status:"Invoice Paid", created:"23 Jun 2026", first_updated:"22 Jun 2026", stmt_date:"24 Jun 2026", report_sent:"25 Jun 2026", days_creation_to_update:null, days_stmt_to_report:1, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
-    { ref:"1174706", client_ref:"FC/901607224", type:"RTC", status:"Invoiced", created:"26 Jun 2026", first_updated:"25 Jun 2026", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1174706", client_ref:"FC/901607224", type:"RTC", status:"Invoice Paid", created:"26 Jun 2026", first_updated:"25 Jun 2026", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
     { ref:"1175206", client_ref:"FC/901610996", type:"RTC", status:"Invoice Paid", created:"29 Jun 2026", first_updated:"30 Jun 2026", stmt_date:"6 Jul 2026", report_sent:"8 Jul 2026", days_creation_to_update:1, days_stmt_to_report:2, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
     { ref:"1176407", client_ref:"FC/901612506", type:"RTC", status:"Invoiced", created:"2 Jul 2026", first_updated:"2 Jul 2026", stmt_date:"", report_sent:"", days_creation_to_update:0, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
     { ref:"1176507", client_ref:"FC/901612499", type:"RTC", status:"Invoiced", created:"2 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
@@ -126,8 +126,20 @@ var DLB_CLIENT_DATA = {
     { ref:"1180907", client_ref:"FC/901619249", type:"RTC", status:"Invoice Paid", created:"15 Jul 2026", first_updated:"15 Jul 2026", stmt_date:"16 Jul 2026", report_sent:"16 Jul 2026", days_creation_to_update:0, days_stmt_to_report:0, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
     { ref:"1182607", client_ref:"FC/901620091", type:"RTC", status:"Invoiced", created:"16 Jul 2026", first_updated:"15 Jul 2026", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
     { ref:"1182807", client_ref:"FC/901580837", type:"Motor Fraud", status:"Invoice Paid", created:"17 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
-    { ref:"1186707", client_ref:"fc/901616074", type:"RTC", status:"Statement obtained", created:"24 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
-    { ref:"1188907", client_ref:"FC/901619919", type:"RTC", status:"Invoiced", created:"30 Jul 2026", first_updated:"30 Jul 2026", stmt_date:"31 Jul 2026", report_sent:"31 Jul 2026", days_creation_to_update:0, days_stmt_to_report:0, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 }
+    { ref:"1186707", client_ref:"fc/901616074", type:"RTC", status:"Invoiced", created:"24 Jul 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1188907", client_ref:"FC/901619919", type:"RTC", status:"Invoice Paid", created:"30 Jul 2026", first_updated:"30 Jul 2026", stmt_date:"31 Jul 2026", report_sent:"31 Jul 2026", days_creation_to_update:0, days_stmt_to_report:0, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1189908", client_ref:"FC/901626331", type:"RTC", status:"Invoiced", created:"3 Aug 2026", first_updated:"3 Aug 2026", stmt_date:"4 Aug 2026", report_sent:"4 Aug 2026", days_creation_to_update:0, days_stmt_to_report:0, invoice:398.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1191108", client_ref:"FC/901626553", type:"RTC", status:"Invoiced", created:"5 Aug 2026", first_updated:"7 Aug 2026", stmt_date:"", report_sent:"", days_creation_to_update:2, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1192908", client_ref:"FC/901629874", type:"RTC", status:"Invoiced", created:"6 Aug 2026", first_updated:"4 Aug 2026", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:398.4, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1193608", client_ref:"FC/901619347", type:"Motor Fraud", status:"Invoiced", created:"10 Aug 2026", first_updated:"10 Aug 2026", stmt_date:"26 Aug 2026", report_sent:"4 Sep 2026", days_creation_to_update:0, days_stmt_to_report:9, invoice:816, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1193908", client_ref:"FC/9751273", type:"Motor Fraud", status:"Invoiced", created:"11 Aug 2026", first_updated:"12 Aug 2026", stmt_date:"18 Aug 2026", report_sent:"28 Aug 2026", days_creation_to_update:1, days_stmt_to_report:10, invoice:600, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:true, sla_report:false, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1194408", client_ref:"FC/901630642", type:"RTC", status:"Invoiced", created:"11 Aug 2026", first_updated:"6 Aug 2026", stmt_date:"13 Aug 2026", report_sent:"17 Aug 2026", days_creation_to_update:null, days_stmt_to_report:4, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:false, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1194608", client_ref:"FC/901564035", type:"RTC", status:"Awaiting further advises", created:"11 Aug 2026", first_updated:"10 Aug 2026", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1195608", client_ref:"FC/901633926", type:"Motor Fraud", status:"HELIX due to go live", created:"14 Aug 2026", first_updated:"10 Aug 2026", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:176.4, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1196308", client_ref:"FC/901631235", type:"Motor Theft", status:"Invoiced", created:"19 Aug 2026", first_updated:"19 Aug 2026", stmt_date:"24 Aug 2026", report_sent:"24 Aug 2026", days_creation_to_update:0, days_stmt_to_report:0, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1196708", client_ref:"FC/901571064", type:"Motor Fraud", status:"Reviewed, signed off & sent", created:"20 Aug 2026", first_updated:"27 Aug 2026", stmt_date:"25 Aug 2026", report_sent:"8 Sep 2026", days_creation_to_update:7, days_stmt_to_report:14, invoice:0, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:false, sla_report:false, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1198308", client_ref:"FC/901627761", type:"RTC", status:"Invoiced", created:"24 Aug 2026", first_updated:"24 Aug 2026", stmt_date:"2 Sep 2026", report_sent:"3 Sep 2026", days_creation_to_update:0, days_stmt_to_report:1, invoice:176.4, is_rtc_case:true, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:2 },
+    { ref:"1200208", client_ref:"FC/901629582", type:"RTC", status:"RTC contact text sent", created:"27 Aug 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:true, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:2 }
   ]
 
 };
