@@ -29,7 +29,6 @@ const CLIENT_REGISTRY = {
   "TRANSPORT26":      "clients/transportation.js",   // Transportation Claims Ltd
   "MXONECLAIM26":     "clients/mxoneclaim.js",       // MX Oneclaim
   // ── Add new clients below ──────────────────────────────────────
-  "DEMO26":           "clients/demo.js",              // Demo — Meridian Motor Insurance (client presentations)
 };
 
 function handleLogin() {
