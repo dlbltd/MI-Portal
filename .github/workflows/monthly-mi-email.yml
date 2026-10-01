@@ -28,7 +28,18 @@ jobs:
         with:
           node-version: '20'
 
+      # One-off: the October 2026 release went out as a round-robin announcement on
+      # 1 Oct, so the scheduled 5 Oct send is skipped. Manual runs are unaffected.
+      - name: Skip scheduled run for October 2026
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%Y-%m)" = "2026-10" ]; then
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+            echo "Skipping: October 2026 announcement already sent on 1 Oct."
+          fi
+
       - name: Send monthly MI emails via Microsoft Graph
+        if: steps.gate.outputs.skip != '1'
         env:
           GRAPH_TENANT_ID:     ${{ secrets.GRAPH_TENANT_ID }}
           GRAPH_CLIENT_ID:     ${{ secrets.GRAPH_CLIENT_ID }}
