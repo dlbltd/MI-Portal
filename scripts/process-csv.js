@@ -198,25 +198,24 @@ function parseInvoices(invPath) {
     if (!bucket.invoicesByCase) bucket.invoicesByCase = new Map();
 
     const cn   = (r[iidx['Case']] || '').trim();
-    let item;
-    if (hasItem) {
-      item = ((r[iidx['Item']] || 'Unknown').trim()) || 'Unknown';
-    } else {
-      // Only invoices on cases in the cases CSV (i.e. this year's cases) are counted.
-      if (!rtcByCase.has(cn)) { invoiceNoCase.set(mapping.file, (invoiceNoCase.get(mapping.file) || 0) + 1); continue; }
-      item = rtcByCase.get(cn) ? 'RTC' : 'Other services';
-    }
+    // Only lines on cases in the cases CSV (i.e. this year's cases) are counted.
+    if (!rtcByCase.has(cn)) { invoiceNoCase.set(mapping.file, (invoiceNoCase.get(mapping.file) || 0) + 1); continue; }
+    // The case's RTC flag decides the bucket: every line on an RTC case is RTC.
+    const caseIsRtc = rtcByCase.get(cn);
+    const lineItem  = hasItem ? (((r[iidx['Item']] || 'Unknown').trim()) || 'Unknown') : 'Other services';
+    const item      = caseIsRtc ? 'RTC' : lineItem;
+    const key       = (caseIsRtc ? 'rtc|' : 'gen|') + item;
     const tot  = parseFloat((r[iidx[hasItem ? 'Total' : 'Subtotal']] || '0').replace(/[^0-9.\-]/g, '')) || 0;
     const inv  = (r[iidx['Invoice']] || '').trim();
 
-    if (!bucket.feesByItem.has(item)) bucket.feesByItem.set(item, { item, count: 0, total: 0 });
-    const it = bucket.feesByItem.get(item);
+    if (!bucket.feesByItem.has(key)) bucket.feesByItem.set(key, { item, is_rtc: caseIsRtc, count: 0, total: 0 });
+    const it = bucket.feesByItem.get(key);
     it.count++;
     it.total += tot;
 
     if (cn) {
       if (!bucket.invoicesByCase.has(cn)) bucket.invoicesByCase.set(cn, []);
-      bucket.invoicesByCase.get(cn).push({ invoice: inv, item, total: tot });
+      bucket.invoicesByCase.get(cn).push({ invoice: inv, item: lineItem, total: tot });
     }
     totalLines++;
   }
@@ -435,7 +434,7 @@ function finalise(bucket) {
       ? [...bucket.feesByItem.values()]
           .map(b => ({
             item:    b.item,
-            is_rtc:  /^rtc$/i.test(b.item),
+            is_rtc:  b.is_rtc,
             count:   b.count,
             total:   round2(b.total),
             avg:     b.count ? round2(b.total / b.count) : 0,

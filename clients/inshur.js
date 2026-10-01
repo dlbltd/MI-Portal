@@ -50,10 +50,24 @@ var DLB_CLIENT_DATA = {
 
   // Line-item-driven revenue (from TrackOps invoice details export)
   total_invoiced_lineitems:     40085.16,
-  total_lineitem_count:         134,
+  total_lineitem_count:         172,
   fees_by_item: [
-    { item:"Other services", is_rtc:false, count:123, total:38325.16, avg:311.59 },
-    { item:"RTC", is_rtc:true, count:11, total:1760, avg:160 }
+    { item:"Large Loss Investigation", is_rtc:false, count:48, total:16800, avg:350 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:14, total:5600, avg:400 },
+    { item:"Stage 1 Investigation", is_rtc:false, count:8, total:3400, avg:425 },
+    { item:"Cold Calls", is_rtc:false, count:27, total:2340, avg:86.67 },
+    { item:"RTC", is_rtc:true, count:11, total:1760, avg:160 },
+    { item:"Police Report", is_rtc:false, count:8, total:1560.46, avg:195.06 },
+    { item:"Interpreter (full day)", is_rtc:false, count:5, total:1500, avg:300 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:6, total:1225, avg:204.17 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:7, total:1075, avg:153.57 },
+    { item:"Miscellanoeus", is_rtc:false, count:9, total:991, avg:110.11 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:5, total:925, avg:185 },
+    { item:"Motor Fire Investigation", is_rtc:false, count:2, total:800, avg:400 },
+    { item:"Failed Appointment", is_rtc:false, count:10, total:800, avg:80 },
+    { item:"SVA Investigation", is_rtc:false, count:2, total:700, avg:350 },
+    { item:"Key Analysis", is_rtc:false, count:1, total:320, avg:320 },
+    { item:"Police reference request", is_rtc:false, count:9, total:288.7, avg:32.08 }
   ],
 
   monthly: [

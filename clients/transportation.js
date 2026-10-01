@@ -50,7 +50,9 @@ var DLB_CLIENT_DATA = {
   total_invoiced_lineitems:     5910,
   total_lineitem_count:         47,
   fees_by_item: [
-    { item:"Other services", is_rtc:false, count:47, total:5910, avg:125.74 }
+    { item:"Intelligence Report Only", is_rtc:false, count:38, total:3040, avg:80 },
+    { item:"Address checks & validation", is_rtc:false, count:8, total:2790, avg:348.75 },
+    { item:"Desktop Intelligence Enquiries", is_rtc:false, count:1, total:80, avg:80 }
   ],
 
   monthly: [

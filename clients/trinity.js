@@ -50,9 +50,23 @@ var DLB_CLIENT_DATA = {
 
   // Line-item-driven revenue (from TrackOps invoice details export)
   total_invoiced_lineitems:     26734.01,
-  total_lineitem_count:         62,
+  total_lineitem_count:         86,
   fees_by_item: [
-    { item:"Other services", is_rtc:false, count:62, total:26734.01, avg:431.19 }
+    { item:"Stage 1 Investigation", is_rtc:false, count:32, total:14960, avg:467.5 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:10, total:2250, avg:225 },
+    { item:"Surveillance (additional days)", is_rtc:false, count:1, total:2000, avg:2000 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:6, total:1250, avg:208.33 },
+    { item:"Surveillance (1st Day ONLY)", is_rtc:false, count:1, total:1200, avg:1200 },
+    { item:"Interpreter (full day)", is_rtc:false, count:3, total:900, avg:300 },
+    { item:"Miscellanoeus", is_rtc:false, count:8, total:720, avg:90 },
+    { item:"Translation services", is_rtc:false, count:3, total:676.13, avg:225.38 },
+    { item:"Intelligence Report Only", is_rtc:false, count:5, total:560, avg:112 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:3, total:555, avg:185 },
+    { item:"Cold Calls", is_rtc:false, count:6, total:540, avg:90 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:1, total:400, avg:400 },
+    { item:"Police Report", is_rtc:false, count:2, total:362.88, avg:181.44 },
+    { item:"Locus Report", is_rtc:false, count:2, total:200, avg:100 },
+    { item:"Failed Appointment", is_rtc:false, count:3, total:160, avg:53.33 }
   ],
 
   monthly: [

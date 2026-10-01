@@ -51,10 +51,24 @@ var DLB_CLIENT_DATA = {
 
   // Line-item-driven revenue (from TrackOps invoice details export)
   total_invoiced_lineitems:     15832.52,
-  total_lineitem_count:         58,
+  total_lineitem_count:         78,
   fees_by_item: [
-    { item:"Other services", is_rtc:false, count:31, total:11047.52, avg:356.37 },
-    { item:"RTC", is_rtc:true, count:27, total:4785, avg:177.22 }
+    { item:"RTC", is_rtc:true, count:34, total:4785, avg:140.74 },
+    { item:"SVA Investigation", is_rtc:false, count:5, total:1750, avg:350 },
+    { item:"Large Loss Investigation", is_rtc:false, count:3, total:1350, avg:450 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:6, total:1295, avg:215.83 },
+    { item:"Motor Fire Investigation", is_rtc:false, count:3, total:1200, avg:400 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:2, total:1000, avg:500 },
+    { item:"Stage 1 Investigation", is_rtc:false, count:2, total:1000, avg:500 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:4, total:700, avg:175 },
+    { item:"Cold Calls", is_rtc:false, count:6, total:540, avg:90 },
+    { item:"RTC", is_rtc:false, count:3, total:510, avg:170 },
+    { item:"Miscellanoeus", is_rtc:false, count:3, total:486, avg:162 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:2, total:365, avg:182.5 },
+    { item:"Interpreter (full day)", is_rtc:false, count:1, total:320, avg:320 },
+    { item:"Translation services", is_rtc:false, count:1, total:299.22, avg:299.22 },
+    { item:"Failed Appointment", is_rtc:false, count:2, total:200, avg:100 },
+    { item:"Police reference request", is_rtc:false, count:1, total:32.3, avg:32.3 }
   ],
 
   monthly: [

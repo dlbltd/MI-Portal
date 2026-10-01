@@ -45,9 +45,16 @@ var DLB_CLIENT_DATA = {
 
   // Line-item-driven revenue (from TrackOps invoice details export)
   total_invoiced_lineitems:     1290.6,
-  total_lineitem_count:         6,
+  total_lineitem_count:         8,
   fees_by_item: [
-    { item:"Other services", is_rtc:false, count:6, total:1290.6, avg:215.1 }
+    { item:"Stage 1 Investigation", is_rtc:false, count:1, total:550, avg:550 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:1, total:200, avg:200 },
+    { item:"Miscellanoeus", is_rtc:false, count:1, total:128, avg:128 },
+    { item:"Intelligence Report Only", is_rtc:false, count:1, total:120, avg:120 },
+    { item:"Investigator Defence Statement", is_rtc:false, count:1, total:120, avg:120 },
+    { item:"Police Report", is_rtc:false, count:1, total:80.4, avg:80.4 },
+    { item:"Cold Calls", is_rtc:false, count:1, total:60, avg:60 },
+    { item:"Police reference request", is_rtc:false, count:1, total:32.2, avg:32.2 }
   ],
 
   monthly: [

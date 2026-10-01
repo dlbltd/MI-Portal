@@ -44,9 +44,12 @@ var DLB_CLIENT_DATA = {
 
   // Line-item-driven revenue (from TrackOps invoice details export)
   total_invoiced_lineitems:     1727.61,
-  total_lineitem_count:         6,
+  total_lineitem_count:         9,
   fees_by_item: [
-    { item:"Other services", is_rtc:false, count:6, total:1727.61, avg:287.94 }
+    { item:"Translation services", is_rtc:false, count:4, total:782.61, avg:195.65 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:3, total:700, avg:233.33 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:1, total:185, avg:185 },
+    { item:"Miscellanoeus", is_rtc:false, count:1, total:60, avg:60 }
   ],
 
   monthly: [

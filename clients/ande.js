@@ -50,9 +50,22 @@ var DLB_CLIENT_DATA = {
 
   // Line-item-driven revenue (from TrackOps invoice details export)
   total_invoiced_lineitems:     59571.47,
-  total_lineitem_count:         121,
+  total_lineitem_count:         177,
   fees_by_item: [
-    { item:"Other services", is_rtc:false, count:121, total:59571.47, avg:492.33 }
+    { item:"Stage 1 Investigation", is_rtc:false, count:48, total:26625, avg:554.69 },
+    { item:"Large Loss Investigation", is_rtc:false, count:34, total:15300, avg:450 },
+    { item:"Stage 2 Investigation", is_rtc:false, count:27, total:5600, avg:207.41 },
+    { item:"Cold Calls", is_rtc:false, count:26, total:3360, avg:129.23 },
+    { item:"Interpreter (full day)", is_rtc:false, count:6, total:1910, avg:318.33 },
+    { item:"Motor Theft Investigation", is_rtc:false, count:3, total:1400, avg:466.67 },
+    { item:"Translation services", is_rtc:false, count:4, total:1226.47, avg:306.62 },
+    { item:"Miscellanoeus", is_rtc:false, count:10, total:1125, avg:112.5 },
+    { item:"Motor Liability Investigation", is_rtc:false, count:4, total:1000, avg:250 },
+    { item:"Interpreter (1/2 day)", is_rtc:false, count:4, total:735, avg:183.75 },
+    { item:"Failed Appointment", is_rtc:false, count:7, total:560, avg:80 },
+    { item:"SVA Investigation", is_rtc:false, count:1, total:450, avg:450 },
+    { item:"Helix  (Triage only)", is_rtc:false, count:2, total:160, avg:80 },
+    { item:"Intelligence Report Only", is_rtc:false, count:1, total:120, avg:120 }
   ],
 
   monthly: [
