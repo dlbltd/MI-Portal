@@ -144,9 +144,28 @@ function emptyMonthly() {
 }
 
 // ── Aggregate ────────────────────────────────────────────────
+// RTC is flagged in any of: Case Type = "RTC", or Services/Flags contains "rtc"
+// (word-bounded to avoid false hits on "rtc" inside other words).
+const rtcRe = /\brtc\b/;
+function isRtcRow(r) {
+  const caseType = (r[idx['Case Type']] || '').trim();
+  const services = (r[idx['Services']] || '').toLowerCase();
+  const flags    = (r[idx['Flags']]    || '').toLowerCase();
+  return caseType.toUpperCase() === 'RTC' || rtcRe.test(services) || rtcRe.test(flags);
+}
+// Case Number → RTC flag, used to classify invoice-summary exports (no Item column).
+const rtcByCase = new Map();
+for (let i = 1; i < rows.length; i++) {
+  const r = rows[i];
+  if (!r || r.length < 5) continue;
+  const cn = (r[idx['Case Number']] || '').trim();
+  if (cn) rtcByCase.set(cn, isRtcRow(r));
+}
+
 const byFile = new Map();
 const unmatched = new Map();
 const invoiceUnmatched = new Map();
+const invoiceNoCase = new Map();   // invoice-summary rows whose case isn't in the cases CSV
 let lastDate = null;
 
 // ── Parse invoices CSV (optional) ────────────────────────────
@@ -158,7 +177,12 @@ function parseInvoices(invPath) {
   if (!irows.length) return;
   const ihdr = irows[0].map(h => h.trim());
   const iidx = Object.fromEntries(ihdr.map((h, i) => [h, i]));
-  const need = ['Client','Case','Item','Total','Invoice'];
+  // Two TrackOps exports are accepted:
+  //   line-item export (has "Item")  → one row per line, amount = Total
+  //   invoice summary  (no "Item")   → one row per invoice, amount = Subtotal (net of VAT),
+  //                                    bucketed "RTC" / "Other services" by the case's RTC flag
+  const hasItem = iidx['Item'] !== undefined;
+  const need = hasItem ? ['Client','Case','Item','Total','Invoice'] : ['Client','Case','Subtotal','Invoice'];
   for (const h of need) if (iidx[h] === undefined) { console.error(`Invoices CSV missing column: ${h}`); process.exit(1); }
   let totalLines = 0;
   for (let i = 1; i < irows.length; i++) {
@@ -173,9 +197,16 @@ function parseInvoices(invPath) {
     if (!bucket.feesByItem) bucket.feesByItem = new Map();
     if (!bucket.invoicesByCase) bucket.invoicesByCase = new Map();
 
-    const item = ((r[iidx['Item']] || 'Unknown').trim()) || 'Unknown';
-    const tot  = parseFloat((r[iidx['Total']] || '0').replace(/[^0-9.\-]/g, '')) || 0;
     const cn   = (r[iidx['Case']] || '').trim();
+    let item;
+    if (hasItem) {
+      item = ((r[iidx['Item']] || 'Unknown').trim()) || 'Unknown';
+    } else {
+      // Only invoices on cases in the cases CSV (i.e. this year's cases) are counted.
+      if (!rtcByCase.has(cn)) { invoiceNoCase.set(mapping.file, (invoiceNoCase.get(mapping.file) || 0) + 1); continue; }
+      item = rtcByCase.get(cn) ? 'RTC' : 'Other services';
+    }
+    const tot  = parseFloat((r[iidx[hasItem ? 'Total' : 'Subtotal']] || '0').replace(/[^0-9.\-]/g, '')) || 0;
     const inv  = (r[iidx['Invoice']] || '').trim();
 
     if (!bucket.feesByItem.has(item)) bucket.feesByItem.set(item, { item, count: 0, total: 0 });
@@ -208,12 +239,7 @@ for (let i = 1; i < rows.length; i++) {
   const bucket = byFile.get(mapping.file);
 
   const caseType = (r[idx['Case Type']] || '').trim();
-  const services = (r[idx['Services']] || '').toLowerCase();
-  const flags    = (r[idx['Flags']]    || '').toLowerCase();
-  // RTC is flagged in any of: Case Type = "RTC", or Services/Flags contains "rtc"
-  // (word-bounded to avoid false hits on "rtc" inside other words).
-  const rtcRe = /\brtc\b/;
-  const isRTCCase = caseType.toUpperCase() === 'RTC' || rtcRe.test(services) || rtcRe.test(flags);
+  const isRTCCase = isRtcRow(r);
 
   const dCreated = parseISODate(r[idx['Date Created']]);
   const dFirst   = parseISODate(r[idx['Date client first updated?']]);
@@ -523,5 +549,9 @@ ${casesStr}
 if (unmatched.size) {
   console.log('\n  Unmatched client names (add to scripts/client-map.json if needed):');
   for (const [k, v] of unmatched) console.log(`    ${v} cases  ←  "${k}"`);
+}
+if (invoiceNoCase.size) {
+  console.log('\n  Invoices excluded (case not in cases CSV, e.g. opened in a prior year):');
+  for (const [f, n] of invoiceNoCase) console.log(`    ${String(n).padStart(3)} invoices  ←  ${f}`);
 }
 console.log(`\nDone. Wrote ${written} file(s) to ${path.relative(ROOT, outDir)}/   Period: ${period}   |   Updated: ${lastUpdated}`);

@@ -47,10 +47,11 @@ var DLB_CLIENT_DATA = {
   ],
 
   // Line-item-driven revenue (from TrackOps invoice details export)
-  total_invoiced_lineitems:     0,
-  total_lineitem_count:         0,
+  total_invoiced_lineitems:     38348.28,
+  total_lineitem_count:         157,
   fees_by_item: [
-    // no invoice line items in period (run with --invoices to populate)
+    { item:"Other services", is_rtc:false, count:53, total:20947.6, avg:395.24 },
+    { item:"RTC", is_rtc:true, count:104, total:17400.68, avg:167.31 }
   ],
 
   monthly: [

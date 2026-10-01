@@ -3,7 +3,7 @@
 // Client:  Action 365
 // File:    action365.js
 // Period:  Jan–Dec 2026
-// Updated: 9 Sep 2026
+// Updated: 1 Oct 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Action 365",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "9 Sep 2026",
+  last_updated:                 "1 Oct 2026",
   is_rtc_client:                false,
   total_cases:                  0,
 
@@ -43,10 +43,10 @@ var DLB_CLIENT_DATA = {
   ],
 
   // Line-item-driven revenue (from TrackOps invoice details export)
-  total_invoiced_lineitems:     300,
-  total_lineitem_count:         2,
+  total_invoiced_lineitems:     0,
+  total_lineitem_count:         0,
   fees_by_item: [
-    { item:"Stage 2 Investigation", is_rtc:false, count:2, total:300, avg:150 }
+    // no invoice line items in period (run with --invoices to populate)
   ],
 
   monthly: [

@@ -3,7 +3,7 @@
 // Client:  Car Care Plan
 // File:    carcareplan.js
 // Period:  Jan–Dec 2026
-// Updated: 9 Sep 2026
+// Updated: 1 Oct 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,46 +11,42 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Car Care Plan",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "9 Sep 2026",
+  last_updated:                 "1 Oct 2026",
   is_rtc_client:                false,
-  total_cases:                  7,
+  total_cases:                  8,
 
   avg_days_creation_to_update:         0,
   avg_days_creation_to_update_general: 0,
-  avg_days_stmt_to_report:             13,
+  avg_days_stmt_to_report:             12.5,
   avg_days_stmt_to_report_rtc:         0,
-  avg_days_stmt_to_report_general:     13,
+  avg_days_stmt_to_report_general:     12.5,
 
   sla_ack_pct:                  100,
   sla_contact_pct:              100,
   sla_update_pct:               null,
-  sla_report_general_pct:       40,
+  sla_report_general_pct:       33,
   sla_report_rtc_pct:           null,
   has_rtc_cases:                false,
   has_general_cases:            true,
-  sla_compliance_pct:           80,
+  sla_compliance_pct:           78,
   sla_met:                      2,
-  sla_not_met:                  3,
+  sla_not_met:                  4,
 
   avg_fee_rtc:                  0,
-  avg_fee_general:              458.67,
+  avg_fee_general:              480.84,
   total_fees_rtc:               0,
-  total_fees_general:           3210.7,
+  total_fees_general:           3846.7,
   rtc_case_count:               0,
-  general_case_count:           7,
+  general_case_count:           8,
   fees_by_type: [
-    { type:"Gap Insurance investigation", is_rtc:false, case_count:7, total_fees:3210.7, avg_fee:458.67 }
+    { type:"Gap Insurance investigation", is_rtc:false, case_count:8, total_fees:3846.7, avg_fee:480.84 }
   ],
 
   // Line-item-driven revenue (from TrackOps invoice details export)
-  total_invoiced_lineitems:     3550.7,
-  total_lineitem_count:         10,
+  total_invoiced_lineitems:     3260.7,
+  total_lineitem_count:         8,
   fees_by_item: [
-    { item:"Stage 1 Investigation", is_rtc:false, count:3, total:1500, avg:500 },
-    { item:"Motor Theft Investigation", is_rtc:false, count:3, total:1400, avg:466.67 },
-    { item:"Police Report", is_rtc:false, count:2, total:330.7, avg:165.35 },
-    { item:"Stage 2 Investigation", is_rtc:false, count:1, total:200, avg:200 },
-    { item:"Cold Calls", is_rtc:false, count:1, total:120, avg:120 }
+    { item:"Other services", is_rtc:false, count:8, total:3260.7, avg:407.59 }
   ],
 
   monthly: [
@@ -62,7 +58,7 @@ var DLB_CLIENT_DATA = {
     { month:"Jun", month_num:6, case_count:1, case_count_rtc:0, case_count_general:1, total_fees:600, ave_fees:600, total_fees_rtc:0, total_fees_general:600, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:18, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:18, sla_ack_pct:100, sla_ack_met:1, sla_ack_n:1, sla_contact_pct:100, sla_contact_met:1, sla_contact_n:1, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:1, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:67, sla_met:0, sla_not_met:1 },
     { month:"Jul", month_num:7, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Aug", month_num:8, case_count:1, case_count_rtc:0, case_count_general:1, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
-    { month:"Sep", month_num:9, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
+    { month:"Sep", month_num:9, case_count:1, case_count_rtc:0, case_count_general:1, total_fees:636, ave_fees:636, total_fees_rtc:0, total_fees_general:636, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:10, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:10, sla_ack_pct:100, sla_ack_met:1, sla_ack_n:1, sla_contact_pct:100, sla_contact_met:1, sla_contact_n:1, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:0, sla_report_general_met:0, sla_report_general_n:1, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:67, sla_met:0, sla_not_met:1 },
     { month:"Oct", month_num:10, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Nov", month_num:11, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 },
     { month:"Dec", month_num:12, case_count:0, case_count_rtc:0, case_count_general:0, total_fees:0, ave_fees:0, total_fees_rtc:0, total_fees_general:0, ave_days_creation_to_update:0, ave_days_creation_to_update_general:0, ave_days_stmt_to_report:0, ave_days_stmt_to_report_rtc:0, ave_days_stmt_to_report_general:0, sla_ack_pct:null, sla_ack_met:0, sla_ack_n:0, sla_contact_pct:null, sla_contact_met:0, sla_contact_n:0, sla_update_pct:null, sla_update_met:0, sla_update_n:0, sla_report_general_pct:null, sla_report_general_met:0, sla_report_general_n:0, sla_report_rtc_pct:null, sla_report_rtc_met:0, sla_report_rtc_n:0, sla_compliance_pct:0, sla_met:0, sla_not_met:0 }
@@ -75,7 +71,8 @@ var DLB_CLIENT_DATA = {
     { ref:"1164105", client_ref:"7319591 - Gibbs", type:"Gap Insurance investigation", status:"Invoiced", created:"18 May 2026", first_updated:"", stmt_date:"19 May 2026", report_sent:"21 May 2026", days_creation_to_update:null, days_stmt_to_report:2, invoice:600, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:null, sla_report:true, report_proxy:false, sla_report_target_days:5 },
     { ref:"1166205", client_ref:"7298871 - Slane", type:"Gap Insurance investigation", status:"Appointment made", created:"21 May 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
     { ref:"1171706", client_ref:"6961750 - Sefolli", type:"Gap Insurance investigation", status:"Invoice Paid", created:"11 Jun 2026", first_updated:"", stmt_date:"19 Jun 2026", report_sent:"7 Jul 2026", days_creation_to_update:null, days_stmt_to_report:18, invoice:600, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:null, sla_report:false, report_proxy:false, sla_report_target_days:5 },
-    { ref:"1196208", client_ref:"7382224 - Arya", type:"Gap Insurance investigation", status:"Awaiting further advises", created:"19 Aug 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 }
+    { ref:"1196208", client_ref:"7382224 - Arya", type:"Gap Insurance investigation", status:"Awaiting further advises", created:"19 Aug 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1202509", client_ref:"7423343 - Patel", type:"Gap Insurance investigation", status:"Invoice Paid", created:"3 Sep 2026", first_updated:"", stmt_date:"7 Sep 2026", report_sent:"17 Sep 2026", days_creation_to_update:null, days_stmt_to_report:10, invoice:636, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:null, sla_report:false, report_proxy:false, sla_report_target_days:5 }
   ]
 
 };

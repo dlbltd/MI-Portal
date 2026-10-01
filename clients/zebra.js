@@ -3,7 +3,7 @@
 // Client:  Zebra
 // File:    zebra.js
 // Period:  Jan–Dec 2026
-// Updated: 9 Sep 2026
+// Updated: 1 Oct 2026
 // GENERATED AUTOMATICALLY — DO NOT EDIT MANUALLY
 // ============================================================
 
@@ -11,7 +11,7 @@ var DLB_CLIENT_DATA = {
 
   client_name:                  "Zebra",
   report_period:                "Jan–Dec 2026",
-  last_updated:                 "9 Sep 2026",
+  last_updated:                 "1 Oct 2026",
   is_rtc_client:                false,
   total_cases:                  4,
 
@@ -45,16 +45,9 @@ var DLB_CLIENT_DATA = {
 
   // Line-item-driven revenue (from TrackOps invoice details export)
   total_invoiced_lineitems:     1290.6,
-  total_lineitem_count:         8,
+  total_lineitem_count:         6,
   fees_by_item: [
-    { item:"Stage 1 Investigation", is_rtc:false, count:1, total:550, avg:550 },
-    { item:"Stage 2 Investigation", is_rtc:false, count:1, total:200, avg:200 },
-    { item:"Miscellanoeus", is_rtc:false, count:1, total:128, avg:128 },
-    { item:"Intelligence Report Only", is_rtc:false, count:1, total:120, avg:120 },
-    { item:"Investigator Defence Statement", is_rtc:false, count:1, total:120, avg:120 },
-    { item:"Police Report", is_rtc:false, count:1, total:80.4, avg:80.4 },
-    { item:"Cold Calls", is_rtc:false, count:1, total:60, avg:60 },
-    { item:"Police reference request", is_rtc:false, count:1, total:32.2, avg:32.2 }
+    { item:"Other services", is_rtc:false, count:6, total:1290.6, avg:215.1 }
   ],
 
   monthly: [
@@ -75,8 +68,8 @@ var DLB_CLIENT_DATA = {
   cases: [
     { ref:"1133601", client_ref:"CB2500881ZUR", type:"Intelligence Report", status:"Invoice Paid", created:"26 Jan 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:144, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
     { ref:"1140702", client_ref:"CBK2500955ZUR", type:"Motor Fraud", status:"Invoice Paid", created:"23 Feb 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:0, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
-    { ref:"1141803", client_ref:"SN23037MUL", type:"Motor Fraud", status:"Invoiced", created:"2 Mar 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:144, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
-    { ref:"1143703", client_ref:"CB23099MUL", type:"Motor Fraud", status:"Invoiced", created:"10 Mar 2026", first_updated:"10 Jun 2026", stmt_date:"12 Jun 2026", report_sent:"18 Jun 2026", days_creation_to_update:92, days_stmt_to_report:6, invoice:1212.6, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:false, sla_report:false, report_proxy:false, sla_report_target_days:5 }
+    { ref:"1141803", client_ref:"SN23037MUL", type:"Motor Fraud", status:"Invoice Paid", created:"2 Mar 2026", first_updated:"", stmt_date:"", report_sent:"", days_creation_to_update:null, days_stmt_to_report:null, invoice:144, is_rtc_case:false, sla_ack:null, sla_contact:null, sla_update:null, sla_report:null, report_proxy:false, sla_report_target_days:5 },
+    { ref:"1143703", client_ref:"CB23099MUL", type:"Motor Fraud", status:"Invoice Paid", created:"10 Mar 2026", first_updated:"10 Jun 2026", stmt_date:"12 Jun 2026", report_sent:"18 Jun 2026", days_creation_to_update:92, days_stmt_to_report:6, invoice:1212.6, is_rtc_case:false, sla_ack:true, sla_contact:true, sla_update:false, sla_report:false, report_proxy:false, sla_report_target_days:5 }
   ]
 
 };
